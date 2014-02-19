@@ -102,3 +102,8 @@ Load paths:
 2014-02-18 16:43:41 identical stylesheets/gumby.css 
 2014-02-18 16:44:59    remove .sass-cache/ 
 2014-02-18 16:45:04    create css/gumby.css 
+2014-02-19 16:58:52     error sass/gumby.scss (Line 442 of sass/_custom.scss: Invalid CSS after "...*************//": expected identifier, was ".titleDiv {")
+2014-02-19 16:58:52 overwrite css/gumby.css 
+2014-02-19 16:59:50     error sass/gumby.scss (Line 442 of sass/_custom.scss: Invalid CSS after "...*************//": expected identifier, was ".titleDiv {")
+2014-02-19 16:59:50 identical css/gumby.css 
+2014-02-19 17:00:52 overwrite css/gumby.css 

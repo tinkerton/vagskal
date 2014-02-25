@@ -439,7 +439,6 @@ var FS = (function(self){
 		return res;
 	}
 
-	
 
 
 	function addNodeAgent(nodeId) {
@@ -533,6 +532,9 @@ var FS = (function(self){
 
 					result = addHubMenu(nodeId);
 				break;
+				case "piechart":
+					result += addPieChart(nodeId);
+				break;
 
 				/*NETWORK SPECIFIC NODES? REMOVE?
 					case "comic":
@@ -569,6 +571,137 @@ var FS = (function(self){
 
 
 
+
+
+
+//PIE CHART METHODS---------------------------------------------------------------------------------------------------------------------------------------
+function showPieChart() {
+		var piedata = [
+			{ label: "Kreativitet",  data: 1},
+			{ label: "Fysiskt arbete",  data: 1},
+			{ label: "Undervisning",  data: 1},
+			{ label: "Vård",  data: 1},
+			{ label: "Service",  data: 1},
+			{ label: "Ledarskap",  data: 1}
+		];
+
+		var placeholder = $("#pieplaceholder");
+
+		$.plot(placeholder, piedata, {
+				series: {
+					pie: { 
+					 	innerRadius: 0.1,
+						show: true,
+						label: {
+			                show: true,
+			                radius: 0.5,
+			                formatter: pieLabelFormatter,
+			                threshold: 0.1
+			            }
+					}
+				},
+				legend: {
+        			show: false
+    			},
+				grid: {
+					hoverable: true,
+					clickable: true
+				}
+			});
+
+		
+			placeholder.bind("plothover", function(event, pos, obj) {
+
+				if (!obj) {
+					return;
+				}
+
+				$("#hover").html("<span style='font-weight:bold; color:" + obj.series.color + "'>" + obj.series.label +"</span>");
+			});
+
+			placeholder.bind("plotclick", function(event, pos, obj) {
+
+				if (!obj) {
+					return;
+				}
+
+				//TODO:
+				//insert a modal here, showing text for different options. Add cancel and OK button.
+				//reference: http://gumbyframework.com/docs/components/#!/modals
+				//When OK is clicked let this function be called:
+				selectPieChartAndContinue(obj.series.label);
+
+			});
+	}
+	
+	function pieLabelFormatter(label, series) {
+		return "<div class='pieLabel'>" + label +"</div>";
+	}
+
+
+	function selectPieChartAndContinue(optionSelected) {
+		alert("You clicked " + optionSelected);
+		//TODO:
+		//Save answer to session and database
+		$.totalStorage('pieOption',optionSelected);
+		phpCallSavePieOption(optionSelected);
+
+
+		FS.gotoNode(FS.currentNodeNr,1);
+	}
+
+
+
+
+
+	
+
+
+	function addPieChart(nodeId) {
+		var res="";
+			var wWidth =$(window).width();
+		
+		
+			if (wWidth<768) {
+				res +="<div id='pieplaceholder' style='height:"+wWidth+"px; width:"+wWidth+"px;'></div></div>";
+			
+			}
+			else  {
+				res +="<div id='pieplaceholder'></div></div>";
+			}
+			
+			
+			return res;
+
+	}
+
+//END OF PIE CHART METHODS---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+//PHP METHODS ----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+function phpCallSavePieOption(optionSelected) {
+
+	$.ajax({
+        type: "GET",
+        url: "savePieOption.php",
+        data: {ID: $.totalStorage('ID'), option: optionSelected},
+        });
+
+}
+
+
+
+
+
+//END OF PHP METHODS -----------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -684,13 +817,30 @@ self.saveAnswer = function (answer) {
 	self.resetProgress =function() {
 		
 	 	$.totalStorage('storeCase','');
-
+	 	$.totalStorage('ID', FS.uniqueid()); //create a new user for DB
 	 	$.totalStorage('currentNodeNr','-1');
 	 	FS.unlockedChapters = new Array();
 		FS.unlockedChapters.length=0;
 	 	$.totalStorage('unlockedChapters',FS.unlockedChapters);
 	 	window.location.reload();
 	}
+
+
+	self.uniqueid =function(){
+	    // always start with a letter (for DOM friendlyness)
+	    var idstr=String.fromCharCode(Math.floor((Math.random()*25)+65));
+	    do {                
+	        // between numbers and characters (48 is 0 and 90 is Z (42-48 = 90)
+	        var ascicode=Math.floor((Math.random()*42)+48);
+	        if (ascicode<58 || ascicode>64){
+	            // exclude all chars between : (58) and @ (64)
+	            idstr+=String.fromCharCode(ascicode);    
+	        }                
+	    } while (idstr.length<32);
+
+	    return (idstr);
+	}
+
 //*END OF: STORAGE METHODS-----------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -764,6 +914,9 @@ self.saveAnswer = function (answer) {
 				showNextButton=-1;
 				$("#nextButton").fadeOut();	
 				$("#prevButton").fadeOut();	
+			break;
+			case "piechart":
+				showPieChart();				
 			break;
 
 														/*NETWORK SPECIFIC NODES, REMOVE?
@@ -1070,8 +1223,8 @@ self.saveAnswer = function (answer) {
 			//Store progress
 		
 		$.totalStorage('storeCase', activeCase.ID.text);
+
 		
-	
 		FS.gotoNode(currentNodeNr,1);
 	}
 
@@ -1136,7 +1289,7 @@ self.saveAnswer = function (answer) {
 			//RESET
 			//FS.resetProgress();
 
-
+			$.totalStorage('ID', FS.uniqueid());
 
 			storeCase = $.totalStorage('storeCase');
 			
@@ -1220,11 +1373,15 @@ Gumby.ready(function() {
 	if(Gumby.isOldie || Gumby.$dom.find('html').hasClass('ie9')) {
 		$('input, textarea').placeholder();
 	}
-	 Gumby.initialize('switches');
+Gumby.init();
 
+// Boolean indicating touch device
+// uses Modernizr.touch and a Windows Phone user agent check
+//Gumby.touchDevice
 
-
-
+// Boolean indicating touch device at < 768px viewport width
+// useful for supporting multi input devices with touchscreens and pointer devices
+//Gumby.gumbyTouch
 });
 
 

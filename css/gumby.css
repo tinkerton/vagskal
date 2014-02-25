@@ -2217,3 +2217,19 @@ width:280px; */ padding-top: 0px; padding-left: 0px; padding-right: 20px; }
 .fb-like { top: 138px; left: -45px; }
 
 #agent_minilogo { margin-top: 104px; margin-left: 90px; }
+
+/*VÄGSKÄL */
+#nav1 { display: none; }
+
+#pieplaceholder { width: 550px; height: 550px; margin-left: 12%; }
+
+.pieLabel { font-size: 0.9em; text-align: center; color: white; pointer-events: none; }
+
+@media only screen and (max-width: 767px) { #nav1 { display: block; background-color: #ffb128; position: absolute; width: 100%; top: 0px; left: 0px; height: 44px; z-index: 10; }
+  .prev-control, .next-control { top: 0px; border: none; border-radius: 0; background: #ffb128; margin-top: 0px; height: 44px; padding: 0px 14px; }
+  .naviconR, .naviconL { padding-top: 10px; }
+  #restart { display: none; }
+  .title { font-size: 1.2em; }
+  .text-black-bg { padding: 0px; }
+  #middle[id] { display: block; margin-top: 44px; }
+  #pieplaceholder { margin-left: -20px; } }

@@ -8,24 +8,13 @@ self.preload = {"images":
 self.nodes = {"content": 
 	[
 	{  	"ID": "D1.1",
-		"type":"question", 
+		"type":"piechart", 
 		"analysisLog":"D1.1",
-		"question":"Vad vill du jobba med?",
-		"background":{"type":"image","url":"bg.jpg"},
-		"answers":[
-							{"text":"Ledarskap","analysisLog":"Ledarskap"},
-							{"text":"Kreativitet","analysisLog":"Kreativitet"},
-							{"text":"Fysiskt arbete","analysisLog":"Fysiskt arbete"},
-							{"text":"Undervisning","analysisLog":"Undervisning"},
-							{"text":"Vård","analysisLog":"Vård"},
-							{"text":"Service","analysisLog":"Service"}
-		
-				]
-		 ,
-		 "animation":"fade",
-		 "showNextButton":"-1"
+		"header":"Vad vill du jobba med?",
+		"animation":"fade",
+		"showNextButton":"0"
 	},
-
+	
 	{  	"ID": "D1.2",
 		"type":"agent",
 		"background":{"type":"image","url":"bg.jpg"},

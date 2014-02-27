@@ -21,7 +21,12 @@ var FS = (function(self){
 		GAMEMODE,
 		globalAnimation,
 		unlockedChapters,
-		storeCase;
+		storeCase,
+		ABCArray=["A","B","C"],
+		localHostTrue,
+		interceptPrevButton = false,
+		numberOfMarkedAnswers,
+		markedAnswers =[];
 
 
 	/*NETWORK SPECIFIC VARIABLES
@@ -400,7 +405,7 @@ var FS = (function(self){
 	function addNodePreText (nodeId) {
 		var pretext = contentObj[nodeId].pretext;
 		if (pretext == undefined) return "";
-		return "<h3>"+ contentObj[nodeId].pretext+"</h3>";
+		return "<div class='pretext'>"+ contentObj[nodeId].pretext+"</div>";
 		
 	}
 
@@ -535,7 +540,17 @@ var FS = (function(self){
 				case "piechart":
 					result += addPieChart(nodeId);
 				break;
+				case "abc_question":
+					result += addNodeABCQuestion(nodeId);
+				break;
+				case "mark_question": 
+					result  +=  addNodeMarkQuestion(nodeId);
+				break;
+				case "checklist": 
+					result  +=  addNodeChecklist(nodeId);
+				break;
 
+				
 				/*NETWORK SPECIFIC NODES? REMOVE?
 					case "comic":
 					result += addNodeComic(nodeId);
@@ -574,18 +589,157 @@ var FS = (function(self){
 
 
 
+
+
+
+
+
+
+//ABC Question METHODS -----------------------------------------------------------------------------------------------------------------------------------
+
+
+function addNodeABCQuestion(nodeId) {
+
+	var res="",
+			myObj=contentObj[nodeId];
+			
+		
+
+			res +="<div class='centered eleven columns'>";
+			
+			res +="<article class='ABCquestionDiv'>";
+			res +="<div class='titleDiv ABCquestionHeadline'>"+myObj.question +"</div>";
+			for (var i =0; i<_.size(myObj.answers); i++) {
+				
+			
+			res +="<div class='ABCsequenceAnswer' onClick='FS.selectABCAnswerAndContinue("+myObj.ABC_ID+","+i+","+nodeId+")'><div class='ABCHolder'>"+ABCArray[i]+"</div><div class='ABCQuestion'>"+ myObj.answers[i].text +"</div></div>";
+				
+			}
+			res +="</article></div>";
+
+			return res;
+
+}
+
+ self.selectABCAnswerAndContinue =function(ABC_ID, optionSelected,nodeId,abc_string) {
+		$.totalStorage('answer'+ABC_ID,optionSelected);  //e.g answer1 = 0  use ABCArray[optionSelected] to get A,B or C
+		$.totalStorage('answer'+ABC_ID+"_text",contentObj[nodeId].answers[optionSelected].text);
+
+		 phpCallSaveABCAnswer(ABC_ID,optionSelected,nodeId);
+		 //phpCallSaveABCAnswer will execute: maindiv.html(FS.addABCResult(ABC_ID, optionSelected,nodeId,result));
+		
+
+
+		//FS.gotoNode(FS.currentNodeNr,1);
+	}
+
+
+
+self.addABCResult = function(ABC_ID, optionSelected,nodeId,result) {
+	var res,A,B,C,total,percentA, percentB, percentC, resultText,myObj, resObj;
+		
+	if(localHostTrue) { //ONLY WHEN IN LOCALHOST
+		result = result[0];
+	}
+	else {
+		resObj = $.parseJSON(result);
+		result = resObj[0];
+	}
+
+		
+		
+
+		A = parseInt(result.A);
+		B = parseInt(result.B);
+		C = parseInt(result.C);
+		total = parseInt(result.total);
+		
+		percentA = Math.round(A / total * 100);
+		percentB = Math.round(B / total * 100);
+		percentC = Math.round(C / total * 100);
+		
+		resultText ="";
+		
+
+		switch (ABCArray[optionSelected]) {
+
+			case "A":
+				 resultText = A + " personer ("+percentA;
+			break;
+			case "B":
+				 resultText = B + " personer ("+percentB;
+			break;
+			case "C":
+				 resultText = C + " personer ("+percentC;
+			break;
+		}
+		resultText +="%) tycker samma sak som dig.";
+
+
+		res="",
+		myObj=contentObj[nodeId];
+		res +="<div class='centered eleven columns'>";	
+			res +="<article class='ABCquestionDiv'>";
+				res +="<div class='ABCsequenceAnswer'><div class='ABCHolder'>"+ABCArray[optionSelected]+"</div><div class='ABCQuestion'>"+ myObj.answers[optionSelected].text +"</div></div>";
+				res +="<div class='ABCresultText'>" + resultText + "</div>";
+				res +="<div class='ABCresultCompareHolder'>";
+					res +="<div class='ABCresultCompareItem ABC_item1";
+						if (ABCArray[optionSelected] == "A") res +=" ABC_selected";
+					res+="'><div class='ABCresultCompareHeader'>A</div><div class='ABCresultComparePercent'>"+percentA+"%</div></div>";
+					res +="<div class='ABCresultCompareItem  ABC_item2";
+						if (ABCArray[optionSelected] == "B") res +=" ABC_selected";
+						res+="'><div class='ABCresultCompareHeader'>B</div><div class='ABCresultComparePercent'>"+percentB+"%</div></div>";
+				
+					res +="<div class='ABCresultCompareItem ABC_item3";
+						if (ABCArray[optionSelected] == "C") res +=" ABC_selected";
+						res+="'><div class='ABCresultCompareHeader'>C</div><div class='ABCresultComparePercent'>"+percentC+"%</div></div>";
+				
+				res +="</div>"; 
+			res +="</article>";
+		res +="</div>"
+
+	interceptPrevButton=true;
+	showNext();
+	return res;
+}
+
+//END OF ABC Question METHODS -----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //PIE CHART METHODS---------------------------------------------------------------------------------------------------------------------------------------
 function showPieChart() {
+
+var pienumber = Math.random();
+
 		var piedata = [
-			{ label: "Kreativitet",  data: 1},
-			{ label: "Fysiskt arbete",  data: 1},
-			{ label: "Undervisning",  data: 1},
-			{ label: "Vård",  data: 1},
-			{ label: "Service",  data: 1},
-			{ label: "Ledarskap",  data: 1}
+			{ label: "Kreativitet",  data: pienumber},
+			{ label: "Fysiskt arbete",  data: pienumber},
+			{ label: "Undervisning",  data: pienumber},
+			{ label: "Vård",  data: pienumber},
+			{ label: "Service",  data: pienumber},
+			{ label: "Ledarskap",  data: pienumber}
 		];
 
-		var placeholder = $("#pieplaceholder");
+	
+
+		
+		
+		var placeholder =  $("#pieplaceholder");
 
 		$.plot(placeholder, piedata, {
 				series: {
@@ -608,6 +762,9 @@ function showPieChart() {
 					clickable: true
 				}
 			});
+
+
+
 
 		
 			placeholder.bind("plothover", function(event, pos, obj) {
@@ -632,6 +789,8 @@ function showPieChart() {
 				selectPieChartAndContinue(obj.series.label);
 
 			});
+
+
 	}
 	
 	function pieLabelFormatter(label, series) {
@@ -640,9 +799,8 @@ function showPieChart() {
 
 
 	function selectPieChartAndContinue(optionSelected) {
-		alert("You clicked " + optionSelected);
-		//TODO:
-		//Save answer to session and database
+		
+		
 		$.totalStorage('pieOption',optionSelected);
 		phpCallSavePieOption(optionSelected);
 
@@ -660,14 +818,14 @@ function showPieChart() {
 	function addPieChart(nodeId) {
 		var res="";
 			var wWidth =$(window).width();
-		
+			
 		
 			if (wWidth<768) {
-				res +="<div id='pieplaceholder' style='height:"+wWidth+"px; width:"+wWidth+"px;'></div></div>";
+				res +="<div id='pieplaceholder' style='height:"+wWidth+"px; width:"+wWidth+"px;'></div>";
 			
 			}
 			else  {
-				res +="<div id='pieplaceholder'></div></div>";
+				res +="<div id='pieplaceholder'></div>";
 			}
 			
 			
@@ -683,20 +841,176 @@ function showPieChart() {
 
 
 
+
+
+
+
+
+//MARK (3) QUESTION ------------------------------------------------------------------------------------
+
+
+	function addNodeMarkQuestion(nodeId) {
+		var res="",
+			myObj=contentObj[nodeId];
+			
+		
+
+			res +="<div class='centered eleven columns'>";
+			
+			res +="<article class='markedQuestionDiv'>";
+			res +="<div class='questionHeadline'>"+myObj.question +"</div>";
+			res +="<div class='markedPreText'>"+myObj.pretext +"</div>";
+			for (var i =0; i<_.size(myObj.answers); i++) {
+			res +="<div class='sequenceAnswer markedQuestionAnswer' id='markedAnswer"+i+"' n='"+i+"' t='"+myObj.answers[i].text+"'>"+ myObj.answers[i].text +"</div>";
+			}
+			res +="</article></div>";
+			
+
+			numberOfMarkedAnswers = _.size(myObj.answers);
+
+			return res;
+
+	}
+
+	function startMarkedQuestion() {
+
+		markedAnswers = [];
+		for (var i =0; i<numberOfMarkedAnswers; i++) {  
+
+			//set selected when going back here
+			/*if (_.has(markedAnswers,i)) {
+
+				$('#markedAnswer'+markedAnswers[i]).addClass("markedSelected");
+			}*/
+
+
+			//Add click handler for each object
+			$('#markedAnswer'+i).click(function() {
+   			  var id = $(this).attr('n');
+   			  if ( $(this).hasClass("markedSelected")) {
+   			  		$(this).removeClass('markedSelected');
+   			  		removeItem(markedAnswers,id);
+   			  }
+   			  else {
+   			  	$(this).addClass('markedSelected');
+	   			markedAnswers.push(id);	
+	   			if (_.size(markedAnswers) == 3) exitMarkedQuestion();
+     			  
+				}   			
+   			  
+ 			});
+
+		}
+
+	}
+
+	function exitMarkedQuestion() {
+		_(markedAnswers).sortBy(function(obj) { return +obj.home })
+   		
+   		$.totalStorage("markedQuestion1",$('#markedAnswer'+markedAnswers[0]).attr("t"));
+   		$.totalStorage("markedQuestion2",$('#markedAnswer'+markedAnswers[1]).attr("t"));
+   		$.totalStorage("markedQuestion3",$('#markedAnswer'+markedAnswers[2]).attr("t"));
+
+   		FS.gotoNode(FS.currentNodeNr,1);
+	}
+
+	function removeItem(array, item){
+    for(var i in array){
+        if(array[i]==item){
+            array.splice(i,1);
+            break;
+            }
+    }
+}
+
+//END OF MARK (3) QUESTION -----------------------------------------------------------------
+
+
+
+
+
+
+
+
+//CHECKLIST ------------------------------------------------------------------------------------
+
+function addNodeChecklist(nodeId) {
+
+	var res="",
+			myObj=contentObj[nodeId];
+			
+		
+
+			res +="<div class='centered eleven columns'>";
+			res +="<p>Du har valt:<br>";
+			res +=$.totalStorage("pieOption") +"<br><br>";
+			res +=$.totalStorage("markedQuestion1")+"<br>";
+			res +=$.totalStorage("markedQuestion2")+"<br>";
+			res +=$.totalStorage("markedQuestion3")+"<br>";
+			res +="<br>Du valde dessa söksätt för att...<br>";
+			
+			res +=$.totalStorage("answer1_text")+"<br></p>";
+
+			return res;
+
+}
+
+
+
+
+//END OF CHECKLIST------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 //PHP METHODS ----------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 function phpCallSavePieOption(optionSelected) {
+	//TODO: Implement the PHP-script
 
 	$.ajax({
         type: "GET",
-        url: "savePieOption.php",
+        url: "php/savePieOption.php",
         data: {ID: $.totalStorage('ID'), option: optionSelected},
         });
 
 }
 
+
+function phpCallSaveABCAnswer(ABC_ID, optionSelected,nodeId) {
+	var maindiv = $('#main_div');
+
+	if(localHostTrue) { //ONLY WHEN IN LOCALHOST
+		var jsonResult = [{A:21,B:6,C:9,total:36}];
+		maindiv.html(FS.addABCResult(ABC_ID, optionSelected,nodeId,jsonResult));
+		return;
+	}
+
+	
+	$.ajax({
+        type: "GET",
+      
+        //url: "saveAndGetABCanswer.php",
+        url: "php/saveAndGetABCanswer.php",
+        datatype:'json',
+        data: {ID: $.totalStorage('ID'), question:ABC_ID, answer: ABCArray[optionSelected]},
+        success:function(data) {
+        	maindiv.html(FS.addABCResult(ABC_ID, optionSelected,nodeId,data));
+        }
+        });
+
+}
 
 
 
@@ -821,7 +1135,14 @@ self.saveAnswer = function (answer) {
 	 	$.totalStorage('currentNodeNr','-1');
 	 	FS.unlockedChapters = new Array();
 		FS.unlockedChapters.length=0;
-	 	$.totalStorage('unlockedChapters',FS.unlockedChapters);
+		oldBackground ="";
+
+
+
+
+		$.totalStorage('unlockedChapters',FS.unlockedChapters);
+	 	// $('.modal#modal1').removeClass('active');
+		// FS.startMain();
 	 	window.location.reload();
 	}
 
@@ -881,7 +1202,7 @@ self.saveAnswer = function (answer) {
 		TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB]});
 	}
 
-
+	
 
 	function showNext() {
 		$("#nextButton").fadeIn();
@@ -896,6 +1217,7 @@ self.saveAnswer = function (answer) {
 		var showNextButton = contentObj[FS.currentNodeNr].showNextButton;
 		FS.resize();
 		globalAnimation=0;
+		
 		//window.clearTimeout(comicTimeout,);
 
 		switch(FS.currentNodeType) {
@@ -916,7 +1238,10 @@ self.saveAnswer = function (answer) {
 				$("#prevButton").fadeOut();	
 			break;
 			case "piechart":
-				showPieChart();				
+				showPieChart();			
+			break;
+			case "mark_question": 
+				startMarkedQuestion();
 			break;
 
 														/*NETWORK SPECIFIC NODES, REMOVE?
@@ -995,10 +1320,13 @@ self.saveAnswer = function (answer) {
 
 	self.gotoNode = function(nextNodeId, direction) {
 		var oldNodeId, maindiv, speed;
-		
-		if ((nextNodeId+direction == FS.currentNodeNr) && FS.initComplete) return;
+			
+		if (!interceptPrevButton) {
+			if ((nextNodeId+direction == FS.currentNodeNr) && FS.initComplete) return;
+		}
 		if(globalAnimation==1) return;
 		globalAnimation =1;
+		interceptPrevButton = false;
 		 removeVideoListener();
 
 		speed=0.809;
@@ -1009,12 +1337,21 @@ self.saveAnswer = function (answer) {
 	   	FS.currentSequence = 0;
 	 
 		FS.nrOfVideos = 0;
+		
 	   	FS.currentNodeNr = nextNodeId + direction;
-	   	if(direction <0) {
-	   		$.totalStorage('currentNodeNr', String(FS.currentNodeNr));
-	   	}
-		else $.totalStorage('currentNodeNr', String(nextNodeId));
-	
+
+	   	switch (direction) {
+
+	   		case 0: //interceptPrevButton, go to same node, since it is a twostep node with back button
+	   			$.totalStorage('currentNodeNr', String(oldNodeId));
+	   		break;
+	   		case -1:
+	   			$.totalStorage('currentNodeNr', String(FS.currentNodeNr));
+	   		break;
+		   case 1:
+		   		$.totalStorage('currentNodeNr', String(nextNodeId));
+		   	break;
+		}
 
 		try{
 	  
@@ -1191,6 +1528,8 @@ self.saveAnswer = function (answer) {
 
 
 	self.startCase = function(newActiveCase) {
+			
+
 		activeCase = eval(newActiveCase);
 		globalAnimation=0;
 		caseNodeId = 0;
@@ -1239,8 +1578,12 @@ self.saveAnswer = function (answer) {
 	self.startMain = function() { 
 		
 				//$("#prevButton").hide();
-				
-				//SET TO TRUE TO ENABLE DEBUG MODE FOR FEEDBACK
+			localHostTrue = false;
+			if (document.location.hostname == "127.0.0.1") {
+				localHostTrue = true; //Used on local debugging when PHP is not available
+			}
+
+			//SET TO TRUE TO ENABLE DEBUG MODE FOR FEEDBACK
 			DEBUG = "false";
 				if (params.debug ==1) DEBUG = "true";
 
@@ -1304,7 +1647,7 @@ self.saveAnswer = function (answer) {
 			}
 			
 			FS.startCase(storeCase);
-			//FS.startCase(Case1d);
+	//		FS.startCase(CaseIntro);
 
 
 
@@ -1322,8 +1665,8 @@ self.saveAnswer = function (answer) {
 			});
 			$(document).on('click', '#prevButton', function() {
 				TweenMax.to($('#prevButton'), 0.25,{css:{"left": "-8px"}});
-		 			 		
-		 			FS.gotoNode(FS.currentNodeNr,-1);
+		 			 if (interceptPrevButton) FS.gotoNode(FS.currentNodeNr,0);		
+		 			else FS.gotoNode(FS.currentNodeNr,-1);
 
 		 	
 			});
@@ -1363,65 +1706,15 @@ self.saveAnswer = function (answer) {
 
 })({});
 
+ var prmstr = window.location.search.substr(1);
+    var prmarr = prmstr.split ("&");
+    var params = {};
 
-
-// Gumby is ready to go
-Gumby.ready(function() {
-	//console.log('Gumby is ready to go...', Gumby.debug());
-
-	// placeholder polyfil
-	if(Gumby.isOldie || Gumby.$dom.find('html').hasClass('ie9')) {
-		$('input, textarea').placeholder();
-	}
-Gumby.init();
-
-// Boolean indicating touch device
-// uses Modernizr.touch and a Windows Phone user agent check
-//Gumby.touchDevice
-
-// Boolean indicating touch device at < 768px viewport width
-// useful for supporting multi input devices with touchscreens and pointer devices
-//Gumby.gumbyTouch
-});
-
-
-
-
-// Oldie document loaded
-Gumby.oldie(function() {
-	//console.log("Oldie");
-});
-
-
-function loadScript(url, callback){
-
-    var script = document.createElement("script")
-    script.type = "text/javascript";
-
-    if (script.readyState){  //IE
-        script.onreadystatechange = function(){
-            if (script.readyState == "loaded" ||
-                    script.readyState == "complete"){
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else {  //Others
-        script.onload = function(){
-            callback();
-        };
+    for ( var i = 0; i < prmarr.length; i++) {
+        var tmparr = prmarr[i].split("=");
+        params[tmparr[0]] = tmparr[1];
     }
 
-    script.src = url;
-    document.getElementsByTagName("body")[0].appendChild(script);
-}
 
+ 
 
-var prmstr = window.location.search.substr(1);
-var prmarr = prmstr.split ("&");
-var params = {};
-
-for ( var i = 0; i < prmarr.length; i++) {
-    var tmparr = prmarr[i].split("=");
-    params[tmparr[0]] = tmparr[1];
-}

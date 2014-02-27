@@ -7,25 +7,37 @@ self.preload = {"images":
 
 self.nodes = {"content": 
 	[
+	{  	"ID": "D1.0",
+		"type":"info",
+		"background":{"type":"image","url":"bg.jpg"},
+		"title":"Vägskäl",
+		"pretext":"Introtext",
+     	"animation":"fade",
+		"showNextButton":"0"
+	},
 	{  	"ID": "D1.1",
 		"type":"piechart", 
+		"background":{"type":"image","url":"bg.jpg"},
 		"analysisLog":"D1.1",
-		"header":"Vad vill du jobba med?",
+		"title":"Vad vill du jobba med?",
 		"animation":"fade",
-		"showNextButton":"0"
+		"showNextButton":"-1"
 	},
 	
 	{  	"ID": "D1.2",
-		"type":"agent",
+		"type":"info",
 		"background":{"type":"image","url":"bg.jpg"},
-		"text":"Var finns jobben?<br><br>Välj de 3 sätt att söka jobb som du tror fungerar bäst för de områden som du vill söka jobb inom.",
+		"title":"Var finns jobben?",
+		"pretext":"Välj de 3 sätt att söka jobb som du tror fungerar bäst för de områden som du vill söka jobb inom.",
      	"animation":"fade",
 		"showNextButton":"0"
 	},
 	{  	"ID": "D1.3",
-		"type":"question", 
+		"type":"mark_question", 
 		"analysisLog":"D1.3",
-		"question":"Vad hittar du jobbet?",
+		"question":"Var hittar du jobbet?",
+		"pretext":"Välj 3 alternativ",
+		"nrOfAnswers":"3",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
 							{"text":"Linkedin","analysisLog":"Linkedin"},
@@ -44,29 +56,23 @@ self.nodes = {"content":
 		 "showNextButton":"-1"
 	},
 	{  	"ID": "D1.4",
-		"type":"question", 
+		"type":"abc_question", 
+		"ABC_ID":"1", 
 		"analysisLog":"D1.4",
 		"question":"Jag valde dessa söksätt för att...",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
-							{"text":"A. Det är bekvämt eftersom jag kan söka på alla dessa sätt via internet","analysisLog":"A"},
-							{"text":"B. Det är en blandning som gör att jag får kontakt med en arbetsplats på flera olika sätt","analysisLog":"B"},
-							{"text":"C. De är kanske de jobbigaste sätten att söka jobb på men kanske de som ger störst chans till intervju och anställning","analysisLog":"C"}
+							{"text":"Det är bekvämt eftersom jag kan söka på alla dessa sätt via internet","analysisLog":"A"},
+							{"text":"Det är en blandning som gör att jag får kontakt med en arbetsplats på flera olika sätt","analysisLog":"B"},
+							{"text":"De är kanske de jobbigaste sätten att söka jobb på men kanske de som ger störst chans till intervju och anställning","analysisLog":"C"}
 		
 				]
 		 ,
 		 "animation":"fade",
-		 "showNextButton":"-1"
-	},
-	{  	"ID": "D1.5",
-		"type":"info",
-		"title":"B. Det är Det är en blandning som gör att jag får kontakt med en arbetsplats på flera olika sätt.",
-		"background":{"type":"image","url":"bg.jpg"},
-		"posttext":"156 personer (55%) tycker samma sak som dig.<br><br>A 25% - B 55% - C 20%",
-		 "animation":"fade",
 		 "showNextButton":"0"
-},
-{  	"ID": "D1.6",
+	},
+	
+{  	"ID": "D1.5",
 		"type":"video_seq",
 		"size":"twelve",
 		"background":{"type":"image","url":"bg.jpg"},
@@ -82,11 +88,10 @@ self.nodes = {"content":
 		 	"showNextButton":"0"
 	},
 	{  	
-		"ID": "D1.7",
-		"type":"info",
+		"ID": "D1.5",
+		"type":"checklist",
 		"title":"Checklista",
 		"background":{"type":"image","url":"bg.jpg"},
-		"posttext":"LinkedIn<br><br>Studie- och yrkesvägledare<br><br>Eget kontaktnät",
 		 "animation":"fade",
 		 "showNextButton":"0",
 		 "callback":"OUTRO"

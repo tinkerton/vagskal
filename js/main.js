@@ -636,7 +636,8 @@ function addNodeABCQuestion(nodeId) {
 
 
 self.addABCResult = function(ABC_ID, optionSelected,nodeId,result) {
-	var res,A,B,C,total,percentA, percentB, percentC, resultText,myObj, resObj;
+	var res,A,B,C,total,percentA, percentB, percentC, resultText,myObj, resObj,
+	widthA, widthB, widthC;
 		
 	if(localHostTrue) { //ONLY WHEN IN LOCALHOST
 		result = result[0];
@@ -657,7 +658,17 @@ self.addABCResult = function(ABC_ID, optionSelected,nodeId,result) {
 		percentA = Math.round(A / total * 100);
 		percentB = Math.round(B / total * 100);
 		percentC = Math.round(C / total * 100);
-		
+
+			
+		if (percentA <= 8) widthA = 8; else widthA=percentA;
+		if (percentB <= 8) widthB = 8; else widthB=percentB;
+		if (percentC <= 8) widthC = 8; else widthC=percentC;
+
+		if (percentA>(widthB+widthC)) widthA =100-widthB-widthC; 
+		if  (percentB>(widthA+widthC)) widthB =100-widthA-widthC; 
+		if  (percentC>(widthA+widthB)) widthC =100-widthA-widthB;
+
+
 		resultText ="";
 		
 
@@ -685,14 +696,14 @@ self.addABCResult = function(ABC_ID, optionSelected,nodeId,result) {
 				res +="<div class='ABCresultCompareHolder'>";
 					res +="<div class='ABCresultCompareItem ABC_item1";
 						if (ABCArray[optionSelected] == "A") res +=" ABC_selected";
-					res+="' style='width:"+(percentA-1)+"%'><div class='ABCresultCompareHeader'>A</div><div class='ABCresultComparePercent'>"+percentA+"%</div></div>";
+					res+="' style='width:"+(widthA-1)+"%'><div class='ABCresultCompareHeader'>A</div><div class='ABCresultComparePercent'>"+percentA+"%</div></div>";
 					res +="<div class='ABCresultCompareItem  ABC_item2";
 						if (ABCArray[optionSelected] == "B") res +=" ABC_selected";
-						res+="' style='width:"+(percentB-1)+"%'><div class='ABCresultCompareHeader'>B</div><div class='ABCresultComparePercent'>"+percentB+"%</div></div>";
+						res+="' style='width:"+(widthB-1)+"%'><div class='ABCresultCompareHeader'>B</div><div class='ABCresultComparePercent'>"+percentB+"%</div></div>";
 				
 					res +="<div class='ABCresultCompareItem ABC_item3";
 						if (ABCArray[optionSelected] == "C") res +=" ABC_selected";
-						res+="' style='width:"+(percentC-1)+"%'><div class='ABCresultCompareHeader'>C</div><div class='ABCresultComparePercent'>"+percentC+"%</div></div>";
+						res+="' style='width:"+(widthC-1)+"%'><div class='ABCresultCompareHeader'>C</div><div class='ABCresultComparePercent'>"+percentC+"%</div></div>";
 				
 				res +="</div>"; 
 			res +="</article>";

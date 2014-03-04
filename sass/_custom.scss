@@ -507,7 +507,7 @@ img, object, embed .node-image {
   z-index: 2000;
 }
 
-.no-touch .sequenceAnswer:hover {
+.no-touch .sequenceAnswer:not(.nohover):hover {
   background-color: rgba(255, 255, 255, 0.9);
   color: #000;
 }
@@ -1241,6 +1241,7 @@ padding-right: 20px;
     @extend .sequenceAnswer;
     border-radius: 0px;
   }
+
 
   .ABCHolder {
     float: left;

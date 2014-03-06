@@ -103,22 +103,6 @@ var FS = (function(self){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	//VIDEO TEMPLATES ---------------------------------------------------------------------------------------------------
 			self.populateSequence = function() {
 				$("#seqWrapper").html(addNodeVideoSequence(FS.currentNodeNr));
@@ -872,6 +856,8 @@ var pienumber = Math.random();
 
 	}
 
+
+
 	function startMarkedQuestion() {
 
 		markedAnswers = [];
@@ -951,22 +937,25 @@ function addNodeChecklist(nodeId) {
 			
 			res +=$.totalStorage("answer1_text")+"<br></p>";
 
+			if(myObj.showButton == "true") {
+ 			res +="<div id='checkListBtn'>"+myObj.btnText+"</div>";
+			}
+
 			return res;
 
-}
+		}
 
+		function startCheckList() {
+  		$(document).on('click', '#checkListBtn', function() {
+   		window.location=contentObj[FS.currentNodeNr].btnURL;
+
+   		}	
+    
+   )};
 
 
 
 //END OF CHECKLIST------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 
 
@@ -1016,12 +1005,6 @@ function phpCallSaveABCAnswer(ABC_ID, optionSelected,nodeId) {
 
 
 //END OF PHP METHODS -----------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
 
 
 
@@ -1167,13 +1150,6 @@ self.saveAnswer = function (answer) {
 
 
 
-
-
-
-
-
-
-
 //*GENERAL METHODS----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1201,8 +1177,8 @@ self.saveAnswer = function (answer) {
 	
 		TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB]});
 	}
-
 	
+
 
 	function showNext() {
 		$("#nextButton").fadeIn();
@@ -1244,6 +1220,10 @@ self.saveAnswer = function (answer) {
 				startMarkedQuestion();
 			break;
 
+			case "checklist": 
+    			startCheckList();
+   			break;
+
 														/*NETWORK SPECIFIC NODES, REMOVE?
 														case "comic":
 															 showComics(comicsToFadeIn);
@@ -1270,9 +1250,7 @@ self.saveAnswer = function (answer) {
 		}
 	}
 
-
-
-
+	
 
 	function onCompleteFadeoutNode(maindiv, nextNodeId, speed, animationType) {
 		var maindiv;
@@ -1515,14 +1493,6 @@ self.saveAnswer = function (answer) {
 
 
 
-
-
-
-
-
-
-
-
 //START APPLICATION -------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1566,12 +1536,6 @@ self.saveAnswer = function (answer) {
 		
 		FS.gotoNode(currentNodeNr,1);
 	}
-
-
-
-	
-
-
 
 
 	//THIS IS THE MAIN FUNCTION. IT ALL STARTS HERE!
@@ -1697,9 +1661,6 @@ self.saveAnswer = function (answer) {
 //END OF: NAVIGATION AND EVENT HANDLERS-----------------------------------------------------------------------------------------------------------------------------
 
 }
-
-
-
 
 
 	return self;

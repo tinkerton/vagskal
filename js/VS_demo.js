@@ -23,6 +23,8 @@ self.nodes = {"content":
 		"animation":"fade",
 		"showNextButton":"-1"
 	},
+
+
 	
 	{  	"ID": "D1.2",
 		"type":"info",
@@ -94,9 +96,12 @@ self.nodes = {"content":
 		"background":{"type":"image","url":"bg.jpg"},
 		 "animation":"fade",
 		 "showNextButton":"0",
-		 "callback":"OUTRO"
-	
+		 "callback":"OUTRO",
+		 "showButton":"true",
+		 "btnText":"Tillbaka till startsidan",
+		 "btnURL":"http://vagskal.vps-56841.cloudnet.se/"
 	}
+
     ]
 };
 

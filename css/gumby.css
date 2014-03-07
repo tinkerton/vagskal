@@ -2002,7 +2002,7 @@ img, object, embed .node-image { max-width: 100%; width: auto; border: none; }
 
 .sequenceAnswer, .ABCsequenceAnswer { font-size: 0.6em; line-height: 1em; display: block; padding: 15px 20px; margin-bottom: 10px; text-align: left; background-color: rgba(0, 0, 0, 0.8); border-radius: 0.2em; position: relative; z-index: 2000; }
 
-.no-touch .sequenceAnswer:hover, .no-touch .ABCsequenceAnswer:hover { background-color: rgba(255, 255, 255, 0.9); color: #000; }
+.no-touch .sequenceAnswer:not(.nohover):hover, .no-touch .ABCsequenceAnswer:not(.nohover):hover { background-color: rgba(255, 255, 255, 0.9); color: #000; }
 
 .sequenceText { font-size: 1.5em; line-height: 1.2em; display: block; padding: 20px; text-align: left; }
 

@@ -470,8 +470,12 @@ img, object, embed .node-image {
   font-size: 1.8em;
   max-width: 940px;
   display: block;
-  margin-top: 50px;
+  text-align: center;
   color: #777;
+}
+.pretext b {
+font-weight:bold;
+color:#333;
 }
 
 .text-black-bg {
@@ -614,13 +618,14 @@ img, object, embed .node-image {
   font-style: normal;
   line-height: 1.2em;
   display: block;
-  background-color: rgba(0, 0, 0, 1);
-  padding: 10px 15px 8px 15px;
+ 
+ 
 }
 
 .no-touch .chapterItem:hover {
-  background-color: #66c1bf;
-  color: #FFF;
+  background-color: rgba(0,0,0,0.2);
+  border-radius:10px;
+
   cursor: pointer;
 }
 
@@ -1327,7 +1332,58 @@ padding-right: 20px;
   color: #fff;
 }
 
+ .hubtitle {
+      font-size: 2em;
+      top: 30px;
+      width:100%;
+      text-align: center;
+      position: absolute;
+    }
 
+
+    .tradeQuestionText {
+      font-size: 2em;
+      color:$maintextcolor;
+      position: absolute;
+      top:45%;
+      width:100%;
+      text-align: center;
+
+    }
+    .tradeHolder{
+    
+    width:90%;
+    
+    }
+
+    .tradeQuestionDiv1 {
+
+      width:100%;
+      margin: 0px 20%;
+  
+      float:left;
+      
+    }
+
+  .tradeQuestionDiv2 {
+       @extend .tradeQuestionDiv1;
+   
+
+      padding-top: 100px;
+    }
+
+    .tradeQuestionIcon {
+      float:left;
+      display: inline-block;
+      margin:0px 10px;
+      width:auto;
+       text-align: center;
+    }
+
+    .no-touch .tradeQuestionIcon:hover {
+     cursor: pointer;
+     opacity: 0.8;
+    }
 
   @include respond(all-phones) {
     #nav1 {
@@ -1377,4 +1433,9 @@ padding-right: 20px;
     #pieplaceholder {
       margin-left: -20px;
     }
+    .pretext {
+      padding-top: 50px;
+    }
+   
+
   }

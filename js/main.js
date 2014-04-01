@@ -1,4 +1,4 @@
-/*global $, jQuery, _, TweenMax, console, CaseIntro, Modernizer*/
+/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB, Modernizer*/
 
 var FS = (function(self){
 	"use strict";
@@ -93,6 +93,8 @@ var FS = (function(self){
 				}
 				else {
 					$.backstretch("img/"+oldBackground);
+
+
 				}
 			}
 
@@ -278,7 +280,7 @@ var FS = (function(self){
 				   	 if ( FS.currentSequence!=undefined)  TweenMax.to($("#seqWrapper"), 0.5, {alpha:0, onComplete:FS.populateSequence})
 				  	 else {
 				  	 	if (contentObj[FS.currentNodeNr].callback!=undefined) {
-				  	 		exitChapter(contentObj[FS.currentNodeNr].callback);
+				  	 		exitChapter(contentObj[FS.currentNodeNr].callback,-1);
 
 				  	 	}else {
 				  	 		FS.gotoNode(FS.currentNodeNr,1);
@@ -408,8 +410,8 @@ var FS = (function(self){
 		 	wHeight;
 
 			wHeight =$(window).height();
-		
-			res = "<div class='chapterWrapper' style='height:"+wHeight+"px; width:960px; '>";
+			res ="<div class='hubtitle'>"+contentObj[nodeId].title+"</div>";
+			res += "<div class='chapterWrapper' style='height:"+wHeight+"px; width:960px; background: url(../img/"+contentObj[nodeId].hubimage+"); background-repeat: no-repeat; background-position-y: 33%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
@@ -420,7 +422,7 @@ var FS = (function(self){
 				if(myObj[i].lockeduntil!=undefined) {
 					res +=" locked";
 				}
-				res +="' style='height:"+myObj[i].height+"; width:"+myObj[i].width+"; left:"+myObj[i].left+"; top:"+myObj[i].top+"; padding-top:"+myObj[i].paddingtop+"; font-size:"+myObj[i].fontsize+"em;'  onClick=FS.respondToHUB("+i+")>"+myObj[i].text+"</div>";
+				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")><img src='../img/"+myObj[i].icon+"'></div>";
 			
 			}
 
@@ -532,6 +534,9 @@ var FS = (function(self){
 				break;
 				case "checklist": 
 					result  +=  addNodeChecklist(nodeId);
+				break;
+				case "tradequestion": 
+					result = addNodeTradeQuestion(nodeId);
 				break;
 
 				
@@ -834,7 +839,61 @@ var pienumber = Math.random();
 
 
 
+//TRADE QUESTION ----------------------------------------------------------------------------------------
 
+function addNodeTradeQuestion(nodeId) {
+			var res="",
+			myObj=contentObj[nodeId];
+			
+	
+		
+			res +="<div class='centered eleven columns tradeHolder'>";
+			res +="<div class='tradeQuestionText'>"+myObj.pretext +"</div>";	
+			res +="<div class='tradeQuestionDiv1'>";
+			for (var i =0; i<_.size(myObj.trades)/2; i++) {
+			res +="<div class='tradeQuestionIcon' id='trade"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='../img/"+myObj.trades[i].image +"'></div>";
+			}
+			res +="</div>";
+
+
+
+			res +="<div class='tradeQuestionDiv2'>";
+			for (var j =_.size(myObj.trades)/2; j<_.size(myObj.trades); j++) {
+			res +="<div class='tradeQuestionIcon' id='trade"+j+"' answerid='"+myObj.trades[j].answer_id+"' t='"+myObj.trades[j].trade+"'><img src='../img/"+myObj.trades[j].image +"'></div>";
+			}
+			res +="</div></div>";
+			
+
+			
+			return res;
+
+}
+
+function startNodeTradeQuestion() {
+	var myObj=contentObj[FS.currentNodeNr];
+	for (var i=0; i<_.size(myObj.trades); i++) {  
+
+			//Add click handler for each object
+			$('#trade'+i).click(function() {
+   			  var answerid_id = $(this).attr('answerid');
+   			 	 exitTradeQuestion(myObj.question_id, answerid_id);
+     			 
+				}   			
+   			  
+ 			);
+		}
+
+}
+
+
+function exitTradeQuestion(question_id, answer_id) {
+
+		$.totalStorage("tradeQuestion",answer_id);
+		phpCallSaveAnswer(question_id,answer_id);
+}
+
+
+//--------------------------------------------------------------------------------------------------------
 
 
 
@@ -848,7 +907,14 @@ var pienumber = Math.random();
 		var res="",
 			myObj=contentObj[nodeId];
 			
-		
+			var sam, maria, adriana = false;
+			if (myObj.subtype =="mq3") {
+					if ($.totalStorage("staff1")=="Sam" || $.totalStorage("staff2")=="Sam") sam=true;
+					if ($.totalStorage("staff1")=="Maria" || $.totalStorage("staff2")=="Maria") maria=true;
+					if ($.totalStorage("staff1")=="Adriana" || $.totalStorage("staff2")=="Adriana") adriana=true;
+			}
+
+
 
 			res +="<div class='centered eleven columns'>";
 			
@@ -856,7 +922,12 @@ var pienumber = Math.random();
 			res +="<div class='questionHeadline'>"+myObj.question +"</div>";
 			res +="<div class='markedPreText'>"+myObj.pretext +"</div>";
 			for (var i =0; i<_.size(myObj.answers); i++) {
-			res +="<div class='sequenceAnswer markedQuestionAnswer' id='markedAnswer"+i+"' n='"+i+"' t='"+myObj.answers[i].text+"'>"+ myObj.answers[i].text +"</div>";
+				if(myObj.subtype =="mq3") {
+					if(i==0 && !sam) continue;
+					if(i==1 && !maria) continue;
+					if(i==2 && !adriana) continue;
+				}
+			res +="<div class='sequenceAnswer markedQuestionAnswer' id='markedAnswer"+i+"' n='"+i+"' answerid='"+myObj.answers[i].answer_id+"' t='"+myObj.answers[i].text+"'>"+ myObj.answers[i].text +"</div>";
 			}
 			res +="</article></div>";
 			
@@ -870,8 +941,9 @@ var pienumber = Math.random();
 
 
 	function startMarkedQuestion() {
-
+		var myObj=contentObj[FS.currentNodeNr];
 		markedAnswers = [];
+
 		for (var i =0; i<numberOfMarkedAnswers; i++) {  
 
 			//set selected when going back here
@@ -884,14 +956,17 @@ var pienumber = Math.random();
 			//Add click handler for each object
 			$('#markedAnswer'+i).click(function() {
    			  var id = $(this).attr('n');
+   			  var answer_id = $(this).attr('answerid'); 
+
    			  if ( $(this).hasClass("markedSelected")) {
    			  		$(this).removeClass('markedSelected');
-   			  		removeItem(markedAnswers,id);
+   			  		removeItem(markedAnswers,answer_id);
    			  }
    			  else {
    			  	$(this).addClass('markedSelected');
-	   			markedAnswers.push(id);	
-	   			if (_.size(markedAnswers) == 3) exitMarkedQuestion();
+	   			markedAnswers.push(answer_id);	
+	   			
+	   			if (_.size(markedAnswers) ==myObj.nrOfAnswers) exitMarkedQuestion(myObj.subtype, myObj.question_id);
      			  
 				}   			
    			  
@@ -901,14 +976,67 @@ var pienumber = Math.random();
 
 	}
 
-	function exitMarkedQuestion() {
+	function exitMarkedQuestion(subtypeQ, question_id) {
 		_(markedAnswers).sortBy(function(obj) { return +obj.home })
-   		
-   		$.totalStorage("markedQuestion1",$('#markedAnswer'+markedAnswers[0]).attr("t"));
-   		$.totalStorage("markedQuestion2",$('#markedAnswer'+markedAnswers[1]).attr("t"));
-   		$.totalStorage("markedQuestion3",$('#markedAnswer'+markedAnswers[2]).attr("t"));
+   	
+		switch(subtypeQ) {
+			case "mq1":
 
-   		FS.gotoNode(FS.currentNodeNr,1);
+				$.totalStorage("findstaff1",$('#markedAnswer'+markedAnswers[0]).attr("t"));
+   				$.totalStorage("findstaff2",$('#markedAnswer'+markedAnswers[1]).attr("t"));
+   				$.totalStorage("findstaff3",$('#markedAnswer'+markedAnswers[2]).attr("t"));
+   				phpCallSaveMultipleAnswers(question_id,markedAnswers);
+
+			break;
+			case "mq2":
+				
+				var sam, maria, adriana = false;
+				var answer_id =0;
+				for (var i=0; i<=_.size(markedAnswers); i++) {
+					switch(markedAnswers[i]) {
+						case "Sam":
+							sam = true;
+						break;
+						case "Maria":
+							maria = true;
+						break;
+						case "Adriana":
+							adriana = true;
+						break;
+					}
+				}
+				
+				if (sam && maria) answer_id = 16;
+				if (adriana && maria) answer_id = 17;
+				if (sam && adriana) answer_id = 18;
+
+				$.totalStorage("staff1",markedAnswers[0]);
+   				$.totalStorage("staff2",markedAnswers[1]);
+   				phpCallSaveAnswer(question_id,answer_id);
+
+			break;
+
+			case "mq3":
+				var answer_id = markedAnswers[0];
+				if (markedAnswers[0] == "both") {
+					var sam, maria, adriana = false;
+					if ($.totalStorage("staff1")=="Sam" || $.totalStorage("staff2")=="Sam") sam=true;
+					if ($.totalStorage("staff1")=="Maria" || $.totalStorage("staff2")=="Maria") maria=true;
+					if ($.totalStorage("staff1")=="Adriana" || $.totalStorage("staff2")=="Adriana") adriana=true;
+					if (sam && maria) answer_id = 22;
+					if (adriana && maria) answer_id = 24;
+					if (sam && adriana) answer_id = 23;
+				}
+				
+				$.totalStorage("keepwork",answer_id);
+   				phpCallSaveAnswer(question_id,answer_id);
+
+			break;
+
+
+		}
+
+   	
 	}
 
 	function removeItem(array, item){
@@ -977,14 +1105,16 @@ function addNodeChecklist(nodeId) {
 
 
 function phpCallSavePieOption(optionSelected) {
+	//OBSOLETE
 	//TODO: Implement the PHP-script
 
-	$.ajax({
+/*	$.ajax({
         type: "GET",
         url: "php/savePieOption.php",
         data: {ID: $.totalStorage('ID'), option: optionSelected},
         });
 
+*/
 }
 
 
@@ -1013,6 +1143,54 @@ function phpCallSaveABCAnswer(ABC_ID, optionSelected,nodeId) {
 }
 
 
+
+function phpCallSaveAnswer(question, answer) {
+
+	if(localHostTrue) { //ONLY WHEN IN LOCALHOST
+			FS.gotoNode(FS.currentNodeNr,1);
+		return;
+	}
+
+
+	$.ajax({
+        type: "GET",
+        url: "php/saveAnswer.php",
+         datatype:'json',
+        data: {ID: $.totalStorage('ID'), question_id: question, answer_id:answer},
+        success:function(data) {
+
+        	FS.gotoNode(FS.currentNodeNr,1);
+        }
+        });
+
+}
+
+
+function phpCallSaveMultipleAnswers (question, answerArray) {
+	if(localHostTrue) { //ONLY WHEN IN LOCALHOST
+			FS.gotoNode(FS.currentNodeNr,1);
+		return;
+	}
+
+	var nrOfSavedEntries =0;
+
+	for (var i=0; i<_.size(answerArray); i++) {
+		$.ajax({
+        type: "GET",
+        url: "php/saveAnswer.php",
+         datatype:'json',
+        data: {ID: $.totalStorage('ID'), question_id: question, answer_id:answerArray[i]},
+          success:function(data) {
+          	nrOfSavedEntries++;
+          	
+          	if (nrOfSavedEntries>=_.size(answerArray)) FS.gotoNode(FS.currentNodeNr,1);
+        }
+		});
+	}
+	
+
+
+}
 
 
 //END OF PHP METHODS -----------------------------------------------------------------------------------------------------------------------------------
@@ -1113,7 +1291,7 @@ self.saveAnswer = function (answer) {
 		}else {
 			if(myCallback =="Case1_HUB" || myCallback=="Case2_HUB") {
 
-				exitChapter(myCallback);
+				exitChapter(myCallback,-1);
 			}
 			else {
 				globalAnimation=0;
@@ -1127,6 +1305,7 @@ self.saveAnswer = function (answer) {
 	 	$.totalStorage('storeCase','');
 	 	$.totalStorage('ID', FS.uniqueid()); //create a new user for DB
 	 	$.totalStorage('currentNodeNr','-1');
+	 	$.totalStorage('tradeQuestion','-1');
 	 	FS.unlockedChapters = new Array();
 		FS.unlockedChapters.length=0;
 		oldBackground ="";
@@ -1164,7 +1343,7 @@ self.saveAnswer = function (answer) {
 //*GENERAL METHODS----------------------------------------------------------------------------------------------------------------------------
 
 
-	function exitChapter(nextHUB) {
+	function exitChapter(nextHUB, startNode) {
 		var foundNextHUB =false,
 			currentCase = activeCase.ID.text;	
 
@@ -1178,15 +1357,15 @@ self.saveAnswer = function (answer) {
 			
 		}
 
-		$.totalStorage('currentNodeNr',  "-1");
+		$.totalStorage('currentNodeNr',  startNode);
 
 
-		if(currentCase!="CaseIntro" && foundNextHUB == false) FS.unlockedChapters.push(currentCase);
+		if(currentCase!="Case1a" && foundNextHUB == false) FS.unlockedChapters.push(currentCase);
 		 $.totalStorage('unlockedChapters', FS.unlockedChapters);
 		
 		 ////console.log("exitChapter goto:"+ nextHUB  + "    unlockedChapters:" + _.size(FS.unlockedChapters) +" " + currentCase);
 	
-		TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB]});
+		TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB,startNode]});
 	}
 	
 
@@ -1194,6 +1373,7 @@ self.saveAnswer = function (answer) {
 	function showNext() {
 		$("#nextButton").fadeIn();
 		if (FS.currentNodeNr>0) $("#prevButton").fadeIn();
+			if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub")  $("#prevButton").fadeIn();
 
 	}
 
@@ -1220,9 +1400,10 @@ self.saveAnswer = function (answer) {
 			break;
 			case "hub":
 				checkToUnlockChapters();
-				showNextButton=-1;
-				$("#nextButton").fadeOut();	
-				$("#prevButton").fadeOut();	
+				showNext();
+				/*showNextButton=-1;
+				$("#nextButton").fadeOut();		
+				$("#prevButton").fadeOut();*/
 			break;
 			case "piechart":
 				showPieChart();			
@@ -1230,7 +1411,9 @@ self.saveAnswer = function (answer) {
 			case "mark_question": 
 				startMarkedQuestion();
 			break;
-
+			case "tradequestion":
+				startNodeTradeQuestion();
+			break;
 			case "checklist": 
     			startCheckList();
    			break;
@@ -1361,7 +1544,7 @@ self.saveAnswer = function (answer) {
   					else {
   				 
 						
-  						exitChapter(contentObj[oldNodeId].callback);
+  						exitChapter(contentObj[oldNodeId].callback,-1);
   						return;	
   					}	
   				
@@ -1508,7 +1691,7 @@ self.saveAnswer = function (answer) {
 
 
 
-	self.startCase = function(newActiveCase) {
+	self.startCase = function(newActiveCase, startNode) {
 			
 
 		activeCase = eval(newActiveCase);
@@ -1527,12 +1710,12 @@ self.saveAnswer = function (answer) {
 
 		contentObj = activeCase.nodes.content;
 
-		currentNodeNr = -1;
+		currentNodeNr = startNode;
 		if ($.totalStorage('currentNodeNr')!=undefined)   currentNodeNr =  parseFloat($.totalStorage('currentNodeNr'));
 
 		maxNodeNr = -1;
 
-		$(".backstretch").remove();
+		//$(".backstretch").remove();
 	
 		FS.preloadImages();
 
@@ -1612,12 +1795,11 @@ self.saveAnswer = function (answer) {
 			storeCase = $.totalStorage('storeCase');
 			
 			if (storeCase==undefined || storeCase=='') {
-				storeCase = "CaseIntro";
-				if (parseInt(GAMEMODE) ==1) storeCase ="CaseIntro1";	
-				if (parseInt(GAMEMODE) ==2) {
-					unlockChapters(6);
-					storeCase ="CaseIntro2";	
-				}
+				storeCase = "Case1a";
+				if (parseInt(GAMEMODE) ==1) storeCase ="Case1a";	
+				if (parseInt(GAMEMODE) ==2) storeCase ="CaseVS_HUB";
+				if (parseInt(GAMEMODE) ==3) storeCase ="Case1b";		
+				
 				 
 			}
 			
@@ -1640,9 +1822,14 @@ self.saveAnswer = function (answer) {
 			});
 			$(document).on('click', '#prevButton', function() {
 				TweenMax.to($('#prevButton'), 0.25,{css:{"left": "-8px"}});
+		 			
+					if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub") {
+						exitChapter(activeCase.ID.prevcase,activeCase.ID.lastNodeNr);
+					}
+					else {
 		 			 if (interceptPrevButton) FS.gotoNode(FS.currentNodeNr,0);		
-		 			else FS.gotoNode(FS.currentNodeNr,-1);
-
+					else FS.gotoNode(FS.currentNodeNr,-1);
+					}
 		 	
 			});
 

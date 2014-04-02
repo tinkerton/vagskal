@@ -1,4 +1,4 @@
-/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB, Modernizer*/
+/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB,CaseSam_Mail,CaseSam_Internet,CaseSam_Video,CaseMaria_Mail,CaseMaria_Internet,CaseMaria_Video,CaseAdriana_Mail,CaseAdriana_Internet,CaseAdriana_Video, Modernizer*/
 
 var FS = (function(self){
 	"use strict";
@@ -280,7 +280,9 @@ var FS = (function(self){
 				   	 if ( FS.currentSequence!=undefined)  TweenMax.to($("#seqWrapper"), 0.5, {alpha:0, onComplete:FS.populateSequence})
 				  	 else {
 				  	 	if (contentObj[FS.currentNodeNr].callback!=undefined) {
-				  	 		exitChapter(contentObj[FS.currentNodeNr].callback,-1);
+				  	 		var nodeToGo = -1;
+				  	 		if (contentObj[FS.currentNodeNr].callbackNode !=undefined) nodeToGo=contentObj[FS.currentNodeNr].callbackNode;
+				  	 		exitChapter(contentObj[FS.currentNodeNr].callback,nodeToGo);
 
 				  	 	}else {
 				  	 		FS.gotoNode(FS.currentNodeNr,1);
@@ -389,9 +391,19 @@ var FS = (function(self){
 
 	
 	function addNodePreText (nodeId) {
-		var pretext = contentObj[nodeId].pretext;
-		if (pretext == undefined) return "";
-		return "<div class='pretext'>"+ contentObj[nodeId].pretext+"</div>";
+		var res,
+		myObj = contentObj[nodeId];
+		if (myObj.pretext == undefined) return "";
+
+		res = "<div class='pretext";
+		
+		if (myObj.justify!=undefined)  {
+				res +=" " + myObj.justify;
+		}
+		res +="'>" + myObj.pretext + "</div>";
+
+		
+		return res;
 		
 	}
 
@@ -409,9 +421,11 @@ var FS = (function(self){
 			myObj,
 		 	wHeight;
 
-			wHeight =$(window).height();
-			res ="<div class='hubtitle'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper' style='height:"+wHeight+"px; width:960px; background: url(../img/"+contentObj[nodeId].hubimage+"); background-repeat: no-repeat; background-position-y: 33%;'>";
+			wHeight =720; //$(window).height()*0.7;
+
+			//DESKTOP
+			res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
+			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(../img/"+contentObj[nodeId].hubimage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
@@ -422,11 +436,40 @@ var FS = (function(self){
 				if(myObj[i].lockeduntil!=undefined) {
 					res +=" locked";
 				}
-				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")><img src='../img/"+myObj[i].icon+"'></div>";
+				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")></div>";
 			
 			}
 
 			res+="</div>";
+
+			//MOBILE
+			//res +="<div class='hubtitle mobile'>"+contentObj[nodeId].title+"</div>";
+			res += "<div class='chapterWrapper mobile' style='background: url(../img/"+contentObj[nodeId].hubimagemobile+");  background-repeat: no-repeat; background-size:100%;'>";
+
+			myObj = contentObj[nodeId].chapters;
+			nrOfChapters = _.size(myObj);
+
+			for (var j=0; j<nrOfChapters; j++) {
+				if(j%3==0) {
+					if (j>0) {
+						res +="</div>";}
+					res +="<div class='chapterRow"+((j/3)+1)+"'>";
+				}
+				res +="<div id='chapter_"+myObj[j].ID+"' class='chapterItem mobileitem"+j;
+				/*if(myObj[j].lockeduntil!=undefined) {
+					res +=" locked";
+				}*/
+				res +="' onClick=FS.respondToHUB("+j+")></div>";
+				
+			}
+
+			res+="</div></div>";
+
+
+
+
+
+
 		return res;
 	}
 
@@ -846,12 +889,12 @@ function addNodeTradeQuestion(nodeId) {
 			myObj=contentObj[nodeId];
 			
 	
-		
-			res +="<div class='centered eleven columns tradeHolder'>";
+			//FOR DESKTOP - need to layout icons one way - hidden in mobile
+			res +="<div class='centered eleven columns tradeHolderDesktop'>";
 			res +="<div class='tradeQuestionText'>"+myObj.pretext +"</div>";	
 			res +="<div class='tradeQuestionDiv1'>";
 			for (var i =0; i<_.size(myObj.trades)/2; i++) {
-			res +="<div class='tradeQuestionIcon' id='trade"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='../img/"+myObj.trades[i].image +"'></div>";
+				res +="<div class='tradeQuestionIcon' id='trade"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='../img/"+myObj.trades[i].image +"'></div>";
 			}
 			res +="</div>";
 
@@ -864,6 +907,16 @@ function addNodeTradeQuestion(nodeId) {
 			res +="</div></div>";
 			
 
+
+			//FOR MOBILE - need to layout icons differently - hidden in desktop
+					res +="<div class='centered eleven columns tradeHolderMobile'>";
+					res +="<div class='tradeQuestionTextMobile'>"+myObj.pretext +"</div>";	
+					res +="<div class='tradeQuestionDivMobile'>";
+					for (var i =0; i<_.size(myObj.trades); i++) {
+						res +="<div class='tradeQuestionIcon' id='tradem"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='../img/"+myObj.trades[i].image +"'></div>";
+					}
+					res +="</div></div>";
+
 			
 			return res;
 
@@ -874,7 +927,16 @@ function startNodeTradeQuestion() {
 	for (var i=0; i<_.size(myObj.trades); i++) {  
 
 			//Add click handler for each object
+			//DESKTOP
 			$('#trade'+i).click(function() {
+   			  var answerid_id = $(this).attr('answerid');
+   			 	 exitTradeQuestion(myObj.question_id, answerid_id);
+     			 
+				}   			
+   			  
+ 			);
+ 			//MOBILE
+ 			$('#tradem'+i).click(function() {
    			  var answerid_id = $(this).attr('answerid');
    			 	 exitTradeQuestion(myObj.question_id, answerid_id);
      			 
@@ -927,10 +989,30 @@ function exitTradeQuestion(question_id, answer_id) {
 					if(i==1 && !maria) continue;
 					if(i==2 && !adriana) continue;
 				}
-			res +="<div class='sequenceAnswer markedQuestionAnswer' id='markedAnswer"+i+"' n='"+i+"' answerid='"+myObj.answers[i].answer_id+"' t='"+myObj.answers[i].text+"'>"+ myObj.answers[i].text +"</div>";
+			res +="<div class='sequenceAnswer markedQuestionAnswer' id='markedAnswer"+i+"' n='"+i+"' answerid='"+myObj.answers[i].answer_id+"' t='"+myObj.answers[i].text+"'>"+ myObj.answers[i].text;
+			res +="</div>";
+				if (myObj.modal == "true") {
+			 		res +="<div class='marked_modal_btn' onclick='FS.openmodal("+i+")'></div>";
+
+
+
+				}
+				
 			}
 			res +="</article></div>";
 			
+
+			if (myObj.modal ="true") {
+				for (var i =0; i<_.size(myObj.answers); i++) {
+					res +='<div class="modal vsmodal" id="markedmodal'+i+'"><div class="content"><a class="close switch" onclick="FS.closemodal('+i+')"><i class="icon-cancel" /></i></a>';
+    				
+    				res +='<h2 class="modalheader">'+myObj.answers[i].text+'</h3> <p class="modaltext">'+myObj.answers[i].modal+'</p>';
+    				res +='<p class="btn info medium"><a href="#" class="switch" onclick="FS.closemodal('+i+')">OK</a>';
+      				res +='</p></div></div>';
+
+				}
+
+			}
 
 			numberOfMarkedAnswers = _.size(myObj.answers);
 
@@ -939,6 +1021,12 @@ function exitTradeQuestion(question_id, answer_id) {
 	}
 
 
+	self.openmodal = function(id) {
+		$("#markedmodal"+id).addClass("active");
+	}
+	self.closemodal = function(id) {
+		$("#markedmodal"+id).removeClass("active");
+	}
 
 	function startMarkedQuestion() {
 		var myObj=contentObj[FS.currentNodeNr];
@@ -1260,8 +1348,8 @@ function phpCallSaveMultipleAnswers (question, answerArray) {
 			var myCallback = myObj.chapters[chapter].callback;
 			
 			if (myCallback == "Case1_outro" && parseInt(GAMEMODE)==1) myCallback = "Case1_mode1_outro";
-			
-			TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[myCallback]});
+			exitChapter(myCallback,-1);
+			//TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[myCallback]});
 		}
 		//else console.log("HUB error: could not found callback action in function respondToHUB");
 	}
@@ -1286,12 +1374,15 @@ self.saveAnswer = function (answer) {
 
 		
 		if(myCallback!=undefined && myCallback!="Case1_HUB"  && myCallback!="Case2_HUB") {
+			
 			TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[myCallback]});
 
 		}else {
 			if(myCallback =="Case1_HUB" || myCallback=="Case2_HUB") {
-
-				exitChapter(myCallback,-1);
+				var nodeToGo = -1;
+				if (contentObj[FS.currentNodeNr].callbackNode !=undefined) nodeToGo=contentObj[FS.currentNodeNr].callbackNode;
+				  	 		
+				exitChapter(myCallback,nodeToGo);
 			}
 			else {
 				globalAnimation=0;
@@ -1364,7 +1455,7 @@ self.saveAnswer = function (answer) {
 		 $.totalStorage('unlockedChapters', FS.unlockedChapters);
 		
 		 ////console.log("exitChapter goto:"+ nextHUB  + "    unlockedChapters:" + _.size(FS.unlockedChapters) +" " + currentCase);
-	
+		
 		TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB,startNode]});
 	}
 	
@@ -1505,7 +1596,8 @@ self.saveAnswer = function (answer) {
 		maindiv = $('#main_div');
 
 		oldNodeId = FS.currentNodeNr;
-
+		if (oldNodeId == undefined) oldNodeId = nextNodeId;
+			
 	   	FS.currentSequence = 0;
 	 
 		FS.nrOfVideos = 0;
@@ -1524,7 +1616,7 @@ self.saveAnswer = function (answer) {
 		   		$.totalStorage('currentNodeNr', String(nextNodeId));
 		   	break;
 		}
-
+		
 		try{
 	  
 			ga('send', 'event', 'startNode',  activeCase.ID.text, contentObj[FS.currentNodeNr].ID);
@@ -1533,18 +1625,25 @@ self.saveAnswer = function (answer) {
 		//REMOVE POSSIBILTY TO NAVIGATE FREELY
 		//	FS.checkArrows(FS.currentNodeNr);
 		FS.checkDebugArrows(FS.currentNodeNr);
+
 		if(direction >0) {
+		
 			try
  		 	{
+
   				if (contentObj[oldNodeId].callback!=undefined) {
+  						
   					if (contentObj[oldNodeId].callback=="OUTRO") {
   						FS.resetProgress();
   						window.location = "outro.html";
   					} 
   					else {
-  				 
-						
-  						exitChapter(contentObj[oldNodeId].callback,-1);
+  				 		
+						var nodeToGo = -1;
+							
+						if (contentObj[oldNodeId].callbackNode !=undefined) nodeToGo=contentObj[oldNodeId].callbackNode;
+				
+  						exitChapter(contentObj[oldNodeId].callback,nodeToGo);
   						return;	
   					}	
   				
@@ -1615,7 +1714,8 @@ self.saveAnswer = function (answer) {
 		if ($("#main_div").height() > $(window).height()) {
 			inner.css("overflow-y","auto");
 			if (navigator.userAgent.match(/webkit/i)) {
-			 		scrollwidth=8;
+			 		//scrollwidth=8;
+			 		scrollwidth=0;
     		}
     		TweenMax.to($('#nextButton'), 0.125,{css:{"right": scrollwidth + "px"}});
     	}else {
@@ -1797,8 +1897,8 @@ self.saveAnswer = function (answer) {
 			if (storeCase==undefined || storeCase=='') {
 				storeCase = "Case1a";
 				if (parseInt(GAMEMODE) ==1) storeCase ="Case1a";	
-				if (parseInt(GAMEMODE) ==2) storeCase ="CaseVS_HUB";
-				if (parseInt(GAMEMODE) ==3) storeCase ="Case1b";		
+				//if (parseInt(GAMEMODE) ==2) storeCase ="CaseVS_HUB";
+				//if (parseInt(GAMEMODE) ==3) storeCase ="Case1b";		
 				
 				 
 			}
@@ -1823,7 +1923,8 @@ self.saveAnswer = function (answer) {
 			$(document).on('click', '#prevButton', function() {
 				TweenMax.to($('#prevButton'), 0.25,{css:{"left": "-8px"}});
 		 			
-					if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub") {
+					if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub" && FS.currentNodeNr==0) {
+					
 						exitChapter(activeCase.ID.prevcase,activeCase.ID.lastNodeNr);
 					}
 					else {

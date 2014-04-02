@@ -606,24 +606,23 @@ color:#333;
 
 .chapterWrapper {
   position: relative;
-  /*background-color:  rgba(250,250,50,0.2);*/
+ 
   font-size: 0.9em;
+
 }
 
 .chapterItem {
   position: absolute;
-  font-family: 'Special Elite';
-  font-size: 1em;
-  text-align: left;
-  font-style: normal;
-  line-height: 1.2em;
-  display: block;
+  width: 108px;
+  height: 108px;
+  border-radius:10px;
+
  
  
 }
 
 .no-touch .chapterItem:hover {
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(255,255,255,0.2);
   border-radius:10px;
 
   cursor: pointer;
@@ -772,7 +771,7 @@ padding-right: 20px;
   }
 
   .visitedChapter {
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 0.8);
     color: #000;
   }
 
@@ -1317,6 +1316,8 @@ padding-right: 20px;
 }
 
   .markedQuestionAnswer {
+    width:80%;
+  
     /*font-size: .5em;
     width: 6em; 
     height: 6em; 
@@ -1326,10 +1327,47 @@ padding-right: 20px;
     */
   
   }
+  .marked_modal_btn {
+  color:white;
+float: left;
+display: inline-block;
+margin-top: -55px;
+margin-left: 81%;
+  background-image:url(../img/icon_modal.png);
+  background-repeat: no-repeat;
+  background-size:38px;
+  background-position: 2px 2px;
+  width:44px;
+  height:44px;
+  cursor: pointer;
+
+  opacity: 0.5;
+}
+  .no-touch .marked_modal_btn:hover {
+    opacity:1;
+  }
+
 
   .markedSelected {
   background-color:#ffb128;
   color: #fff;
+}
+
+.modalheader{
+  color: #fff;
+  font-size: 1.4em;
+  padding-bottom: 10px;
+
+}
+.modaltext {
+  font-size: 1em;
+}
+.vsmodal {
+  background-color:rgba(255,255,255,0.7);
+}
+.modal > .content {
+  height:auto;
+
 }
 
  .hubtitle {
@@ -1337,7 +1375,8 @@ padding-right: 20px;
       top: 30px;
       width:100%;
       text-align: center;
-      position: absolute;
+      position: relative;
+      padding: 20px 0px 50px 0px;
     }
 
 
@@ -1350,16 +1389,36 @@ padding-right: 20px;
       text-align: center;
 
     }
-    .tradeHolder{
-    
-    width:90%;
-    
+    .tradeQuestionTextMobile{
+      @extend .tradeQuestionText;
+      font-size: 1.7em;
+      position:relative;
+      top:30px;
+      float: none;
     }
 
+    .tradeHolderDesktop{
+      display: block;
+      width:90%;
+      
+    
+    }
+  .tradeHolderMobile{
+      display: none;
+      width:100%;
+      text-align: center;
+      
+    }
+    .desktop {
+      display: block;
+    }
+    .mobile {
+      display:none;
+    }
     .tradeQuestionDiv1 {
 
       width:100%;
-      margin: 0px 20%;
+     
   
       float:left;
       
@@ -1371,9 +1430,12 @@ padding-right: 20px;
 
       padding-top: 100px;
     }
-
+  .tradeQuestionDivMobile {
+    padding-top: 60px;
+    text-align: center;
+  } 
     .tradeQuestionIcon {
-      float:left;
+      float:center;
       display: inline-block;
       margin:0px 10px;
       width:auto;
@@ -1384,8 +1446,19 @@ padding-right: 20px;
      cursor: pointer;
      opacity: 0.8;
     }
+       ::-webkit-scrollbar { 
+    display: none; 
+  }
 
   @include respond(all-phones) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display:block;
+
+    }
+
     #nav1 {
       display: block;
       background-color: #ffb128;
@@ -1435,7 +1508,66 @@ padding-right: 20px;
     }
     .pretext {
       padding-top: 50px;
+     font-size: 1.6em;
+     
     }
-   
+     .tradeHolderDesktop{
+      display: none;
+     
+    
+    }
+  .tradeHolderMobile{
+      display: block;
+     
+    }
+    .leftifmobile {
+      text-align: left;
+    }
+    .chapterWrapper {
+      position:relative;
+      margin-top:30px;
+      margin-left: auto;
+      margin-right: auto;
+      height:480px;
+    
+      width:320px; 
+     
+      overflow: hidden;
+      padding-left: 102px;
+      scrollbar:hidden;
 
+
+    }
+    .chapterItem {
+      float:left;
+      position:relative;
+      margin:5px 15px 0px 0px;
+      width:60px;
+       height:60px;
+      display: inline-block;
+     
+    }
+    .mobileitem2, .mobileitem5, .mobileitem8 {
+      margin-right: 0px;
+    }
+    .chapterRow1{
+      float:none;
+        height:100px;
+      
+        margin-bottom: 17px;
+     
+    
+
+    }
+    .chapterRow2{
+        @extend .chapterRow1;
+    
+     margin-bottom: 23px;
+    }
+    .chapterRow3{
+       @extend .chapterRow1;
+     
+         margin-bottom: 0px;
+    }
+ 
   }

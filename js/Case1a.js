@@ -91,7 +91,7 @@ self.nodes = {"content":
 	{  	"ID": "D1.50",
 		"type":"info",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Bra! Du har nu skickat ut information om att ni söker personal. Tre personer som sökt jobbet har den kompetens ni letar efter. Välj två som du vill anställa i ett halvår med möjlighet till förlängning.",
+		"pretext":"Bra! Du har nu skickat ut information om att ni söker personal. <br><br> Tre personer som sökt jobbet har den kompetens ni letar efter. Välj två som du vill anställa i ett halvår med möjlighet till förlängning.",
      	"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"

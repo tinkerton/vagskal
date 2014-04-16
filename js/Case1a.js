@@ -7,170 +7,125 @@ self.preload = {"images":
 
 self.nodes = {"content": 
 	[
-	{  	"ID": "D1.10",
+	{  	"ID": "1",
 		"type":"info",
+		"analysisLog":"Node 1",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Du är <b>chef</b> för en verksamhet.",
+		"pretext":"Välkommen till positionen som chef för en verksamhet",
      	"image": [
      		{"url":"image1_desk.png"} 
      	],
      	"animation":"fade",
 		"showNextButton":"0"
 	},
-	{  	"ID": "D1.20",
-		"type":"tradequestion", 
-		"background":{"type":"image","url":"bg.jpg"},
-		"analysisLog":"D1.20",
-		"pretext":"Vilken bransch jobbar du inom?",
-		"trades": [
-     		{"trade":"IT",
-     		 "image":"icon1.png",
-     		 "answer_id":"1"},
-     		 {"trade":"Design",
-     		 "image":"icon2.png",
-     		 "answer_id":"2"} ,
-     		 {"trade":"Industri",
-     		 "image":"icon3.png",
-     		 "answer_id":"3"} ,
-     		 {"trade":"Vård & Omsorg",
-     		 "image":"icon4.png",
-     		 "answer_id":"4"},
-     		 {"trade":"Jord- & Skogsbruk",
-     		 "image":"icon5.png",
-     		 "answer_id":"5"},
-     		 {"trade":"Transport",
-     		 "image":"icon6.png",
-     		 "answer_id":"6"} ,
-     		 {"trade":"Bygg",
-     		 "image":"icon7.png",
-     		 "answer_id":"7"} ,
-     		 {"trade":"Miljö",
-     		 "image":"icon8.png",
-     		 "answer_id":"8"} 
-     	],
-     	"question_id":"1",
-		"animation":"fade",
-		"showNextButton":"-1"
-	},
-
-
 	
-	{  	"ID": "D1.30",
+	{  	"ID": "2",
 		"type":"info",
+		"analysisLog":"Node 2",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Sista tiden har det gått bra för din verksamhet.<br/>Ni har så mycket att göra att ni måste anställa mer personal.",
+		"pretext":"Det går bra för din verksamhet och det innebär att ni måste anställa mer personal. Två projektassistenter ska anställas ett halvår med möjlighet till förlängning.",
      	"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
 	},
-	{  	"ID": "D1.40",
-		"type":"mark_question", 
-		"subtype":"mq1",
-		"modal":"true",
-		"analysisLog":"D1.40",
-		"question":"Vart söker du personal?",
-		"pretext":"Välj 3 alternativ som du tror fungerar bäst",
-		"nrOfAnswers":"3",
-		"background":{"type":"image","url":"bg.jpg"},
-		"answers":[
-							{"text":"Arbetsförmedlingen","analysisLog":"Arbetsförmedlingen", "answer_id":"9", "modal":"Arbetsförmedlingen är Sveriges största förmedlare av arbeten. Alla tjänster är avgiftsfria.<br><br>Det går både att annonsera att man söker personal, och söka bland de arbetssökande som finns registrerade hos arbetsförmedlningen."},
-							{"text":"Karriärs- och jobbsajter","analysisLog":"Karriärs- och jobbsajter", "answer_id":"10",  "modal":"info saknas"},
-							{"text":"Annons i papperstidningar","analysisLog":"Annons i papperstidningar", "answer_id":"11", "modal":"info saknas"},
-							{"text":"Bekanta till medarbetare","analysisLog":"Bekanta till medarbetare", "answer_id":"12", "modal":"info saknas"},
-							{"text":"Sociala medier","analysisLog":"Sociala medier", "answer_id":"13", "modal":"info saknas"},
-							{"text":"Webbtidningar","analysisLog":"Webbtidningar", "answer_id":"14", "modal":"info saknas"},
-							{"text":"Ta hjälp av en rekryterare","analysisLog":"Ta hjälp av en rekryterare", "answer_id":"15", "modal":"info saknas"}
-		
-				]
-		 ,
-		 "question_id":"2",
-		 "animation":"fade",
-		 "showNextButton":"-1"
-	},
-
-	{  	"ID": "D1.50",
-		"type":"info",
-		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Bra! Du har nu skickat ut information om att ni söker personal. <br><br> Tre personer som sökt jobbet har den kompetens ni letar efter. Välj två som du vill anställa i ett halvår med möjlighet till förlängning.",
-     	"justify":"leftifmobile",
-     	"animation":"fade",
-		"showNextButton":"0"
-		
-	},
-	{  "ID": "CaseVS_HUB",
+	
+	{  "ID": "3",
 		"type":"hub", 
 		"analysisLog":"CaseVS_HUB:",
-		"title":"Ta reda på mer om de tre kandidaterna:",
 		"background":{"type":"image","url":"bg.jpg"},
-		"hubimage":"hub1_960.jpg",
+		"hubimage":"hub1.png",
 		"hubimagemobile":"hub1mobile.png",
-		"chapters":[
-							{"icon":"icon_mail.png", 
-								"ID":"0",
+		"chapters":[{"icon":"icon_mail.png", 
+								"ID":"3.1",
 								"lockeduntil":"0", 
-								"left":"26px", "top":"71px", 
-								"analysisLog":"Hub Sam Mail",
-								"callback":"CaseSam_Mail"},
-							{"icon":"icon_internet.png", 
-								"ID":"1",
-								"lockeduntil":"0", 
-								"left":"194px", "top":"346px", 
-								"analysisLog":"Hub Sam Internet",
-								"callback":"CaseSam_Internet"},
-							{"icon":"icon_video.png", 
-								"ID":"2",
-								"lockeduntil":"0", 
-								"left": "53px","top": "526px",
-								"analysisLog":"Hub Sam Video",
-								"callback":"CaseSam_Video"},
-							{"icon":"icon_mail.png", 
-								"ID":"3",
-								"lockeduntil":"0", 
-								"left":"344px", "top":"112px", 
+								"left":"30px", "top":"100px", 
 								"analysisLog":"Hub Maria Mail",
 								"callback":"CaseMaria_Mail"},
 							{"icon":"icon_internet.png", 
-								"ID":"4",
+								"ID":"3.2",
 								"lockeduntil":"0", 
-								"left":"500px", "top":"280px", 
+								"left":"30px", "top":"220px", 
 								"analysisLog":"Hub Maria Video",
 								"callback":"CaseMaria_Video"},
 							{"icon":"icon_video.png", 
-								"ID":"5",
+								"ID":"3.3",
 								"lockeduntil":"0", 
-								"left":"363px", "top":"490px", 
+								"left":"30px", "top":"340px", 
 								"analysisLog":"Hub Maria Internet",
 								"callback":"CaseMaria_Internet"},
-							{"icon":"icon_mail.png", 
-								"ID":"6",
+							
+							{"icon":"icon_video.png", 
+								"ID":"3.10",
 								"lockeduntil":"0", 
-								"left":"834px", "top":"289px", 
+								"left":"30px", "top":"460px", 
+								"analysisLog":"Hub Maria Kollega",
+								"callback":"CaseMaria_Kollega"},
+
+
+
+							{"icon":"icon_mail.png", 
+								"ID":"3.4",
+								"lockeduntil":"0", 
+									"left":"350px", "top":"100px", 
+								"analysisLog":"Hub Sam Mail",
+								"callback":"CaseSam_Mail"},
+							{"icon":"icon_internet.png", 
+								"ID":"3.5",
+								"lockeduntil":"0", 
+								"left":"350px", "top":"220px",
+								"analysisLog":"Hub Sam Internet",
+								"callback":"CaseSam_Internet"},
+							{"icon":"icon_video.png", 
+								"ID":"3.6",
+								"lockeduntil":"0", 
+								"left":"350px", "top":"340px",
+								"analysisLog":"Hub Sam Video",
+								"callback":"CaseSam_Video"},
+							{"icon":"icon_video.png", 
+								"ID":"3.11",
+								"lockeduntil":"0", 
+								"left":"350px", "top":"460px", 
+								"analysisLog":"Hub Sam Kollega",
+								"callback":"CaseSam_Kollega"},
+
+
+							
+							{"icon":"icon_mail.png", 
+								"ID":"3.7",
+								"lockeduntil":"0", 
+								"left":"680px", "top":"100px", 
 								"analysisLog":"Hub Adriana Mail",
 								"callback":"CaseAdriana_Mail"},
 							{"icon":"icon_internet.png", 
-								"ID":"7",
+								"ID":"3.8",
 								"lockeduntil":"0", 
-								"left":"676px", "top":"449px", 
+									"left":"680px", "top":"220px", 
 								"analysisLog":"Hub Adriana Internet",
 								"callback":"CaseAdriana_Internet"},
 							{"icon":"icon_video.png", 
-								"ID":"8",
+								"ID":"3.9",
 								"lockeduntil":"0", 
-								"left":"825px", "top":"67px", 
+									"left":"680px", "top":"340px", 
 								"analysisLog":"Hub Adriana Video",
 								"callback":"CaseAdriana_Video"},
+								{"icon":"icon_video.png", 
+								"ID":"3.12",
+								"lockeduntil":"0", 
+									"left":"680px", "top":"460px", 
+								"analysisLog":"Hub Adriana Kollega",
+								"callback":"CaseAdriana_Kollega"}
 							
 				],
 		 "animation":"fade",
 		 "showNextButton":"0"
 		
 		},
-	{  	"ID": "D1.60",
+	{  	"ID": "4",
 		"type":"mark_question", 
 		"subtype":"mq2", 
-		"analysisLog":"D1.60",
-		"question":"Vilka två får jobbet?",
-		"pretext":"Du kan gå tillbaka om du behöver mer information.",
+		"analysisLog":"Node 4",
+		"question":"Vilka två får anställning i ett halvår med möjlighet till förlägning?",
+		"pretext":"",
 		"nrOfAnswers":"2",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
@@ -184,25 +139,27 @@ self.nodes = {"content":
 		 "animation":"fade",
 		 "showNextButton":"-1"
 	},
-	{  	"ID": "D1.70",
+	{  	"ID": "5",
 		"type":"info",
+		"analysisLog":"Node 5",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Nu har det snart gått en tid och det är dags att utvärdera hur de nyanställda fungerar på arbetsplatsen.",
+		"pretext":"Det har nu gått fem månader och snart ska det bestämmas om någon eller båda de nyanställda ska stanna på företaget.",
 		"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
 		
 	},
-	{  	"ID": "D1.80",
+	{  	"ID": "6",
 		"type":"info",
+		"analysisLog":"Node 6",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Du kan dels fråga deras projektledare och kollega vad de tänkar.<br>För att få en mer helhetlig bild kan du också titta på nätet.",
+		"pretext":"Du kan dels fråga deras projektledare hur arbetat gått sista tiden, och dels titta på om de skrivit något om sitt jobb på internet.",
 		"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
 		
 	},
-		{  "ID": "CaseVS_HUB2",
+		{  "ID": "7",
 		"type":"hub", 
 		"analysisLog":"CaseVS_HUB2:",
 		"title":"Utvärdering",
@@ -270,12 +227,13 @@ self.nodes = {"content":
 		 "showNextButton":"0"
 		
 		},
-		{  	"ID": "D1.100",
+		{  	
+		"ID": "8",
 		"type":"mark_question", 
 		"subtype":"mq3", 
-		"analysisLog":"D1.100",
-		"question":"Får en, båda eller ingen jobba kvar?",
-		"pretext":"Du kan gå tillbaka om du behöver mer information.",
+		"analysisLog":"Node 8",
+		"question":"Vem får fortsätta arbeta?",
+		"pretext":"",
 		"nrOfAnswers":"1",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
@@ -289,13 +247,153 @@ self.nodes = {"content":
 		 ,
 		 "question_id":"4",
 		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+	{  	"ID": "9",
+		"type":"mark_question", 
+		"subtype":"mq4", 
+		"analysisLog":"Node 9",
+		"question":"Varför får personen eller personerna fortsätta eller inte fortsätta arbeta?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"För jag tycker att de verkar ha gjort ett bra jobb","analysisLog":"För jag tycker att de verkar ha gjort ett bra jobb", "answer_id":"37"},
+							{"text":"De verkar ha gjort ett dåligt jobb","analysisLog":"De verkar ha gjort ett dåligt jobb", "answer_id":"38"},
+							{"text":"Jag vill vara en schysst chef","analysisLog":"Jag vill vara en schysst chef", "answer_id":"39"},
+							{"text":"Annan anledning","analysisLog":"Annan anledning", "answer_id":"40"}
+							
+				]
+		 ,
+		 "question_id":"10",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+	{  	"ID": "10",
+		"type":"mark_question", 
+		"subtype":"mq4", 
+		"analysisLog":"Node 10",
+		"question":"Vad var viktigast när du valde vem du skulle anställa?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Jag valde de två som påminde mest om mig själv","analysisLog":"Jag valde de två som påminde mest om mig själv", "answer_id":"29"},
+							{"text":"Jag valde de två som verkade mest seriösa","analysisLog":"Jag valde de två som verkade mest seriösa", "answer_id":"30"},
+							{"text":"Jag valde de två som jag tror att en arbetsgivare i verkligheten skulle ha valt","analysisLog":"Jag valde de två som jag tror att en arbetsgivare i verkligheten skulle ha valt", "answer_id":"31"},
+							{"text":"Annan anledning","analysisLog":"Annan anledning", "answer_id":"32"}
+							
+				]
+		 ,
+		 "question_id":"8",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+	{  	"ID": "11",
+		"type":"mark_question", 
+		"subtype":"mq4", 
+		"analysisLog":"Node 11",
+		"question":"Spelar det någon roll vad man skriver om sig själv på internet när man söker jobb?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Ja","analysisLog":"Ja", "answer_id":"45"},
+							{"text":"Lite. men det är inte det viktigaste","analysisLog":"Lite. men det är inte det viktigaste", "answer_id":"46"},
+							{"text":"Nej","analysisLog":"Nej", "answer_id":"47"},
+							{"text":"Det beror på vilket jobb man söker","analysisLog":"Det beror på vilket jobb man söker", "answer_id":"48"}
+							
+				]
+		 ,
+		 "question_id":"11",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+		{  	"ID": "12",
+		"type":"mark_question", 
+		"subtype":"mq4", 
+		"analysisLog":"Node 12",
+		"question":"Tack för att du spelade! Hur kommer det sig att du spelade spelet?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Jag spelar det som en del av skolarbetet","analysisLog":"Jag spelar det som en del av skolarbetet", "answer_id":"33"},
+							{"text":"Min studie och yrkesvägledare ville att jag skulle spela","analysisLog":"Min studie och yrkesvägledare ville att jag skulle spela", "answer_id":"34"},
+							{"text":"Jag hittade spelet själv och ville prova","analysisLog":"Jag hittade spelet själv och ville prova", "answer_id":"35"},
+							{"text":"Annan anledning","analysisLog":"Annan anledning", "answer_id":"36"}
+							
+				]
+		 ,
+		 "question_id":"9",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+
+		{  	"ID": "13",
+		"type":"mark_question", 
+		"subtype":"mq4", 
+		"analysisLog":"Node 13",
+		"question":"Är du...",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Tjej","analysisLog":"Tjej", "answer_id":"26"},
+							{"text":"Kille","analysisLog":"Kille", "answer_id":"27"},
+							{"text":"Varken eller","analysisLog":"Varken eller", "answer_id":"28"}
+							
+				]
+		 ,
+		 "question_id":"7",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+		{  	
+		"ID": "14",
+		"type":"mark_question", 
+		"subtype":"mq5", 
+		"analysisLog":"Node 14",
+		"question":"Hur gammal är du?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Skriv in ålder","analysisLog":"Ålder", "answer_id":"age"}
+							
+							
+				]
+		 ,
+		 "question_id":"6",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
+	{  	
+		"ID": "15",
+		"type":"mark_question", 
+		"subtype":"mq6", 
+		"analysisLog":"Node 15",
+		"question":" Vill du skriva något om vad du tyckte om spelet?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Skriv in något","analysisLog":"Fritext", "answer_id":"freetext"},
+							{"text":"Skicka & avsluta","analysisLog":"Skrev fritext", "answer_id":"save"},
+							{"text":"Avsluta","analysisLog":"Avslutade", "answer_id":"exit"}
+							
+							
+				]
+		 ,
+		 "question_id":"6",
+		 "animation":"fade",
 		 "showNextButton":"-1",
 		 "callback":"OUTRO"
 	}
+
 	
 	  ]
 };
-
 
 	return self;
 

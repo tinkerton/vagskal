@@ -1,5 +1,5 @@
-var CaseMaria_Mail = (function(self){
-self.ID = {"text":"CaseMaria_Mail", "type":"sub","prevcase":"Case1a","lastNodeNr":"1"};
+var CaseAdriana_Kollega = (function(self){
+self.ID = {"text":"CaseAdriana_Kollega", "type":"sub","prevcase":"Case1a","lastNodeNr":"1"};
 self.preload = {"images":
 [{"url":"bg.jpg"}
 ]};
@@ -11,9 +11,9 @@ self.nodes = {"content":
 	{  	"ID": "SM1.10",
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
-	"pretext":"Detta är Marias mail-case",
+	"pretext":"Detta är Adrianas Kollega-case",
 	"image": [
-	{"url":"ansokan_maria.png"} 
+	{"url":"kollega_adriana.png"} 
 	],
 	"justify":"leftifmobile",
     "animation":"fade",

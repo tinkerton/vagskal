@@ -1,4 +1,4 @@
-/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB,CaseSam_Mail,CaseSam_Internet,CaseSam_Video,CaseMaria_Mail,CaseMaria_Internet,CaseMaria_Video,CaseAdriana_Mail,CaseAdriana_Internet,CaseAdriana_Video, Modernizer*/
+/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB,CaseSam_Mail,CaseSam_Internet,CaseSam_Video,CaseMaria_Mail,CaseMaria_Internet,CaseMaria_Video,CaseAdriana_Mail,CaseAdriana_Internet,CaseAdriana_Video,CaseMaria_Kollega,CaseSam_Kollega,CaseAdriana_Kollega.Modernizer*/
 
 var FS = (function(self){
 	"use strict";
@@ -416,7 +416,7 @@ var FS = (function(self){
 
 
 	function addHubMenu(nodeId) {
-		var res, 
+		var res ="", 
 			nrOfChapters,
 			myObj,
 		 	wHeight;
@@ -424,7 +424,7 @@ var FS = (function(self){
 			wHeight =720; //$(window).height()*0.7;
 
 			//DESKTOP
-			res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
+			//res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
 			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(../img/"+contentObj[nodeId].hubimage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
@@ -433,9 +433,9 @@ var FS = (function(self){
 			for (var i=0; i<nrOfChapters; i++) {
 
 				res +="<div id='chapter_"+myObj[i].ID+"' class='chapterItem";
-				if(myObj[i].lockeduntil!=undefined) {
-					res +=" locked";
-				}
+				//if(myObj[i].lockeduntil!=undefined) {
+				//		res +=" locked";
+				//		}
 				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")></div>";
 			
 			}
@@ -1066,9 +1066,12 @@ function exitTradeQuestion(question_id, answer_id) {
 
 	function exitMarkedQuestion(subtypeQ, question_id) {
 		_(markedAnswers).sortBy(function(obj) { return +obj.home })
-   	
+   		
 		switch(subtypeQ) {
 			case "mq1":
+			case "mq4":
+			case "mq5":
+			case "mq6":
 
 				$.totalStorage("findstaff1",$('#markedAnswer'+markedAnswers[0]).attr("t"));
    				$.totalStorage("findstaff2",$('#markedAnswer'+markedAnswers[1]).attr("t"));

@@ -419,24 +419,45 @@ var FS = (function(self){
 		var res ="", 
 			nrOfChapters,
 			myObj,
-		 	wHeight;
+		 	wHeight,
 
-			wHeight =720; //$(window).height()*0.7;
+			wHeight =720, //$(window).height()*0.7;
+			hubImage = contentObj[nodeId].hubimage,
+
+			sam=false,
+			maria=false,
+			adriana=false;
+
+			if (contentObj[nodeId].subtype=="hub2") {
+
+				if ($.totalStorage("staff1")=="Sam" || $.totalStorage("staff2")=="Sam") sam=true;
+				if ($.totalStorage("staff1")=="Maria" || $.totalStorage("staff2")=="Maria") maria=true;
+				if ($.totalStorage("staff1")=="Adriana" || $.totalStorage("staff2")=="Adriana") adriana=true;
+
+				if(sam && maria) hubImage +="ms.png";
+				if(sam && adriana) hubImage +="sa.png";
+				if(adriana && maria) hubImage +="ma.png";
+
+			}
+
 
 			//DESKTOP
 			//res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(../img/"+contentObj[nodeId].hubimage+");  background-repeat: no-repeat; background-size:100%;'>";
+			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(../img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
 
 			for (var i=0; i<nrOfChapters; i++) {
+				if(myObj[i].owner=="sam" && !sam) continue;
+				if(myObj[i].owner=="maria" && !maria) continue;
+				if(myObj[i].owner=="adriana" && !adriana) continue; 
 
 				res +="<div id='chapter_"+myObj[i].ID+"' class='chapterItem";
 				//if(myObj[i].lockeduntil!=undefined) {
 				//		res +=" locked";
 				//		}
-				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")></div>";
+				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")>"+myObj[i].analysisLog+"</div>";
 			
 			}
 
@@ -444,12 +465,15 @@ var FS = (function(self){
 
 			//MOBILE
 			//res +="<div class='hubtitle mobile'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper mobile' style='background: url(../img/"+contentObj[nodeId].hubimagemobile+");  background-repeat: no-repeat; background-size:100%;'>";
+			res += "<div class='chapterWrapper mobile' style='background: url(../img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
 
 			for (var j=0; j<nrOfChapters; j++) {
+				if(myObj[j].owner=="sam" && !sam) continue;
+				if(myObj[j].owner=="maria" && !maria) continue;
+				if(myObj[j].owner=="adriana" && !adriana) continue; 
 				if(j%3==0) {
 					if (j>0) {
 						res +="</div>";}

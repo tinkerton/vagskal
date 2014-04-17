@@ -2067,7 +2067,7 @@ width:280px;
 
 .comicSingleHeader { position: relative; width: 660px; height: 40px; padding: 5px; display: inline-block; background-color: rgba(0, 0, 0, 0.8); text-align: left; font-size: 18px; }
 
-.imgOfNode { width: 100%; }
+.imgOfNode { width: 100%; padding-top: 40px; }
 
 .videoQuestion { font-size: 1em; }
 

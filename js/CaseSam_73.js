@@ -33,20 +33,20 @@ self.nodes = {"content":
 								"sequenceID":"2",
 								"type":"video",
 							 	"url":"http://player.vimeo.com/video/92122466", 
-							 	 "gotoID":"0"
+							 	 "gotoID":"1"
 							},
 							{	
 								"sequenceID":"3",
 								"type":"video",
 								"url":"http://player.vimeo.com/video/92122467", 
-								 "gotoID":"0"
+								 "gotoID":"1"
 							},
 
 							{	
 								"sequenceID":"4",
 								"type":"video",
 								"url":"http://player.vimeo.com/video/92123219", 
-								 "gotoID":"0"
+								 "gotoID":"1"
 							}
 			],
      	"animation":"fade",

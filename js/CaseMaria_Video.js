@@ -8,7 +8,7 @@ self.preload = {"images":
 self.nodes = {"content": 
 	[
 	
-	{  	"ID": "MV1.10",
+	{  	"ID": "3.2.1",
 		"type":"video_seq",
 		"background":{"type":"image","url":"bg.jpg"},
 		"sequences":[

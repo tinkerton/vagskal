@@ -8,16 +8,53 @@ self.preload = {"images":
 self.nodes = {"content": 
 	[
 	
-	{  	"ID": "M7.1",
-		"type":"info",
+	{  	"ID": "7.1",
+		"type":"video_seq",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Detta är Marias PL Intervju",
-		"justify":"leftifmobile",
+		"sequences":[
+				{
+				"sequenceID":"0",
+			 	"type":"video",
+			 	"url":"http://player.vimeo.com/video/92123220",
+			 	 "gotoID":"1"
+				},
+				{
+				"sequenceID":"1",
+				"type":"question",
+				"text":"Fråga Marias projektledare:",
+				"answers":[
+							{"text":"Vilka är Marias styrkor?", "gotoID":"2"}, 
+							{"text":"Hur är Marias kommunikation med andra?", "gotoID":"3"},  
+							{"text":"Vilka är Marias svagheter?", "gotoID":"4"},
+							{"text":"Avsluta intervjun", "gotoID":"-1"} 
+						]
+					},
+							{	
+								"sequenceID":"2",
+								"type":"video",
+							 	"url":"http://player.vimeo.com/video/92123222", 
+							 	 "gotoID":"0"
+							},
+							{	
+								"sequenceID":"3",
+								"type":"video",
+								"url":"http://player.vimeo.com/video/92123224", 
+								 "gotoID":"0"
+							},
+
+							{	
+								"sequenceID":"4",
+								"type":"video",
+								"url":"http://player.vimeo.com/video/91707389", 
+								 "gotoID":"0"
+							}
+			],
      	"animation":"fade",
-		"showNextButton":"0",
+		"showNextButton":"-1",
 		"callback":"Case1a",
 		"callbackNode":"5"
 	}
+
 	
 ]};
 

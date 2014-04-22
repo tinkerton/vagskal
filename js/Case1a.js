@@ -11,7 +11,7 @@ self.nodes = {"content":
 		"type":"info",
 		"analysisLog":"Node 1",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Välkommen till positionen som chef för en verksamhet",
+		"pretext":"Välkommen till positionen som <b>chef</b> för en verksamhet",
      	"image": [
      		{"url":"image1_desk.png"} 
      	],
@@ -23,7 +23,7 @@ self.nodes = {"content":
 		"type":"info",
 		"analysisLog":"Node 2",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Det går bra för din verksamhet och det innebär att ni måste anställa mer personal. Två projektassistenter ska anställas ett halvår med möjlighet till förlängning.",
+		"pretext":"Det går bra för din verksamhet och det innebär att ni måste anställa mer personal.<br><br> <b>Två projektassistenter</b> ska anställas ett halvår med möjlighet till förlängning.",
      	"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
@@ -35,7 +35,8 @@ self.nodes = {"content":
 		"background":{"type":"image","url":"bg.jpg"},
 		"hubimage":"hub1.png",
 		"hubimagemobile":"hub1mobile.png",
-		"chapters":[{"icon":"none.png", 
+		"chapters":[		
+							{"icon":"none.png", 
 								"ID":"3.1",
 								"lockeduntil":"0", 
 								"left":"200px", "top":"158px", 
@@ -53,7 +54,6 @@ self.nodes = {"content":
 								"left":"166px", "top":"408px", 
 								"analysisLog":"Hub Maria Internet",
 								"callback":"CaseMaria_Internet"},
-							
 							{"icon":"none.png", 
 								"ID":"3.10",
 								"lockeduntil":"0", 
@@ -124,7 +124,7 @@ self.nodes = {"content":
 		"type":"mark_question", 
 		"subtype":"mq2", 
 		"analysisLog":"Node 4",
-		"question":"Vilka två får anställning i ett halvår med möjlighet till förlängning?",
+		"question":"<b>Vilka två</b> får anställning i ett halvår med möjlighet till förlängning?",
 		"pretext":"",
 		"nrOfAnswers":"2",
 		"background":{"type":"image","url":"bg.jpg"},
@@ -139,17 +139,37 @@ self.nodes = {"content":
 		 "animation":"fade",
 		 "showNextButton":"-1"
 	},
+	{  	"ID": "10",
+		"type":"mark_question", 
+		"subtype":"mq4", 
+		"analysisLog":"Node 10",
+		"question":"Vad var viktigast när du valde vem du skulle anställa?",
+		"pretext":"",
+		"nrOfAnswers":"1",
+		"background":{"type":"image","url":"bg.jpg"},
+		"answers":[
+							{"text":"Jag valde de två som påminde mest om mig själv","analysisLog":"Jag valde de två som påminde mest om mig själv", "answer_id":"29"},
+							{"text":"Jag valde de två som verkade mest seriösa","analysisLog":"Jag valde de två som verkade mest seriösa", "answer_id":"30"},
+							{"text":"Jag valde de två som jag tror att en arbetsgivare i verkligheten skulle ha valt","analysisLog":"Jag valde de två som jag tror att en arbetsgivare i verkligheten skulle ha valt", "answer_id":"31"},
+							{"text":"Annan anledning","analysisLog":"Annan anledning", "answer_id":"32"}
+							
+				]
+		 ,
+		 "question_id":"8",
+		 "animation":"fade",
+		 "showNextButton":"-1"
+	},
 	{  	"ID": "5",
 		"type":"info",
 		"analysisLog":"Node 5",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Det har nu gått fem månader och snart ska det bestämmas om någon eller båda de nyanställda ska stanna på företaget.",
+		"pretext":"Det har nu gått fem månader och snart ska det bestämmas om någon eller båda de nyanställda ska stanna på företaget.<br><br>Du kan dels fråga deras projektledare hur arbetat gått sista tiden, och dels titta på om de skrivit något om sitt jobb på internet.",
 		"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
 		
 	},
-	{  	"ID": "6",
+	/*{  	"ID": "6",
 		"type":"info",
 		"analysisLog":"Node 6",
 		"background":{"type":"image","url":"bg.jpg"},
@@ -158,7 +178,7 @@ self.nodes = {"content":
      	"animation":"fade",
 		"showNextButton":"0"
 		
-	},
+	},*/
 		{  "ID": "7",
 		"type":"hub", 
 		"subtype":"hub2",
@@ -256,39 +276,19 @@ self.nodes = {"content":
 		"type":"mark_question", 
 		"subtype":"mq4", 
 		"analysisLog":"Node 9",
-		"question":"Varför får personen eller personerna fortsätta eller inte fortsätta arbeta?",
+		"question":"Vad fick dig att fatta det här beslutet?",
 		"pretext":"",
 		"nrOfAnswers":"1",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
-							{"text":"För jag tycker att de verkar ha gjort ett bra jobb","analysisLog":"För jag tycker att de verkar ha gjort ett bra jobb", "answer_id":"37"},
-							{"text":"De verkar ha gjort ett dåligt jobb","analysisLog":"De verkar ha gjort ett dåligt jobb", "answer_id":"38"},
+							{"text":"Jag tycker att personen eller personera verkar ha gjort ett bra jobb","analysisLog":"För jag tycker att de verkar ha gjort ett bra jobb", "answer_id":"37"},
+							{"text":"Personen eller personerna verkar ha gjort ett dåligt jobb","analysisLog":"De verkar ha gjort ett dåligt jobb", "answer_id":"38"},
 							{"text":"Jag vill vara en schysst chef","analysisLog":"Jag vill vara en schysst chef", "answer_id":"39"},
 							{"text":"Annan anledning","analysisLog":"Annan anledning", "answer_id":"40"}
 							
 				]
 		 ,
 		 "question_id":"10",
-		 "animation":"fade",
-		 "showNextButton":"-1"
-	},
-	{  	"ID": "10",
-		"type":"mark_question", 
-		"subtype":"mq4", 
-		"analysisLog":"Node 10",
-		"question":"Vad var viktigast när du valde vem du skulle anställa?",
-		"pretext":"",
-		"nrOfAnswers":"1",
-		"background":{"type":"image","url":"bg.jpg"},
-		"answers":[
-							{"text":"Jag valde de två som påminde mest om mig själv","analysisLog":"Jag valde de två som påminde mest om mig själv", "answer_id":"29"},
-							{"text":"Jag valde de två som verkade mest seriösa","analysisLog":"Jag valde de två som verkade mest seriösa", "answer_id":"30"},
-							{"text":"Jag valde de två som jag tror att en arbetsgivare i verkligheten skulle ha valt","analysisLog":"Jag valde de två som jag tror att en arbetsgivare i verkligheten skulle ha valt", "answer_id":"31"},
-							{"text":"Annan anledning","analysisLog":"Annan anledning", "answer_id":"32"}
-							
-				]
-		 ,
-		 "question_id":"8",
 		 "animation":"fade",
 		 "showNextButton":"-1"
 	},
@@ -312,7 +312,7 @@ self.nodes = {"content":
 		 "animation":"fade",
 		 "showNextButton":"-1"
 	},
-		{  	"ID": "12",
+	{  	"ID": "12",
 		"type":"mark_question", 
 		"subtype":"mq4", 
 		"analysisLog":"Node 12",

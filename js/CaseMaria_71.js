@@ -26,7 +26,7 @@ self.nodes = {"content":
 							{"text":"Vilka är Marias styrkor?", "gotoID":"2"}, 
 							{"text":"Hur är Marias kommunikation med andra?", "gotoID":"3"},  
 							{"text":"Vilka är Marias svagheter?", "gotoID":"4"},
-							{"text":"Avsluta intervjun", "gotoID":"-1"} 
+							{"text":"Avsluta", "gotoID":"-1"} 
 						]
 					},
 							{	

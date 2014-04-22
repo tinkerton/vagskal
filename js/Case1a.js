@@ -354,7 +354,7 @@ self.nodes = {"content":
 	},
 		{  	
 		"ID": "14",
-		"type":"mark_question", 
+		"type":"int_question", 
 		"subtype":"mq5", 
 		"analysisLog":"Node 14",
 		"question":"Hur gammal är du?",
@@ -362,7 +362,7 @@ self.nodes = {"content":
 		"nrOfAnswers":"1",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
-							{"text":"Skriv in ålder","analysisLog":"Ålder", "answer_id":"age"}
+							{"text":"OK","analysisLog":"Ålder", "answer_id":"age"}
 							
 							
 				]
@@ -373,22 +373,21 @@ self.nodes = {"content":
 	},
 	{  	
 		"ID": "15",
-		"type":"mark_question", 
+		"type":"freetext_question", 
 		"subtype":"mq6", 
 		"analysisLog":"Node 15",
-		"question":" Vill du skriva något om vad du tyckte om spelet?",
+		"question":"Vill du skriva något om vad du tyckte om spelet?",
 		"pretext":"",
 		"nrOfAnswers":"1",
 		"background":{"type":"image","url":"bg.jpg"},
 		"answers":[
-							{"text":"Skriv in något","analysisLog":"Fritext", "answer_id":"freetext"},
 							{"text":"Skicka & avsluta","analysisLog":"Skrev fritext", "answer_id":"save"},
 							{"text":"Avsluta","analysisLog":"Avslutade", "answer_id":"exit"}
 							
 							
 				]
 		 ,
-		 "question_id":"6",
+		 "question_id":"12",
 		 "animation":"fade",
 		 "showNextButton":"-1",
 		 "callback":"OUTRO"

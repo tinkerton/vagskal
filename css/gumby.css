@@ -2157,6 +2157,8 @@ width:280px;
 
 .center { text-align: center; }
 
+.fakecenter { margin: 0px 35%; }
+
 #restart { position: absolute; z-index: 9000; right: 10px; top: 10px; cursor: pointer; color: #FFF; font-size: 0.75em; }
 
 .no-touch #restart:hover { color: #e94d7e; }
@@ -2299,6 +2301,18 @@ padding:1em;
 .no-touch .tradeQuestionIcon:hover { cursor: pointer; opacity: 0.8; }
 
 ::-webkit-scrollbar { display: none; }
+
+.intField { height: 50px; padding: 10px 10px 10px 60px; text-align: right; font-size: 0.8em; margin: 0px 20px 0px 20px; border-radius: 5px; border: 1px solid #CCC; }
+
+#errortext { float: none; display: none; width: 100%; color: #F00; }
+
+.left { float: left; }
+
+.right { float: right; }
+
+#freetextAnswer { margin-bottom: 20px; }
+
+.freetextAnswer { font-size: 14px; font-family: helvetica; font-weight: bold; color: #666; padding: 10px; }
 
 @media only screen and (max-width: 767px) { .desktop { display: none; }
   .mobile { display: block; }

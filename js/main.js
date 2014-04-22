@@ -603,6 +603,12 @@ var FS = (function(self){
 				case "mark_question": 
 					result  +=  addNodeMarkQuestion(nodeId);
 				break;
+				case "int_question": 
+					result  +=  addNodeIntQuestion(nodeId);
+				break;
+				case "freetext_question": 
+					result  +=  addNodeFreetextQuestion(nodeId);
+				break;
 				case "checklist": 
 					result  +=  addNodeChecklist(nodeId);
 				break;
@@ -989,6 +995,152 @@ function exitTradeQuestion(question_id, answer_id) {
 
 
 
+//FREETEXT QUESTION ---------------------------------------------------------------------------------------
+
+
+function addNodeFreetextQuestion(nodeId) {
+
+	var res="",
+	myObj=contentObj[nodeId];
+
+	res +="<div class='centered eleven columns'>";
+			
+	res +="<article class='markedQuestionDiv'>";
+			res +="<div class='questionHeadline'>"+myObj.question +"</div>";
+			res +="<div class='markedPreText'>"+myObj.pretext +"</div>";
+			
+
+			res +="<div><textarea rows='10' cols='84' id='freetextAnswer'></textarea></div>";
+
+
+			for (var i =0; i<_.size(myObj.answers); i++) {
+				res +="<div class='sequenceAnswer markedQuestionAnswer freetextAnswer' id='markedAnswer"+i+"' n='"+i+"' answerid='"+myObj.answers[i].answer_id+"' t='"+myObj.answers[i].text+"'>"+ myObj.answers[i].text;
+				res +="</div>";
+			}
+		
+					
+		res +="</article>";
+		res +="<div id='errortext'>Du måste skriva något eller välja Avsluta</div>";
+		res+"</div>";
+return res;
+	
+}
+
+
+function startFreetextQuestion() {
+		var myObj=contentObj[FS.currentNodeNr];
+		$("#errortext").hide();
+		$('#markedAnswer0').click(function() {
+   				
+				var term = $("#freetextAnswer").val();
+				
+   				
+	   			if (term) {
+	   				$("#errortext").hide();
+	   				exitFreetextQuestion(myObj.question_id, term);
+	   				}
+     			else {
+     				$("#errortext").show();
+     			}
+				   			
+   			  
+ 			});
+
+			$('#markedAnswer1').click(function() {
+   				FS.gotoNode(FS.currentNodeNr,1);
+					
+   			  
+ 			});
+		
+
+	}
+
+
+function exitFreetextQuestion(question_id, term) {
+
+		$.totalStorage("freetext",term);			
+		phpCallSaveFreetext(question_id,term);	
+	
+}
+
+
+
+
+// END OF FREETEXT QUESTION ----------------------------------------------------------------------------------
+
+
+
+
+// INT QUESTION --------------------------------------------------------------------------------------------
+
+function addNodeIntQuestion(nodeId) {
+	var res="",
+	myObj=contentObj[nodeId];
+	
+
+	res +="<div class='centered eleven columns'>";
+			
+	res +="<article class='markedQuestionDiv fakecenter'>";
+			res +="<div class='questionHeadline'>"+myObj.question +"</div>";
+			res +="<div class='markedPreText'>"+myObj.pretext +"</div>";
+			
+
+			res +="<div class='left'><input type='number' class='intField' name='intAnswer'  id='intAnswer' min='1' max='99'></div>";
+			res +="<div class='sequenceAnswer markedQuestionAnswer left' id='markedAnswer0' n='0' answerid='"+myObj.answers[0].answer_id+"' t='"+myObj.answers[0].text+"'>"+ myObj.answers[0].text;
+			res +="</div>";
+		
+					
+	res +="</article>";
+		res +="<div id='errortext'>Du måste ange en ålder</div>";
+		res+"</div>";
+return res;
+
+}
+
+function startIntQuestion() {
+		var myObj=contentObj[FS.currentNodeNr];
+		$("#errortext").hide();
+		$('#markedAnswer0').click(function() {
+   				
+				var term = $("#intAnswer").val();
+   				
+	   			if (term) {
+	   				$("#errortext").hide();
+	   				exitIntQuestion(myObj.question_id, term);
+	   				}
+     			else {
+     				$("#errortext").show();
+     			}
+				   			
+   			  
+ 			});
+
+		
+
+	}
+
+
+
+function exitIntQuestion(question_id, term) {
+
+		$.totalStorage("age",term);			
+		phpCallSaveAge(question_id,term);	
+	
+}
+
+// END OF INT QUESTION --------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
 
 //MARK (3) QUESTION ------------------------------------------------------------------------------------
 
@@ -1098,7 +1250,6 @@ function exitTradeQuestion(question_id, answer_id) {
 		switch(subtypeQ) {
 			case "mq1":
 			case "mq4":
-			case "mq5":
 			case "mq6":
 
 				$.totalStorage("findstaff1",$('#markedAnswer'+markedAnswers[0]).attr("t"));
@@ -1107,6 +1258,7 @@ function exitTradeQuestion(question_id, answer_id) {
    				phpCallSaveMultipleAnswers(question_id,markedAnswers);
 
 			break;
+			
 			case "mq2":
 				
 				var sam, maria, adriana = false;
@@ -1281,6 +1433,49 @@ function phpCallSaveAnswer(question, answer) {
         	FS.gotoNode(FS.currentNodeNr,1);
         }
         });
+
+}
+
+function phpCallSaveAge(question_id,term) {
+		if(localHostTrue) { //ONLY WHEN IN LOCALHOST
+			FS.gotoNode(FS.currentNodeNr,1);
+		return;
+	}
+
+
+	$.ajax({
+        type: "GET",
+        url: "php/saveAge.php",
+         datatype:'json',
+        data: {ID: $.totalStorage('ID'), question_id: question_id, answer_int:term},
+        success:function(data) {
+
+        	FS.gotoNode(FS.currentNodeNr,1);
+        }
+        });
+
+
+}
+
+
+function phpCallSaveFreetext(question_id,term) {
+		if(localHostTrue) { //ONLY WHEN IN LOCALHOST
+			FS.gotoNode(FS.currentNodeNr,1);
+		return;
+	}
+
+
+	$.ajax({
+        type: "GET",
+        url: "php/saveFreetext.php",
+         datatype:'json',
+        data: {ID: $.totalStorage('ID'), question_id: question_id, answer_text:term},
+        success:function(data) {
+
+        	FS.gotoNode(FS.currentNodeNr,1);
+        }
+        });
+
 
 }
 
@@ -1532,6 +1727,12 @@ self.saveAnswer = function (answer) {
 			break;
 			case "mark_question": 
 				startMarkedQuestion();
+			break;
+			case "int_question": 
+					startIntQuestion();
+			break;
+			case "freetext_question":
+				startFreetextQuestion();
 			break;
 			case "tradequestion":
 				startNodeTradeQuestion();

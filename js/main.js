@@ -1,4 +1,4 @@
-/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB,CaseSam_Mail,CaseSam_Internet,CaseSam_Video,CaseMaria_Mail,CaseMaria_Internet,CaseMaria_Video,CaseAdriana_Mail,CaseAdriana_Internet,CaseAdriana_Video,CaseMaria_Kollega,CaseSam_Kollega,CaseAdriana_Kollega.Modernizer*/
+/*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB,CaseSam_Mail,CaseSam_Internet,CaseSam_Video,CaseMaria_Mail,CaseMaria_Internet,CaseMaria_Video,CaseAdriana_Mail,CaseAdriana_Internet,CaseAdriana_Video,CaseMaria_Kollega,CaseSam_Kollega,CaseAdriana_Kollega,CaseMaria_71,CaseMaria_721, CaseSam_73,CaseSam_741,CaseAdriana_75,CaseAdriana_76,Modernizer*/
 
 var FS = (function(self){
 	"use strict";
@@ -426,7 +426,9 @@ var FS = (function(self){
 
 			sam=false,
 			maria=false,
-			adriana=false;
+			adriana=false,
+			chapterItemClass = "chapterItem";
+
 
 			if (contentObj[nodeId].subtype=="hub2") {
 
@@ -437,6 +439,8 @@ var FS = (function(self){
 				if(sam && maria) hubImage +="ms.png";
 				if(sam && adriana) hubImage +="sa.png";
 				if(adriana && maria) hubImage +="ma.png";
+
+				chapterItemClass ="chapterItem hub2Item";
 
 			}
 
@@ -453,11 +457,11 @@ var FS = (function(self){
 				if(myObj[i].owner=="maria" && !maria) continue;
 				if(myObj[i].owner=="adriana" && !adriana) continue; 
 
-				res +="<div id='chapter_"+myObj[i].ID+"' class='chapterItem";
+				res +="<div id='chapter_"+myObj[i].ID+"' class='"+chapterItemClass;
 				//if(myObj[i].lockeduntil!=undefined) {
 				//		res +=" locked";
 				//		}
-				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")>"+myObj[i].analysisLog+"</div>";
+				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")></div>";
 			
 			}
 

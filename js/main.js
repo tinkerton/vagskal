@@ -1515,7 +1515,7 @@ function phpCallSaveMultipleAnswers (question, answerArray) {
 	function unlockChapters(nr) {
 
 		var chapterNamesArray = new Array(
-			"VS_demo"
+			"Case1a"
 		
 		);
 
@@ -1677,7 +1677,8 @@ self.saveAnswer = function (answer) {
 		$.totalStorage('currentNodeNr',  startNode);
 
 
-		if(currentCase!="Case1a" && foundNextHUB == false) FS.unlockedChapters.push(currentCase);
+		//if(currentCase!="Case1a" && foundNextHUB == false) 
+			FS.unlockedChapters.push(currentCase);
 		 $.totalStorage('unlockedChapters', FS.unlockedChapters);
 		
 		 ////console.log("exitChapter goto:"+ nextHUB  + "    unlockedChapters:" + _.size(FS.unlockedChapters) +" " + currentCase);

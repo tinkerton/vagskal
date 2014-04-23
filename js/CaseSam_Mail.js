@@ -1,7 +1,8 @@
 var CaseSam_Mail = (function(self){
 self.ID = {"text":"CaseSam_Mail", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
-[{"url":"bg.jpg"}
+[{"url":"bg.jpg"},
+{"url":"ansokan_sam.png"} 
 ]};
 
 
@@ -19,7 +20,7 @@ self.nodes = {"content":
 			}],
 	"animation":"fade",
 	"showNextButton":"0"
-	}
+	},
 	{  	"ID": "3.4.1",
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},

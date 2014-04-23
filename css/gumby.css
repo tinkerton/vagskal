@@ -2310,9 +2310,7 @@ padding:1em;
 
 .right { float: right; }
 
-#freetextAnswer { margin-bottom: 20px; }
-
-.freetextAnswer { font-size: 14px; font-family: helvetica; font-weight: bold; color: #666; padding: 10px; }
+#freetextAnswer { margin-bottom: 20px; font-family: arial; width: 100%; font-weight: bold; color: #666; padding: 10px; }
 
 @media only screen and (max-width: 767px) { .desktop { display: none; }
   .mobile { display: block; }

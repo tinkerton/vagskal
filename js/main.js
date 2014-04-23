@@ -1682,7 +1682,7 @@ self.saveAnswer = function (answer) {
 		
 		 ////console.log("exitChapter goto:"+ nextHUB  + "    unlockedChapters:" + _.size(FS.unlockedChapters) +" " + currentCase);
 		
-		TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB,startNode]});
+		TweenMax.to($("#main_div"),0.35,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[nextHUB,startNode]});
 	}
 	
 
@@ -1824,7 +1824,7 @@ self.saveAnswer = function (answer) {
 		interceptPrevButton = false;
 		 removeVideoListener();
 
-		speed=0.809;
+		speed=0.35;
 		maindiv = $('#main_div');
 
 		oldNodeId = FS.currentNodeNr;
@@ -1869,8 +1869,10 @@ self.saveAnswer = function (answer) {
   				if (contentObj[oldNodeId].callback!=undefined) {
   						
   					if (contentObj[oldNodeId].callback=="OUTRO") {
-  						FS.resetProgress();
-  						window.location = "http://vagskal.vps-56841.cloudnet.se/";
+  						
+  						TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.exitGame});
+  						return;
+  						
   					} 
   					else {
   				 		
@@ -2016,6 +2018,10 @@ self.saveAnswer = function (answer) {
 		prelObj.css("background-image",res);
 	}
 
+	self.exitGame = function() {
+		FS.resetProgress();
+		window.location = "http://vagskal.vps-56841.cloudnet.se/";
+	}
 	
 //END OF: GENERAL METHODS-------------------------------------------------------------------------------------------------------------------
 

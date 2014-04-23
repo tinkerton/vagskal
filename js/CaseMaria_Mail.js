@@ -1,7 +1,8 @@
 var CaseMaria_Mail = (function(self){
 self.ID = {"text":"CaseMaria_Mail", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
-[{"url":"bg.jpg"}
+[{"url":"bg.jpg"},
+{"url":"ansokan_maria.png"} 
 ]};
 
 

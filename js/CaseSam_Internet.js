@@ -1,7 +1,11 @@
 var CaseSam_Internet = (function(self){
 self.ID = {"text":"CaseSam_Internet", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
-[{"url":"bg.jpg"}
+[{"url":"bg.jpg"},
+{"url":"sam_facebook.png"},
+{"url":"sam_hemsida.png"},
+{"url":"sam_linkedin.png"} 
+
 ]};
 
 

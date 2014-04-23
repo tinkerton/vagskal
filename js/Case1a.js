@@ -1,7 +1,26 @@
 var Case1a = (function(self){
 self.ID = {"text":"Case1a"};
 self.preload = {"images":
-[{"url":"bg.jpg"}
+[{"url":"bg.jpg"},
+{"url":"image1_desk.png"},
+{"url":"hub1mobile.png"},
+{"url":"hub1.png"},
+{"url":"adriana_facebook.png"},
+{"url":"adriana_app.png"},
+{"url":"ansokan_adriana.png"},
+{"url":"maria_miniblogg.png"},
+{"url":"maria_facebook.png"},
+{"url":"maria_hemsida.png"},
+{"url":"ansokan_maria.png"},
+{"url":"sam_miniblogg.png"},
+{"url":"sam_linkedin2.png"},
+{"url":"sam_facebook.png"},
+{"url":"sam_hemsida.png"},
+{"url":"sam_linkedin.png"},
+{"url":"ansokan_sam.png"},
+{"url":"hub2_ma.png"},
+{"url":"hub2_ms.png"},
+{"url":"hub2_sa.png"}
 ]};
 
 

@@ -7,6 +7,15 @@ self.preload = {"images":
 
 self.nodes = {"content": 
 	[
+	/*{  	"ID": "0",
+		"type":"info",
+		"analysisLog":"Node 2",
+		"background":{"type":"image","url":"bg.jpg"},
+		"pretext":"De personer som finns med i spelet är alla påhittade karaktärer. Alla du ser på foton och filmer är spådespelare.",
+     	"justify":"leftifmobile",
+     	"animation":"fade",
+		"showNextButton":"0"
+	},*/
 	{  	"ID": "1",
 		"type":"info",
 		"analysisLog":"Node 1",

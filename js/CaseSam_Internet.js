@@ -36,7 +36,7 @@ self.nodes = {"content":
 			],
 	"justify":"leftifmobile",
     "animation":"fade",
-	"showNextButton":"0"
+	"showNextButton":"0",
 	"callback":"Case1a",
 	"callbackNode":"1"
 	}

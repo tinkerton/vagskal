@@ -1,5 +1,5 @@
 var CaseMaria_71 = (function(self){
-self.ID = {"text":"CaseMaria_71", "type":"sub","prevcase":"Case1a","lastNodeNr":"5"};
+self.ID = {"text":"CaseMaria_71", "type":"sub","prevcase":"Case1a","lastNodeNr":"6"};
 self.preload = {"images":
 [{"url":"bg.jpg"}
 ]};
@@ -52,7 +52,7 @@ self.nodes = {"content":
      	"animation":"fade",
 		"showNextButton":"-1",
 		"callback":"Case1a",
-		"callbackNode":"5"
+		"callbackNode":"6"
 	}
 
 	

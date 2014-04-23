@@ -1,5 +1,5 @@
 var CaseAdriana_Mail = (function(self){
-self.ID = {"text":"CaseAdriana_Mail", "type":"sub","prevcase":"Case1a","lastNodeNr":"1"};
+self.ID = {"text":"CaseAdriana_Mail", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
 [{"url":"bg.jpg"}
 ]};
@@ -31,7 +31,7 @@ self.nodes = {"content":
 	"animation":"fade",
 	"showNextButton":"0",
 	"callback":"Case1a",
-	"callbackNode":"1"
+	"callbackNode":"2"
 	}
 
 	

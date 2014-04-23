@@ -1,5 +1,5 @@
 var CaseMaria_Video = (function(self){
-self.ID = {"text":"CaseMaria_Video", "type":"sub","prevcase":"Case1a","lastNodeNr":"1"};
+self.ID = {"text":"CaseMaria_Video", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
 [{"url":"bg.jpg"}
 ]};
@@ -40,7 +40,7 @@ self.nodes = {"content":
 							{	
 								"sequenceID":"3",
 								"type":"video",
-								"url":"http://player.vimeo.com/video/91707389", 
+								"url":"http://player.vimeo.com/video/91707390", 
 								 "gotoID":"0"
 							},
 							{	
@@ -53,7 +53,7 @@ self.nodes = {"content":
      	"animation":"fade",
 		"showNextButton":"-1",
 		"callback":"Case1a",
-		"callbackNode":"1"
+		"callbackNode":"2"
 	}
 
 	

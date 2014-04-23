@@ -1,5 +1,5 @@
 var CaseSam_Internet = (function(self){
-self.ID = {"text":"CaseSam_Internet", "type":"sub","prevcase":"Case1a","lastNodeNr":"1"};
+self.ID = {"text":"CaseSam_Internet", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
 [{"url":"bg.jpg"}
 ]};
@@ -7,6 +7,7 @@ self.preload = {"images":
 
 self.nodes = {"content": 
 	[
+
 {  	"ID": "3.6.1",
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
@@ -22,7 +23,7 @@ self.nodes = {"content":
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
 	"image": [
-			{"url":"sam_facebook.png"} 
+			{"url":"sam_hemsida.png"} 
 			],
 	"justify":"leftifmobile",
     "animation":"fade",
@@ -38,7 +39,7 @@ self.nodes = {"content":
     "animation":"fade",
 	"showNextButton":"0",
 	"callback":"Case1a",
-	"callbackNode":"1"
+	"callbackNode":"2"
 	}
 ]
 };

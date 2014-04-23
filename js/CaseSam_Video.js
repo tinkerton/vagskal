@@ -1,5 +1,5 @@
 var CaseSam_Video = (function(self){
-self.ID = {"text":"CaseSam_Video", "type":"sub","prevcase":"Case1a","lastNodeNr":"1"};
+self.ID = {"text":"CaseSam_Video", "type":"sub","prevcase":"Case1a","lastNodeNr":"2"};
 self.preload = {"images":
 [{"url":"bg.jpg"}
 ]};
@@ -22,7 +22,7 @@ self.nodes = {"content":
 							{"text":"Vad är dina främsta styrkor?", "gotoID":"3"},
 							{"text":"Vad är dina svagheter?", "gotoID":"4"} ,
 							{"text":"Avsluta intervjun", "gotoID":"-1"} 
-						]
+	 					]
 					},
 							{	
 								"sequenceID":"1",
@@ -53,7 +53,7 @@ self.nodes = {"content":
      	"animation":"fade",
 		"showNextButton":"-1",
 		"callback":"Case1a",
-		"callbackNode":"1"
+		"callbackNode":"2"
 	}
 	
 ]};

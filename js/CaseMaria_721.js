@@ -11,7 +11,7 @@ self.nodes = {"content":
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
 	"image": [
-			{"url":"maria_miniblogg.png.png"} 
+			{"url":"maria_miniblogg.png"} 
 			],
 	"justify":"leftifmobile",
     "animation":"fade",

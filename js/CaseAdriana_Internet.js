@@ -22,7 +22,7 @@ self.nodes = {"content":
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
 	"image": [
-			{"url":"adriana_app.png.png"} 
+			{"url":"adriana_app.png"} 
 			],
 	"justify":"leftifmobile",
     "animation":"fade",

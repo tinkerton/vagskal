@@ -1815,7 +1815,7 @@ self.saveAnswer = function (answer) {
 
 	self.gotoNode = function(nextNodeId, direction) {
 		var oldNodeId, maindiv, speed;
-			
+		
 		if (!interceptPrevButton) {
 			if ((nextNodeId+direction == FS.currentNodeNr) && FS.initComplete) return;
 		}
@@ -1828,7 +1828,10 @@ self.saveAnswer = function (answer) {
 		maindiv = $('#main_div');
 
 		oldNodeId = FS.currentNodeNr;
-		if (oldNodeId == undefined) oldNodeId = nextNodeId;
+		if (oldNodeId == undefined) {
+			
+			oldNodeId =  nextNodeId;
+		}
 			
 	   	FS.currentSequence = 0;
 	 
@@ -1867,15 +1870,15 @@ self.saveAnswer = function (answer) {
   						
   					if (contentObj[oldNodeId].callback=="OUTRO") {
   						FS.resetProgress();
-  						window.location = "outro.html";
+  						window.location = "http://vagskal.vps-56841.cloudnet.se/";
   					} 
   					else {
   				 		
 						var nodeToGo = -1;
-							
-						if (contentObj[oldNodeId].callbackNode !=undefined) nodeToGo=contentObj[oldNodeId].callbackNode;
+						
+						if (contentObj[nextNodeId].callbackNode !=undefined) nodeToGo=contentObj[oldNodeId].callbackNode;
 				
-  						exitChapter(contentObj[oldNodeId].callback,nodeToGo);
+  						exitChapter(contentObj[nextNodeId].callback,nodeToGo);
   						return;	
   					}	
   				

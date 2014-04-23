@@ -26,7 +26,7 @@ self.nodes = {"content":
 					},
 							{	
 								"sequenceID":"1",
-								"type""video",
+								"type":"video",
 							 	"url":"http://player.vimeo.com/video/91403906", 
 							 	 "gotoID":"0"
 							},

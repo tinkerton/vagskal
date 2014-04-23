@@ -7,7 +7,6 @@ self.preload = {"images":
 
 self.nodes = {"content": 
 	[
-	
 {  	"ID": "3.6.1",
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
@@ -18,11 +17,12 @@ self.nodes = {"content":
     "animation":"fade",
 	"showNextButton":"0"
 	},
+	
 	{  	"ID": "3.6.2",
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
 	"image": [
-			{"url":"sam_facebook.png.png"} 
+			{"url":"sam_facebook.png"} 
 			],
 	"justify":"leftifmobile",
     "animation":"fade",
@@ -32,7 +32,7 @@ self.nodes = {"content":
 	"type":"info",
 	"background":{"type":"image","url":"bg.jpg"},
 	"image": [
-			{"url":"sam_linkedin.png.png"} 
+			{"url":"sam_linkedin.png"} 
 			],
 	"justify":"leftifmobile",
     "animation":"fade",
@@ -40,11 +40,13 @@ self.nodes = {"content":
 	"callback":"Case1a",
 	"callbackNode":"1"
 	}
-]};
+]
+};
 
 
 	return self;
 
 })({});
+
 
 

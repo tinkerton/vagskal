@@ -239,7 +239,7 @@ self.nodes = {"content":
 							{"icon":"none.png", 
 								"ID":"7",
 								"lockeduntil":"0", 
-								"left":"835px", "top":"833px", 
+								"left":"835px", "top":"396px", 
 								"analysisLog":"Hub Adriana facebook",
 								"owner":"adriana",
 								"callback":"CaseAdriana_76"}

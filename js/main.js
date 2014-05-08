@@ -1,5 +1,146 @@
 /*global $, jQuery, _, TweenMax, console, Case1a, Case1b, CaseVS_HUB,CaseSam_Mail,CaseSam_Internet,CaseSam_Video,CaseMaria_Mail,CaseMaria_Internet,CaseMaria_Video,CaseAdriana_Mail,CaseAdriana_Internet,CaseAdriana_Video,CaseMaria_Kollega,CaseSam_Kollega,CaseAdriana_Kollega,CaseMaria_71,CaseMaria_721, CaseSam_73,CaseSam_741,CaseAdriana_75,CaseAdriana_76,Modernizer*/
 
+/***********************
+project name: Vägskäl (Based on THE NETWORK-project by the same author)
+author: Jonas Hörberg, Tinkerton AB
+
+This is a technical platform that allows content to be stored in separate json-files, called CASE-files. This project can be used to just show information, but also complex
+video_sequences connected to a set of questions, special animations, complex menu systems with locked areas, making it possible to create game like experiences.
+Example of real use can be found here:
+http://realstars.eu/fairsex-natverket/
+Or even more specifically here:
+http://realstars.eu/fairsex-natverket/thenetwork.html
+
+Each project have a start CASE (hardcoded). The function startMain specify that (this can be altered by querystring params). In each CASE one ore more json objects in
+a CASE file stores info on what the user will se on the screen. Each object is a complete window view. Only one object at a time is shown. When the user interacts with
+the content (by answering a question, have seen a video, pressed the next button or choosed an option i a HUB (menuview)), the app goes to another object. Most often
+the next object in the hierarcy but this can be overridden with the "callback"-parameter.
+
+The system supports one or more json-files, and lots of different views. 
+
+Each view is generated in the "main_div" div only, all other DOM-elements are fixed.
+From the start html-file:
+ <div class="row centered_box scrollable" id="main_div">
+             <!-- IT IS HERE ALL THE CONTENT WILL BE GENERATED-->
+ </div>
+
+
+Example of views:
+
+
+if "type":
+
+"info"  = shows a header, a text, maybe an image, another text
+"video" = shows one or more videos side by side
+"video_seq" = show one video or a set of question, when a video is complete, go to another video or back to the questions, can be used to create
+			  very complex games. If user shows answer A or B, show different videos. When video is complete, show another set of questions B or C and so on. 
+			  Remember to keep it simple or be structured or you will get lost ;-)
+"question" = Shows a question-text and 2 or more answers. Lets the user select only one answer. When user have answered goto next node (or node specified in "callback")
+"agent" = shows a text that types one character after another like an old typewriter
+"hub" = a special menu view with one or more options on an image. Each option could lead to another node or a new CASE-file. By using the "lockedUntil"-parameter, you can
+		block a user to go to specific option until x other options have been visited before.
+"piechart" = show a piechart with text labels, each pie chart is clickable and the answer saved to a DB. Can be modified to allow navigation to other nodes/CASES when
+			 clicked upon
+"abc_question" = A user selects on of three questions, when done, save answer to DB, but also generates a resultpage showing how many answers of A, B or C alternatives
+				 other users have answered (in percentage).
+"mark_question" = shows a questions and x answers. This differs from "question" because you can allow more than one answers. For example, user must select 3 options in a list
+"int_question" = shows a text and a inputfield that the user must enter a number in. Stored to DB (for instance, "how old are you?" answer: 30)
+"freetext_question" = shows a text and a textfield where the user can enter text. Stored in DB
+"checklist" = shows a resultpage with local storage variables. Used in the end of some projects to give the user some kind of reciept
+"tradequestion"= Shows a number of images that is clickable. The user must select one image (called tradequestion instead of imagequestion because the first time
+				 we used this was when asking what trade a user was working in...)
+"comic" = shows one image on top of each other, as a comic book, handles scrolls, clicking on an image to go back and forth in the comic page
+					result += addNodeComic(nodeId);
+"comicparallel" = same as comic but supports more than one image, side by side.
+				
+
+Example of use of a video sequence CASE:
+	{  	"ID": "3.2.1",
+		"type":"video_seq",
+		"background":{"type":"image","url":"bg.jpg"},
+		"sequences":[
+		{
+				"sequenceID":"0",
+				"type":"question",
+				"text":"Fråga Maria:",
+				"answers":[
+							{"text":"Berätta lite om dig själv", "gotoID":"1"}, 
+							{"text":"Varför sökte du det här jobbet?", "gotoID":"2"},  
+							{"text":"Vad är dina främsta styrkor?", "gotoID":"3"},
+							{"text":"Vad är dina svagheter?", "gotoID":"4"} ,
+							{"text":"Avsluta intervjun", "gotoID":"-1"} 
+						]
+					},
+							{	
+								"sequenceID":"1",
+								"type":"video",
+							 	"url":"http://player.vimeo.com/video/91707282", 
+							 	 "gotoID":"0"
+							},
+							{	
+								"sequenceID":"2",
+								"type":"video",
+								"url":"http://player.vimeo.com/video/91707335", 
+								 "gotoID":"0"
+							},
+
+							{	
+								"sequenceID":"3",
+								"type":"video",
+								"url":"http://player.vimeo.com/video/91707390", 
+								 "gotoID":"0"
+							},
+							{	
+								"sequenceID":"4",
+								"type":"video",
+								"url":"http://player.vimeo.com/video/91707389", 
+								 "gotoID":"0"
+							}
+			],
+     	"animation":"fade",
+		"showNextButton":"-1",
+		"callback":"Case1a",
+		"callbackNode":"2"
+	}
+
+More examples and implementation can be found by examining the actual CASE-files. The main CASE-file is Case1a.js
+
+
+
+Typical flow of the application:
+
+1. startMain (read content from Case1a.js)
+2. startCase 
+3. gotoNode (first node/object from Case1a.js)
+4. onCompleteFadeoutNode (always reset/fade out the old content in main_div)
+5. startNode (fade in new node, trigger one of many startFunctions based on type,  example: startVideoListener, startMarkedQuestion, checkToUnlockChapters (if HUB), start animations
+
+6. Pause and wait for user interaction. 
+ 
+		3. gotoNode
+		4. onCompleteFadeoutNode
+		5. startNode
+
+		6. Pause and wait for user interaction.
+		[...]
+
+			2. startCase [...]
+
+until a node has the "callback":"OUTRO", which exits the app and takes the user to a new URL (end screen).
+
+
+
+
+
+Supports local storage
+The application will continue where the user were the next time it comes back to this page, we use local storage for this, can be resetted
+
+Supports DB storage via Ajax
+Please search ".php" to understand how to store data to the dabase. Also see the php-files in the php-folder.
+************************/
+
+
+
 var FS = (function(self){
 	"use strict";
 	
@@ -29,21 +170,10 @@ var FS = (function(self){
 		markedAnswers =[];
 
 
-	/*NETWORK SPECIFIC VARIABLES
-	var arrayOfWallTweens,
-		currentlyClickedWallText,
-		IDWallOfText,
-		comicsToFadeIn,
-		currentComic,
-		comicTimeout;
-	*/
-
-
-
 
 
 	
-	//*GENERAL METHODS FOR NODE TEMPLATES---------------------------------------------------------------------------------
+	//*GENERAL METHODS FOR NODE TEMPLATES,  Called by function self.addContent---------------------------------------------------------------------------------
 			function addNodeHeader (nodeId) {
 				var cols = "ten";
 				if (contentObj[nodeId].size!==undefined) {
@@ -51,6 +181,7 @@ var FS = (function(self){
 				}
 				return "<div class='centered " + cols + " columns' id='nodeHeader'>";
 			}
+
 
 			function addNodeFooter () {
 				return "</div>";
@@ -83,7 +214,7 @@ var FS = (function(self){
 			}
 
 			function setupBackground(nodeId) {
-					
+				//change background only if next node have a different background					
 				if (contentObj[nodeId].background == undefined || contentObj[nodeId].background.url==oldBackground) return;
 				oldBackground = contentObj[nodeId].background.url;
 				
@@ -99,244 +230,6 @@ var FS = (function(self){
 			}
 
 	//*END OF: GENERAL METHODS FOR NODE TEMPLATES------------------------------------------------------------------------
-
-
-
-
-
-
-	//VIDEO TEMPLATES ---------------------------------------------------------------------------------------------------
-			self.populateSequence = function() {
-				$("#seqWrapper").html(addNodeVideoSequence(FS.currentNodeNr));
-				 TweenMax.to($("#seqWrapper"), 0.5, {alpha:1, onComplete:FS.startVideoListener})
-			}
-
-			
-
-			self.gotoSequence = function(sequenceID) {
-				 if (sequenceID == "-1") {
-				 	 //console.log("END of video");
-				 	FS.gotoNode(FS.currentNodeNr,1); 
-				 return; 
-				}
-				 FS.currentSequence =  sequenceID;
-				 TweenMax.to($("#seqWrapper"), 0.5, {alpha:0, onComplete:FS.populateSequence})
-			
-			}
-
-			
-
-			function addNodeVideoSequence(nodeId) {
-				var res ="",
-					seq_type,
-					myObj;
-					
-					
-					myObj=contentObj[nodeId].sequences[FS.currentSequence];
-					seq_type=myObj.type;
-					if (FS.currentSequence == 0) {res ="<div class='row' id='seqWrapper'>"}
-
-					switch (seq_type) {
-						case "video":
-							res +="<div class='centered eleven columns'><div class='loading' id='loader_0'><div class='track'></div><div class='spinner'><div class='mask'><div class='maskedCircle'></div></div></div></div>";
-							res +="<article class='vimeo video videoBg'>";
-							res +="<iframe id='iframe_"+myObj.sequenceID+"' style='visibility:hidden;' onload='FS.showIframe("+myObj.sequenceID+")' ";
-							res += "src='" + myObj.url + "?title=0&byline=0&portrait=0&autoplay=1&api=1&player_id=iframe_"+myObj.sequenceID+"' width='500' height='281' frameboder='0' webkitallowfullscreen='' mozallowfullscreen='' allowfullscreen=''>";
-							res +="</iframe></article></div>";
-
-						break;
-						case "question":
-							res +="<div class='centered eleven columns'>";
-							res +="<article class=''>";
-							res +="<div class='sequenceHeadline'>"+myObj.text +"</div>";
-							for (var i=0; i<_.size(myObj.answers); i++) {
-								res +="<div class='sequenceAnswer videoQuestion' onClick='FS.gotoSequence("+myObj.answers[i].gotoID+")'>"+ myObj.answers[i].text +"</div>";
-							//if(myObj.answers[1]!=undefined) res +="<div class='sequenceAnswer videoQuestion' onClick='FS.gotoSequence("+myObj.answers[1].gotoID+")'>"+ myObj.answers[1].text +"</div>";
-							}
-
-							res +="</article></div>";
-						
-						break;
-						case "text":
-							res +="<div class='centered eleven columns'>";
-							res +="<article class=''>";
-							if  (myObj.header!=undefined) res +="<div class='sequenceHeadline'>"+myObj.header +"</div>";
-							if  (myObj.content!=undefined) res +="<div class='sequenceText'>"+ myObj.content +"</div>";
-							res +="</article></div>";
-						
-							
-						break;
-						
-
-
-					}
-					if (FS.currentSequence == 0) res+="</div>"
-				
-				return res;
-			}
-
-
-			
-
-			function addNodeVideos (nodeId) {
-
-				var videos,
-					nrOfCols,
-					res, 
-					autoplay;
-				
-				videos = contentObj[nodeId].videos; 
-				if (videos === undefined) {return "";}
-
-				autoplay=1;
-
-
-				FS.nrOfVideos = _.size(videos);
-				if (FS.nrOfVideos>1) autoplay=0;
-
-				nrOfCols="twelve";
-				
-				switch (FS.nrOfVideos) {
-					case 1:
-						nrOfCols = "twelve";
-					break;
-					case 2:
-						nrOfCols = "six";
-					break;
-					case 3:
-						nrOfCols = "four";
-					break;
-					case 4:
-						nrOfCols = "three";
-					break;
-
-				}
-
-				res ="<div class='row'>";
-
-				for (var i=0; i<FS.nrOfVideos; i++) {
-					if(FS.nrOfVideos<=1) res +="<div class='centered "+nrOfCols+" columns'>";
-					else res +="<div class='"+nrOfCols+" columns'>";
-					res +="<div class='loading' id='loader_"+i+"'><div class='track'></div><div class='spinner'><div class='mask'><div class='maskedCircle'></div></div></div></div>";
-					
-					if ( videos[i].source  == "youtube") {
-						res +="<article class='youtube video videoBg'>";
-						res +="<iframe width='560' height='315' src='"+ videos[i].videoURL + "?showinfo=0' frameborder='0' allowfullscreen></iframe>";
-						res +="</iframe>";
-						FS.nrOfVideos = 0;
-
-					}
-					else {
-						//KEEP ONLY THIS, SHOW ONLY ONE VIDEO AT A TIME ANYWAY
-						res +="<article class='vimeo video videoBg'>";
-						res +="<iframe id='iframe_"+i+"'' style='visibility:hidden;' onload='FS.showIframe("+i+")' ";
-						res += "src='" + videos[i].videoURL + "?title=0&byline=0&portrait=0&autoplay="+autoplay+"&api=1&player_id=iframe_"+i+"' width='500' height='281' frameboder='0' webkitallowfullscreen='' mozallowfullscreen='' allowfullscreen=''>";
-						res +="</iframe>";
-
-					}
-					res +="</article></div>";
-				}
-				res+"</div>";
-
-
-				return res;
-			}
-			
-			
-
-			
-
-			function removeLoader(iframeId) { 
-				$('#loader_'+iframeId).remove();
-			}
-			
-			
-
-			
-
-			self.showIframe = function(iframeId) {
-				TweenMax.to($('#iframe_'+iframeId),0.75, {autoAlpha:1, onComplete:removeLoader, onCompleteParams:[iframeId]});
-			}
-
-
-
-			self.video_onSingleVideoFinish =function(id) {
-					var iframe = $('#iframe_0');
-		   			if(iframe==undefined) return;
-					FS.video_player = $f(iframe);
-		    	
-		   			FS.video_player.removeEvent('ready');
-					FS.video_player.removeEvent('finish');
-				
-					FS.gotoNode(FS.currentNodeNr,1);
-				
-			}
-
-
-
-			self.video_onFinish = function(id) {
-				  	 removeVideoListener();
-				  	 FS.currentSequence =  contentObj[FS.currentNodeNr].sequences[FS.currentSequence].gotoID;
-				   	 if ( FS.currentSequence!=undefined)  TweenMax.to($("#seqWrapper"), 0.5, {alpha:0, onComplete:FS.populateSequence})
-				  	 else {
-				  	 	if (contentObj[FS.currentNodeNr].callback!=undefined) {
-				  	 		var nodeToGo = -1;
-				  	 		if (contentObj[FS.currentNodeNr].callbackNode !=undefined) nodeToGo=contentObj[FS.currentNodeNr].callbackNode;
-				  	 		exitChapter(contentObj[FS.currentNodeNr].callback,nodeToGo);
-
-				  	 	}else {
-				  	 		FS.gotoNode(FS.currentNodeNr,1);
-				  	 	}
-				  	 }
-			}
-
-
-
-			function removeVideoListener() {
-		   		var iframe = $('#iframe_'+FS.currentSequence)[0];
-		   		if(iframe==undefined) return;
-		   		
-		   		FS.video_player = $f(iframe);
-		    	
-		    	// When the player is ready, add listeners for pause, finish, and playProgress
-				FS.video_player.removeEvent('ready');
-				FS.video_player.removeEvent('finish');
-				$('button').unbind();		
-			}
-
-
-			self.startSingleVideoListener = function () {
-				var iframe = $('#iframe_0');
-				FS.video_player = $f(iframe);
-		    		
-				FS.video_player.addEvent('ready', function() {
-		    		    FS.video_player.addEvent('finish',  FS.video_onSingleVideoFinish);
-				});
-			}
-
-
-
-			self.startVideoListener = function() {
-		   		var iframe = $('#iframe_'+FS.currentSequence)[0];
-		   		
-		   		if(iframe==undefined) return;
-		   		FS.video_player = $f(iframe);
-		    	
-		   		// When the player is ready, add listeners for pause, finish, and playProgress
-				FS.video_player.addEvent('ready', function() {
-		 	    	FS.video_player.addEvent('finish',  FS.video_onFinish);
-		 		});
-		 
-				// Call the API when a button is pressed
-				$('button').bind('click', function() {
-				    FS.video_player.api($(this).text().toLowerCase());
-				});
-			
-			}
-
-
-	//*END OF: VIDEO TEMPLATE -----------------------------------------------------------------------------------------------------------------
-
 
 
 
@@ -431,7 +324,7 @@ var FS = (function(self){
 
 
 			if (contentObj[nodeId].subtype=="hub2") {
-
+				//project specific query
 				if ($.totalStorage("staff1")=="Sam" || $.totalStorage("staff2")=="Sam") sam=true;
 				if ($.totalStorage("staff1")=="Maria" || $.totalStorage("staff2")=="Maria") maria=true;
 				if ($.totalStorage("staff1")=="Adriana" || $.totalStorage("staff2")=="Adriana") adriana=true;
@@ -531,7 +424,7 @@ var FS = (function(self){
             	callback();
     	})();    
     
-    	function animateNode(element, callback) {
+    function animateNode(element, callback) { //USED BY AGENT NODE TEMPLATE ONLY
         	var pieces = [];
         	if (element.nodeType==1) {
             	while (element.hasChildNodes())
@@ -560,13 +453,13 @@ var FS = (function(self){
 
 
 
-	self.addContent = function(nodeId) {
+	self.addContent = function(nodeId) {  //When a new NODE is presented this function checks the "type" from the json-file and creates page using different templates
 
 			FS.currentNodeType = contentObj[nodeId].type;
 
 			var result = addNodeHeader(nodeId) + addNodeTitle(nodeId);
 			
-			switch (FS.currentNodeType) {
+			switch (FS.currentNodeType) { //checks the type
 				case "info":
 					result  += addNodePreText(nodeId) + addNodeImages(nodeId) + addNodeVideos(nodeId) +  addNodePostText(nodeId);
 			   
@@ -617,7 +510,7 @@ var FS = (function(self){
 				break;
 
 				
-				/*NETWORK SPECIFIC NODES? REMOVE?
+				/*THENETWORK-project SPECIFIC NODES? REMOVE?
 					case "comic":
 					result += addNodeComic(nodeId);
 			   
@@ -660,9 +553,261 @@ var FS = (function(self){
 
 
 
+	//VIDEO TEMPLATES, used by type "video_seq" ---------------------------------------------------------------------------------------------------
+	//Using the Vimeo API to check when a video is complete in order to show the next sequence in the video-sequence. Could be a new video or more common a set of 
+	//questions that leads to new videos or exits the sequence. See example in CaseMaria_Video.js			
+
+			function addNodeVideoSequence(nodeId) {
+				var res ="",
+					seq_type,
+					myObj;
+					
+					
+					myObj=contentObj[nodeId].sequences[FS.currentSequence];
+					seq_type=myObj.type;
+					if (FS.currentSequence == 0) {res ="<div class='row' id='seqWrapper'>"}
+
+					switch (seq_type) {
+						case "video":
+							res +="<div class='centered eleven columns'><div class='loading' id='loader_0'><div class='track'></div><div class='spinner'><div class='mask'><div class='maskedCircle'></div></div></div></div>";
+							res +="<article class='vimeo video videoBg'>";
+							res +="<iframe id='iframe_"+myObj.sequenceID+"' style='visibility:hidden;' onload='FS.showIframe("+myObj.sequenceID+")' ";
+							res += "src='" + myObj.url + "?title=0&byline=0&portrait=0&autoplay=1&api=1&player_id=iframe_"+myObj.sequenceID+"' width='500' height='281' frameboder='0' webkitallowfullscreen='' mozallowfullscreen='' allowfullscreen=''>";
+							res +="</iframe></article></div>";
+
+						break;
+						case "question":
+							res +="<div class='centered eleven columns'>";
+							res +="<article class=''>";
+							res +="<div class='sequenceHeadline'>"+myObj.text +"</div>";
+							for (var i=0; i<_.size(myObj.answers); i++) {
+								res +="<div class='sequenceAnswer videoQuestion' onClick='FS.gotoSequence("+myObj.answers[i].gotoID+")'>"+ myObj.answers[i].text +"</div>";
+							//if(myObj.answers[1]!=undefined) res +="<div class='sequenceAnswer videoQuestion' onClick='FS.gotoSequence("+myObj.answers[1].gotoID+")'>"+ myObj.answers[1].text +"</div>";
+							}
+
+							res +="</article></div>";
+						
+						break;
+						case "text":
+							res +="<div class='centered eleven columns'>";
+							res +="<article class=''>";
+							if  (myObj.header!=undefined) res +="<div class='sequenceHeadline'>"+myObj.header +"</div>";
+							if  (myObj.content!=undefined) res +="<div class='sequenceText'>"+ myObj.content +"</div>";
+							res +="</article></div>";
+						
+							
+						break;
+						
+
+
+					}
+					if (FS.currentSequence == 0) res+="</div>"
+				
+				return res;
+			}
+
+
+			
+
+			function addNodeVideos (nodeId) {
+
+				var videos,
+					nrOfCols,
+					res, 
+					autoplay;
+				
+				videos = contentObj[nodeId].videos; 
+				if (videos === undefined) {return "";}
+
+				autoplay=1;
+
+
+				FS.nrOfVideos = _.size(videos);
+				if (FS.nrOfVideos>1) autoplay=0;
+
+				nrOfCols="twelve";
+				
+				switch (FS.nrOfVideos) {
+					case 1:
+						nrOfCols = "twelve";
+					break;
+					case 2:
+						nrOfCols = "six";
+					break;
+					case 3:
+						nrOfCols = "four";
+					break;
+					case 4:
+						nrOfCols = "three";
+					break;
+
+				}
+
+				res ="<div class='row'>";
+
+				for (var i=0; i<FS.nrOfVideos; i++) {
+					if(FS.nrOfVideos<=1) res +="<div class='centered "+nrOfCols+" columns'>";
+					else res +="<div class='"+nrOfCols+" columns'>";
+					res +="<div class='loading' id='loader_"+i+"'><div class='track'></div><div class='spinner'><div class='mask'><div class='maskedCircle'></div></div></div></div>";
+					
+					if ( videos[i].source  == "youtube") { //No need since we only use VIMEO now
+						res +="<article class='youtube video videoBg'>";
+						res +="<iframe width='560' height='315' src='"+ videos[i].videoURL + "?showinfo=0' frameborder='0' allowfullscreen></iframe>";
+						res +="</iframe>";
+						FS.nrOfVideos = 0;
+
+					}
+					else {
+						//KEEP ONLY THIS, SHOW ONLY ONE VIDEO AT A TIME ANYWAY
+						res +="<article class='vimeo video videoBg'>";
+						res +="<iframe id='iframe_"+i+"'' style='visibility:hidden;' onload='FS.showIframe("+i+")' ";
+						res += "src='" + videos[i].videoURL + "?title=0&byline=0&portrait=0&autoplay="+autoplay+"&api=1&player_id=iframe_"+i+"' width='500' height='281' frameboder='0' webkitallowfullscreen='' mozallowfullscreen='' allowfullscreen=''>";
+						res +="</iframe>";
+
+					}
+					res +="</article></div>";
+				}
+				res+"</div>";
+
+
+				return res;
+			}
+			
+			
+
+			
+
+			function removeLoader(iframeId) { 
+				$('#loader_'+iframeId).remove();
+			}
+			
+			
+
+			
+
+			self.showIframe = function(iframeId) { 
+				TweenMax.to($('#iframe_'+iframeId),0.75, {autoAlpha:1, onComplete:removeLoader, onCompleteParams:[iframeId]});
+			}
+
+
+
+			self.video_onSingleVideoFinish =function(id) {
+					var iframe = $('#iframe_0');
+		   			if(iframe==undefined) return;
+					FS.video_player = $f(iframe);
+		    	
+		   			FS.video_player.removeEvent('ready');
+					FS.video_player.removeEvent('finish');
+				
+					FS.gotoNode(FS.currentNodeNr,1);
+				
+			}
+
+
+
+			self.video_onFinish = function(id) { //When Vimeo API sends event Finish, check the json object and either exit through "callbackNode" or go to next sequence
+				  	 removeVideoListener();
+				  	 FS.currentSequence =  contentObj[FS.currentNodeNr].sequences[FS.currentSequence].gotoID;
+				   	 if ( FS.currentSequence!=undefined)  TweenMax.to($("#seqWrapper"), 0.5, {alpha:0, onComplete:FS.populateSequence})
+				  	 else {
+				  	 	if (contentObj[FS.currentNodeNr].callback!=undefined) {
+				  	 		var nodeToGo = -1;
+				  	 		if (contentObj[FS.currentNodeNr].callbackNode !=undefined) nodeToGo=contentObj[FS.currentNodeNr].callbackNode;
+				  	 		exitChapter(contentObj[FS.currentNodeNr].callback,nodeToGo);
+
+				  	 	}else {
+				  	 		FS.gotoNode(FS.currentNodeNr,1);
+				  	 	}
+				  	 }
+			}
+
+
+
+			function removeVideoListener() {
+		   		var iframe = $('#iframe_'+FS.currentSequence)[0];
+		   		if(iframe==undefined) return;
+		   		
+		   		FS.video_player = $f(iframe);
+		    	
+		    	// When the player is ready, add listeners for pause, finish, and playProgress
+				FS.video_player.removeEvent('ready');
+				FS.video_player.removeEvent('finish');
+				$('button').unbind();		
+			}
+
+
+			self.startSingleVideoListener = function () {
+				var iframe = $('#iframe_0');
+				FS.video_player = $f(iframe);
+		    		
+				FS.video_player.addEvent('ready', function() {
+		    		    FS.video_player.addEvent('finish',  FS.video_onSingleVideoFinish);
+				});
+			}
+
+
+
+			self.startVideoListener = function() {
+		   		var iframe = $('#iframe_'+FS.currentSequence)[0];
+		   		
+		   		if(iframe==undefined) return;
+		   		FS.video_player = $f(iframe);
+		    	
+		   		// When the player is ready, add listeners for pause, finish, and playProgress
+				FS.video_player.addEvent('ready', function() {
+		 	    	FS.video_player.addEvent('finish',  FS.video_onFinish);
+		 		});
+		 
+				// Call the API when a button is pressed
+				$('button').bind('click', function() {
+				    FS.video_player.api($(this).text().toLowerCase());
+				});
+			
+			}
+
+
+			self.populateSequence = function() {
+				$("#seqWrapper").html(addNodeVideoSequence(FS.currentNodeNr));
+				 TweenMax.to($("#seqWrapper"), 0.5, {alpha:1, onComplete:FS.startVideoListener})
+			}
+
+			
+
+			self.gotoSequence = function(sequenceID) {
+				 if (sequenceID == "-1") {
+				 	 //console.log("END of video");
+				 	FS.gotoNode(FS.currentNodeNr,1); 
+				 return; 
+				}
+				 FS.currentSequence =  sequenceID;
+				 TweenMax.to($("#seqWrapper"), 0.5, {alpha:0, onComplete:FS.populateSequence})
+			
+			}
+
+	//*END OF: VIDEO TEMPLATE -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //ABC Question METHODS -----------------------------------------------------------------------------------------------------------------------------------
-
+//Sends ajax request to PHP-page and gets a json-object back from DB, show percentage for each answers of type A, B, C and total number of answers in DB for given question
 
 function addNodeABCQuestion(nodeId) {
 
@@ -799,11 +944,12 @@ self.addABCResult = function(ABC_ID, optionSelected,nodeId,result) {
 
 
 //PIE CHART METHODS---------------------------------------------------------------------------------------------------------------------------------------
+//Obsolete, removed from the new specification. This method uses jquery.flot.pie to present a clickable pie chart.
 function showPieChart() {
 
 var pienumber = Math.random();
 
-		var piedata = [
+		var piedata = [ //should get data from external json-file.
 			{ label: "Kreativitet",  data: pienumber},
 			{ label: "Fysiskt arbete",  data: pienumber},
 			{ label: "Undervisning",  data: pienumber},
@@ -916,8 +1062,11 @@ var pienumber = Math.random();
 
 
 
-//TRADE QUESTION ----------------------------------------------------------------------------------------
 
+
+
+//TRADE QUESTION ----------------------------------------------------------------------------------------
+//project specific, lets the user select what trade the want to work in
 function addNodeTradeQuestion(nodeId) {
 			var res="",
 			myObj=contentObj[nodeId];
@@ -995,8 +1144,11 @@ function exitTradeQuestion(question_id, answer_id) {
 
 
 
-//FREETEXT QUESTION ---------------------------------------------------------------------------------------
 
+
+
+//FREETEXT QUESTION ---------------------------------------------------------------------------------------
+//shows textfield and saves input to DB via ajax
 
 function addNodeFreetextQuestion(nodeId) {
 
@@ -1072,7 +1224,7 @@ function exitFreetextQuestion(question_id, term) {
 
 
 // INT QUESTION --------------------------------------------------------------------------------------------
-
+//let user answer on the age question, saves to DB via ajax
 function addNodeIntQuestion(nodeId) {
 	var res="",
 	myObj=contentObj[nodeId];
@@ -1143,7 +1295,7 @@ function exitIntQuestion(question_id, term) {
 
 
 //MARK (3) QUESTION ------------------------------------------------------------------------------------
-
+//Shows x answers to a question, user selects 1 or more answers (like a delux checkbox) based on "nrOfAnswers" in json object
 
 	function addNodeMarkQuestion(nodeId) {
 		var res="",
@@ -1329,7 +1481,7 @@ function exitIntQuestion(question_id, term) {
 
 
 //CHECKLIST ------------------------------------------------------------------------------------
-
+//OBSOLETE due to new specification. Shows all answers made in the app
 function addNodeChecklist(nodeId) {
 
 	var res="",
@@ -1512,6 +1664,8 @@ function phpCallSaveMultipleAnswers (question, answerArray) {
 
 
 //*HUB SPECIFIC METHODS----------------------------------------------------------------------------------------------------------------------------
+	//The HUB is a in game menu, that can lock some of the options until a number of other options have been visited
+
 	function unlockChapters(nr) {
 
 		var chapterNamesArray = new Array(
@@ -1589,6 +1743,8 @@ function phpCallSaveMultipleAnswers (question, answerArray) {
 
 
 //*STORAGE METHODS-----------------------------------------------------------------------------------------------------------------------------------------
+//save and reset local storage, giving a possiblity to auto-save progress for the user
+
 self.saveAnswer = function (answer) {
 		if(globalAnimation==1) return;
 		globalAnimation=1;
@@ -1660,7 +1816,7 @@ self.saveAnswer = function (answer) {
 //*GENERAL METHODS----------------------------------------------------------------------------------------------------------------------------
 
 
-	function exitChapter(nextHUB, startNode) {
+	function exitChapter(nextHUB, startNode) {  //when reaching last node/object in a json-file, probably go back to a HUB
 		var foundNextHUB =false,
 			currentCase = activeCase.ID.text;	
 
@@ -1688,7 +1844,7 @@ self.saveAnswer = function (answer) {
 	
 
 
-	function showNext() {
+	function showNext() {  //show nextbutton and possibly prev-button
 		$("#nextButton").fadeIn();
 		if (FS.currentNodeNr>0) $("#prevButton").fadeIn();
 			if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub")  $("#prevButton").fadeIn();
@@ -1697,7 +1853,7 @@ self.saveAnswer = function (answer) {
 
 
 
-	function startNode() {
+	function startNode() { //when self.addContent have generated the new page based on "type", start the node if neccessary (listen to video events, start animations...)
 	
 		var showNextButton = contentObj[FS.currentNodeNr].showNextButton;
 		FS.resize();
@@ -1770,7 +1926,7 @@ self.saveAnswer = function (answer) {
 
 	
 
-	function onCompleteFadeoutNode(maindiv, nextNodeId, speed, animationType) {
+	function onCompleteFadeoutNode(maindiv, nextNodeId, speed, animationType) {  //when user hits next or leaves a node, the content fades out, when fade is done, this function triggers
 		var maindiv;
 		maindiv = maindiv = $('#main_div');
 
@@ -1814,7 +1970,7 @@ self.saveAnswer = function (answer) {
 
 
 
-	self.gotoNode = function(nextNodeId, direction) {
+	self.gotoNode = function(nextNodeId, direction) {   //goto a specific node, based on user interaction
 		var oldNodeId, maindiv, speed;
 		
 		if (!interceptPrevButton) {
@@ -1941,7 +2097,7 @@ self.saveAnswer = function (answer) {
 	}
 
 	
-	self.resize = function() {
+	self.resize = function() {  //when user resize the window, make sure everything stays where it should be
 		var inner =  $('#inner');
 		var wind =  $(window);
 		var scrollwidth=17;
@@ -1965,7 +2121,7 @@ self.saveAnswer = function (answer) {
 
 
 
-	self.checkArrows = function(currentNodeNr) {
+	self.checkArrows = function(currentNodeNr) {  //check if next or prev button is available, for instance don't show prev button on first node
 			if (currentNodeNr<_.size(activeCase.nodes.content)-1) {
  				$("#nextButton").fadeIn();
  			}
@@ -1985,7 +2141,7 @@ self.saveAnswer = function (answer) {
 	}
 
 
-	self.checkDebugArrows = function(currentNodeNr) {
+	self.checkDebugArrows = function(currentNodeNr) {  //showing the debug-arrows
 			if (currentNodeNr<_.size(activeCase.nodes.content)-1) {
  				$("#debugNextButton").fadeIn();
  			}
@@ -2005,7 +2161,7 @@ self.saveAnswer = function (answer) {
 	}
 
 
-	self.preloadImages = function() {
+	self.preloadImages = function() {  //preload all images specified in a json-file. Put them in an invisible div so when needed the images are available
 		var nrOfImages = _.size(activeCase.preload.images);
 		if (activeCase.preload.images[0].url=="") return;
 		var prelObj = $("#js-preload");
@@ -2029,11 +2185,22 @@ self.saveAnswer = function (answer) {
 
 
 
+
+
+
+
+
+
+
+
+
+
 //START APPLICATION -------------------------------------------------------------------------------------------------------------------------
 
 
 
-	self.startCase = function(newActiveCase, startNode) {
+	self.startCase = function(newActiveCase, startNode) {  //start a new case, that is a new json-file. Triggers on start of the application 
+														   //and when a user reached the last object in a jsonfile and the app follows the "callback"-parameter.
 			
 
 		activeCase = eval(newActiveCase);
@@ -2074,8 +2241,9 @@ self.saveAnswer = function (answer) {
 	}
 
 
-	//THIS IS THE MAIN FUNCTION. IT ALL STARTS HERE!
-	self.startMain = function() { 
+										
+	self.startMain = function() { //THIS IS THE MAIN FUNCTION. IT ALL STARTS HERE
+								 // this function triggers by the html-file when all js-files are loaded and jquery/gumby is ready
 		
 				//$("#prevButton").hide();
 			localHostTrue = false;
@@ -2099,7 +2267,6 @@ self.saveAnswer = function (answer) {
 				GAMEMODE = params.mode;
 				if(GAMEMODE == undefined) GAMEMODE=0;
 			
-
 
 			//BV = new $.BigVideo();
 			//BV.init();
@@ -2126,11 +2293,8 @@ self.saveAnswer = function (answer) {
 					unlockChapters(parseInt(params.unlock));
 			}
 
-			//START CASE HERE - MAIN
-
-
-			//RESET
-			//FS.resetProgress();
+			
+			//FS.resetProgress();  //clear localstorage for Debug purpose
 
 			$.totalStorage('ID', FS.uniqueid());
 
@@ -2147,6 +2311,14 @@ self.saveAnswer = function (answer) {
 			
 			FS.startCase(storeCase);
 	//		FS.startCase(CaseIntro);
+
+
+
+
+
+
+
+
 
 
 
@@ -2208,6 +2380,7 @@ self.saveAnswer = function (answer) {
 
 })({});
 
+	//get the querystring params and store them in js-variable. Can be used to debug, jump to specific json-files depending on project
  var prmstr = window.location.search.substr(1);
     var prmarr = prmstr.split ("&");
     var params = {};

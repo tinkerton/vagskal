@@ -21,7 +21,7 @@
 
   <!--<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />-->
 
-  <!-- Facebook Metadata /-->
+  <!-- Facebook Metadata /--> <!--To be decidec by the customer-->
   <meta property="fb:page_id" content="" />
   <meta property="og:image" content="" />
   <meta property="og:description" content=""/>
@@ -41,8 +41,7 @@
   <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
 
-  <!-- We highly recommend you use SASS and write your custom styles in sass/_custom.scss.
-       However, there is a blank style.css in the css directory should you prefer -->
+  
   <link rel="stylesheet" href="css/gumby.css">
  
  
@@ -183,12 +182,12 @@ ga('send', 'pageview');
                           .pipe($.get("js/libs/gs/easing/EasePack.min.js"))
                           .pipe($.get("js/libs/gs/TweenMax.min.js"))
                           .pipe($.get("js/libs/jquery.imagemapster.min.js"))
+                          
                           .pipe($.get("js/Case1a.js"))
                           .pipe($.get("js/CaseSam_Mail.js"))
                           .pipe($.get("js/CaseSam_Internet.js"))
                           .pipe($.get("js/CaseSam_Video.js"))
-                           .pipe($.get("js/CaseSam_Kollega.js"))
-
+                          .pipe($.get("js/CaseSam_Kollega.js"))
                           .pipe($.get("js/CaseMaria_Mail.js"))
                           .pipe($.get("js/CaseMaria_Internet.js"))
                           .pipe($.get("js/CaseMaria_Video.js"))
@@ -197,20 +196,12 @@ ga('send', 'pageview');
                           .pipe($.get("js/CaseAdriana_Internet.js"))
                           .pipe($.get("js/CaseAdriana_Video.js"))
                           .pipe($.get("js/CaseAdriana_Kollega.js"))
-
-                            .pipe($.get("js/CaseMaria_71.js"))
-                            .pipe($.get("js/CaseMaria_721.js"))
-                        
-
-                            .pipe($.get("js/CaseSam_73.js"))
-                            .pipe($.get("js/CaseSam_741.js"))
-                          
-
-                           .pipe($.get("js/CaseAdriana_75.js"))
-                           .pipe($.get("js/CaseAdriana_76.js"))
-
-                          
-                        
+                          .pipe($.get("js/CaseMaria_71.js"))
+                          .pipe($.get("js/CaseMaria_721.js"))
+                          .pipe($.get("js/CaseSam_73.js"))
+                          .pipe($.get("js/CaseSam_741.js"))
+                          .pipe($.get("js/CaseAdriana_75.js"))
+                          .pipe($.get("js/CaseAdriana_76.js"))
 
                           .pipe($.get("js/main.js", {}, function()
                           {
@@ -224,48 +215,6 @@ ga('send', 'pageview');
 
 
 
-    
-
-
-/*
-
-     loadScripts =[ 
-                   "js/libs/jquery.flot.min.js",
-                   "js/libs/jquery.flot.pie.min.js",
-                    "js/libs/gumby.min.js",
-                    "js/libs/plugins.js", 
-                    "js/libs/jquery.imagesloaded.min.js",
-                    "js/libs/jquery.total-storage.min.js",
-                    "js/libs/backstretch.js",
-                    "js/libs/froogaloop.min.js",
-                    "js/libs/gs/plugins/CSSPlugin.min.js",
-                    "js/libs/gs/easing/EasePack.min.js",
-                    "js/libs/gs/TweenMax.min.js",
-                    "js/libs/jquery.imagemapster.min.js", 
-                    "js/VS_demo.js",
-                    "js/main.js",
-                                        
-                   ];
-
-     
-    sizeOfScripts = _.size(loadScripts);
-     while (_.size(loadScripts)>0) {
-
-       $.getScript(loadScripts.shift())
-        .done(function(script, textStatus) {
-                 completedLoads++;
-                 // console.log(completedLoads + " " +sizeOfScripts );
-                 var percent = parseInt(completedLoads/sizeOfScripts*100,0);
-                  $('#loading-spinner').html("LADDAR<br/>"+percent +"%");
-                 if (completedLoads == sizeOfScripts) startApplication();
-          })
-       .fail(function(jqxhr, settings, exception) {
-       console.log(settings + " " + exception );
-      });
-
-      }
-*/
-     
 
    
  
@@ -280,8 +229,6 @@ ga('send', 'pageview');
   </script>
   
    
-
- 
 
 
 

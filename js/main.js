@@ -317,6 +317,8 @@ var FS = (function(self){
 			wHeight =720, //$(window).height()*0.7;
 			hubImage = contentObj[nodeId].hubimage,
 
+			nrOfChaptersPerPerson = 4,
+
 			sam=false,
 			maria=false,
 			adriana=false,
@@ -325,6 +327,7 @@ var FS = (function(self){
 
 			if (contentObj[nodeId].subtype=="hub2") {
 				//project specific query
+				nrOfChaptersPerPerson = 2;
 				if ($.totalStorage("staff1")=="Sam" || $.totalStorage("staff2")=="Sam") sam=true;
 				if ($.totalStorage("staff1")=="Maria" || $.totalStorage("staff2")=="Maria") maria=true;
 				if ($.totalStorage("staff1")=="Adriana" || $.totalStorage("staff2")=="Adriana") adriana=true;
@@ -362,29 +365,32 @@ var FS = (function(self){
 
 			//MOBILE
 			//res +="<div class='hubtitle mobile'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper mobile' style='background: url(../img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
+			res += "<div class='chapterWrapper mobile cw"+nrOfChaptersPerPerson+"' style='background: url(../img/mobile_"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
 
+			var addClass="";
 			for (var j=0; j<nrOfChapters; j++) {
-				if(myObj[j].owner=="sam" && !sam) continue;
-				if(myObj[j].owner=="maria" && !maria) continue;
-				if(myObj[j].owner=="adriana" && !adriana) continue; 
-				if(j%3==0) {
+				addClass="";
+				if(myObj[j].owner=="maria" && !maria) addClass="hiddenItem"; 
+				if(myObj[j].owner=="sam" && !sam) addClass="hiddenItem"; 
+				if(myObj[j].owner=="adriana" && !adriana) addClass="hiddenItem";
+				if(j%nrOfChaptersPerPerson==0) {
 					if (j>0) {
 						res +="</div>";}
-					res +="<div class='chapterRow"+((j/3)+1)+"'>";
+					res +="<div class='chapterRow"+((j/nrOfChaptersPerPerson)+1)+" cr"+nrOfChaptersPerPerson+"'>";
 				}
-				res +="<div id='chapter_"+myObj[j].ID+"' class='chapterItem mobileitem"+j;
+				res +="<div id='chapter_"+myObj[j].ID+"' class='chapterItem mobileitem"+j +" itemSize"+nrOfChaptersPerPerson +" " + addClass;
 				/*if(myObj[j].lockeduntil!=undefined) {
 					res +=" locked";
 				}*/
 				res +="' onClick=FS.respondToHUB("+j+")></div>";
 				
 			}
-
 			res+="</div></div>";
+			//res+="<div id='mobileNextButton'>GÅ VIDARE ></div>";
+
 
 
 
@@ -1334,7 +1340,7 @@ function exitIntQuestion(question_id, term) {
 			res +="</article></div>";
 			
 
-			if (myObj.modal ="true") {
+			if (myObj.modal =="true") {
 				for (var i =0; i<_.size(myObj.answers); i++) {
 					res +='<div class="modal vsmodal" id="markedmodal'+i+'"><div class="content"><a class="close switch" onclick="FS.closemodal('+i+')"><i class="icon-cancel" /></i></a>';
     				
@@ -1731,6 +1737,11 @@ function phpCallSaveMultipleAnswers (question, answerArray) {
 			exitChapter(myCallback,-1);
 			//TweenMax.to($("#main_div"),1,{css:{"opacity":"0"}, onComplete:FS.startCase, onCompleteParams:[myCallback]});
 		}
+		else {
+			
+			globalAnimation=0;
+			FS.gotoNode(FS.currentNodeNr,1);
+		}
 		//else console.log("HUB error: could not found callback action in function respondToHUB");
 	}
 
@@ -1846,11 +1857,23 @@ self.saveAnswer = function (answer) {
 
 	function showNext() {  //show nextbutton and possibly prev-button
 		$("#nextButton").fadeIn();
+		$("#mobileNextButton").fadeIn();
 		if (FS.currentNodeNr>0) $("#prevButton").fadeIn();
-			if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub")  $("#prevButton").fadeIn();
+			if(activeCase.ID.type=="hub" || activeCase.ID.type=="sub")  {
+				
+				$("#prevButton").fadeIn();
+			}
 
 	}
+function showMobileNext() {
+		$("#mobileNextButton").fadeIn();
+		$("#prevButton").fadeIn();
+}
 
+	function showPrev() {
+		if (FS.currentNodeNr>0) $("#prevButton").fadeIn();
+
+	}
 
 
 	function startNode() { //when self.addContent have generated the new page based on "type", start the node if neccessary (listen to video events, start animations...)
@@ -1874,7 +1897,8 @@ self.saveAnswer = function (answer) {
 			break;
 			case "hub":
 				checkToUnlockChapters();
-				showNext();
+				
+				showMobileNext();
 				/*showNextButton=-1;
 				$("#nextButton").fadeOut();		
 				$("#prevButton").fadeOut();*/
@@ -1922,6 +1946,7 @@ self.saveAnswer = function (answer) {
 		if (showNextButton>=0) {
 			nextArrowTimeout = setTimeout(showNext,parseInt(showNextButton));	
 		}
+		else {showPrev();}
 	}
 
 	
@@ -1974,6 +1999,7 @@ self.saveAnswer = function (answer) {
 		var oldNodeId, maindiv, speed;
 		
 		if (!interceptPrevButton) {
+
 			if ((nextNodeId+direction == FS.currentNodeNr) && FS.initComplete) return;
 		}
 		if(globalAnimation==1) return;
@@ -2068,6 +2094,7 @@ self.saveAnswer = function (answer) {
 		}else {
 			$("#nextButton").fadeOut();	
 			$("#prevButton").fadeOut();	
+			$("#mobileNextButton").fadeOut();
 			var animationType = contentObj[oldNodeId].animation; 
 			switch (animationType) {
 				case "up":
@@ -2347,9 +2374,17 @@ self.saveAnswer = function (answer) {
 					}
 		 	
 			});
+			$(document).on('click', '#mobileNextButton', function() {
+		 		
+		 	
+		 			
+		 			
+		 			FS.gotoNode(FS.currentNodeNr,1);
 
-
-
+		 		
+		 	
+			});
+			
 			$(document).on('click', '#debugNextButton', function() {
 		 		
 		 				

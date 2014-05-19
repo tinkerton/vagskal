@@ -77,14 +77,14 @@ ga('send', 'pageview');
     <div id="pattern-overlay"></div>
     <div id="topleft-overlay"></div>
   
-    <div class="next-control" id="nextButton">
+   <div class="next-control" id="nextButton">
              
-               <i class="icon-right-open-big naviconL"></i>
+              <!-- <i class="icon-right-open-big naviconL"></i>-->
     </div>
-    <div class="prev-control" id="prevButton">
+<!--    <div class="prev-control" id="prevButton">
 
             <i class="icon-left-open-big naviconR"></i>
-    </div>
+    </div>-->
     <div class="modal" id="modal1">
       <div class="content">
         <a class="close switch" gumby-trigger="|#modal1"><i class="icon-cancel" /></i></a>
@@ -111,9 +111,13 @@ ga('send', 'pageview');
       </div>
   </div>
   </div>
-  
- <div class="medium info btn" id="restart"><a href="#" class="switch" gumby-trigger="#modal1">Avsluta</a></div>
- 
+<div class="grnavbar">
+  <div class="prev-control" id="prevButton">
+     <i class="icon-left-open-big naviconR"></i>
+  </div>
+  <div class="jobbetlogo"><img src="/img/jobbetlogo.png"/></div>
+ <div id="restart"><a href="#" class="switch" gumby-trigger="#modal1"><img src="/img/menuicon.png"/></a></div>
+ </div>
 
    
 <div id="nav1"> </div>
@@ -133,6 +137,7 @@ ga('send', 'pageview');
              <!-- IT IS HERE ALL THE CONTENT WILL BE GENERATED-->
           </div>
 			  </div>
+        <div id='mobileNextButton'>GÅ VIDARE ></div>
         <div id="case-nav-wrapper">
           <div id="case-nav"></div>
           <span id="debugtitle">DEBUG INFO:</span>

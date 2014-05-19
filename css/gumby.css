@@ -1846,7 +1846,7 @@ h3, h4, h5, h6, p { text-align: left; }
 
 h3 { font-size: 2 em; }
 
-#outer { position: absolute; width: 100%; height: 100%; z-index: 10; left: 0; top: 0; text-align: center; -webkit-user-select: none; -moz-user-select: none; user-select: none; }
+#outer { position: absolute; width: 100%; height: 100%; z-index: 10; left: 0; top: 0px; text-align: center; -webkit-user-select: none; -moz-user-select: none; user-select: none; }
 
 #outer[id] { display: table; }
 
@@ -1933,10 +1933,16 @@ border-radius: 0px 10px 10px 0px;
 .naviconR { padding-left: 10px; padding-right: 0px;
 
 }
-*/
-.prev-control, .next-control { display: block; color: #FFF; position: absolute; z-index: 300; top: 50%; right: 0px; margin-top: -55px; width: 55px; height: 103px; overflow: hidden; padding: 17px 14px; cursor: pointer; border-radius: 1em 0em 0em 1em; background-color: rgba(255, 255, 255, 0.2); border: 1px solid #222; }
 
-.prev-control { left: 0px; right: auto; z-index: 301; border-radius: 0em 1em 1em 0em; }
+.next-control { display: block;
+ color: #FFF; position: absolute; z-index: 300; top: 50%; right: 0px; margin-top: -55px; width: 55px; height: 103px; overflow: hidden; padding: 17px 14px; cursor: pointer; border-radius: 1em 0em 0em 1em; background-color: rgba(255, 255, 255, 0.2); border: 1px solid #222;
+}
+*/
+.next-control { display: block; color: #FFF; position: absolute; z-index: 300; top: 64px; right: 0px; /* margin-top: -55px; */ width: 100%; height: 100%; overflow: hidden; /* padding: 17px 14px; */ cursor: pointer; /* border-radius: 1em 0em 0em 1em; */ background-color: rgba(255, 255, 255, 0); /* border: 1px solid #222; */ }
+
+.prev-control { left: 0px; right: auto; z-index: 301; margin-top: -10px; margin-left: 10px; color: #fff; cursor: pointer; }
+
+.prev-control :hover { color: #444; }
 
 .naviconL, .naviconR { padding-top: 20px; font-size: 30px; padding-left: 0px; padding-right: 10px; }
 
@@ -2159,7 +2165,9 @@ width:280px;
 
 .fakecenter { margin: 0px 35%; }
 
-#restart { position: absolute; z-index: 9000; right: 10px; top: 10px; cursor: pointer; color: #FFF; font-size: 0.75em; }
+#restart { position: absolute; right: 9px; top: 8px; cursor: pointer; color: #FFF; width: 30px; }
+
+.grnavbar { width: 100%; height: 45px; top: 0; left: 0; position: absolute; z-index: 888; background-color: rgba(0, 0, 0, 0.1); }
 
 .no-touch #restart:hover { color: #e94d7e; }
 
@@ -2312,23 +2320,37 @@ padding:1em;
 
 #freetextAnswer { margin-bottom: 20px; font-family: arial; width: 100%; font-weight: bold; color: #666; padding: 10px; }
 
+.jobbetlogo { width: 130px; padding: 5px; position: absolute; display: inline-block; right: 60px; top: 0px; }
+
+#mobileNextButton { display: block; position: fixed; bottom: 0px; left: 0px; width: 100%; height: 45px; background-color: rgba(255, 177, 40, 0.8); color: #FFF; padding-top: 10px; cursor: pointer; }
+
 @media only screen and (max-width: 767px) { .desktop { display: none; }
   .mobile { display: block; }
   #nav1 { display: block; background-color: #ffb128; position: absolute; width: 100%; top: 0; left: 0; height: 44px; z-index: 10; }
-  .prev-control, .next-control { top: 0; border: none; border-radius: 0; background: #ffb128; margin-top: 0; height: 44px; padding: 0 14px; }
+  #outer { padding-top: 65px; }
+  .prev-control { top: 0; border: none; border-radius: 0; background: #ffb128; margin-top: 0; height: 44px; padding: 0 0px; }
   .naviconR, .naviconL { padding-top: 10px; }
-  #restart { display: none; }
+  .grnavbar { background-color: rgba(0, 0, 0, 0); }
   .title { font-size: 1.2em; }
   .titleDiv { margin-top: 50px; }
   #middle[id] { display: block; margin-top: 44px; }
   #pieplaceholder { margin-left: -20px; }
-  .pretext { padding-top: 50px; font-size: 1.6em; }
+  .pretext { font-size: 1.6em; }
   .tradeHolderDesktop { display: none; }
   .tradeHolderMobile { display: block; }
-  .leftifmobile { text-align: left; }
-  .chapterWrapper { position: relative; margin-top: 30px; margin-left: auto; margin-right: auto; height: 480px; width: 320px; overflow: hidden; padding-left: 102px; scrollbar: hidden; }
-  .chapterItem { float: left; position: relative; margin: 5px 15px 0px 0px; width: 60px; height: 60px; display: inline-block; }
-  .mobileitem2, .mobileitem5, .mobileitem8 { margin-right: 0px; }
-  .chapterRow1, .chapterRow2, .chapterRow3 { float: none; height: 100px; margin-bottom: 17px; }
-  .chapterRow2 { margin-bottom: 23px; }
-  .chapterRow3 { margin-bottom: 0px; } }
+  .leftifmobile { text-align: left; font-size: 1.3em; }
+  .chapterWrapper { position: relative; margin-top: 0px; margin-left: auto; margin-right: auto; width: 320px; height: 420px; overflow: hidden; padding-left: 140px; scrollbar: hidden; }
+  .cw2 { padding-left: 117px; }
+  .chapterItem { float: left; position: relative; margin: 0px 19px 9px 0px; width: 62px; height: 62px; display: inline-block; }
+  .itemSize2.mobileitem1, .itemSize2.mobileitem3, .itemSize2.mobileitem5 { margin-right: 0px; }
+  .chapterRow1, .chapterRow2, .chapterRow3 { float: none; height: 140px; margin-bottom: 0px; }
+  .fakecenter { margin: 0px 5%; }
+  .questionDiv, .ABCquestionDiv, .markedQuestionDiv, .ABCquestionDiv, .markedQuestionDiv { margin-top: 0px; }
+  #middle[id] { margin-top: 10px; }
+  .questionHeadline { font-size: 0.6em; padding: 0px 0px 10px 0px; }
+  .sequenceAnswer, .ABCsequenceAnswer, .ABCsequenceAnswer { font-size: 0.55em; }
+  #freetextAnswer { margin-top: -10px; }
+  .jobbetlogo { right: 33%; }
+  .itemSize2 { width: 88px; height: 88px; margin: 9px 15px 0px 0px; }
+  .cr2 { margin-bottom: -21px; }
+  .hiddenItem { display: none; } }

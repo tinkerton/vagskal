@@ -46,7 +46,7 @@ h3 {
   height: 100%;
   z-index: 10;
   left: 0;
-  top: 0;
+  top: 0px;
   text-align: center;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -66,6 +66,7 @@ h3 {
 #middle[id] {
   display: table-cell;
   vertical-align: middle;
+ 
   position: static;
 }
 
@@ -236,9 +237,10 @@ border-radius: 0px 10px 10px 0px;
   padding-right: 0px;
 
 }
-*/
-.prev-control, .next-control {
-  display: block;
+
+.next-control {
+ display: block;
+
   color: #FFF;
   position: absolute;
   z-index: 300;
@@ -254,13 +256,42 @@ border-radius: 0px 10px 10px 0px;
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid #222;
 }
+*/
+
+.next-control {
+
+  display: block;
+  color: #FFF;
+  position: absolute;
+  z-index: 300;
+  top: 64px;
+  right: 0px;
+  /* margin-top: -55px; */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* padding: 17px 14px; */
+  cursor: pointer;
+  /* border-radius: 1em 0em 0em 1em; */
+  background-color: rgba(255, 255, 255, 0);
+  /* border: 1px solid #222; */
+}
 
 .prev-control {
   left: 0px;
   right: auto;
   z-index: 301;
-  border-radius: 0em 1em 1em 0em;
+  margin-top: -10px;
+  margin-left: 10px;
+color:#fff;
+ cursor: pointer;
+
+ 
 }
+.prev-control :hover {
+  color:#444;
+}
+
 
 .naviconL, .naviconR {
   padding-top: 20px;
@@ -563,6 +594,9 @@ color:#333;
   font-size: 0.6em;
   line-height: 1.2em;
 }
+
+
+
 
 #debugPrevButton, #debugNextButton {
   position: absolute;
@@ -1052,14 +1086,27 @@ padding-right: 20px;
   }
 
   #restart {
-    position: absolute;
-    z-index: 9000;
-    right: 10px;
-    top: 10px;
+    position:absolute;
+     right:9px;
+    top: 8px;
     cursor: pointer;
     color: #FFF;
-    font-size: 0.75em;
+    width:30px;
+   // font-size: 0.75em;
   }
+
+
+  .grnavbar{
+  width:100%;
+  height:45px;
+  top:0;
+  left:0;
+  position:absolute;
+  z-index: 888;
+  background-color: rgba(0,0,0,0.1);
+}
+
+
 
   .no-touch #restart:hover {
     color: #e94d7e;
@@ -1502,6 +1549,43 @@ margin-left: 81%;
         
     }
 
+
+.jobbetlogo {
+  width: 130px;
+  padding: 5px;
+  position: absolute;
+  display: inline-block;
+  right: 60px;
+  top:0px;
+
+  }
+
+
+
+
+#mobileNextButton {
+  display: block;
+  position:fixed;
+  bottom:0px;
+  left:0px;
+  width:100%;
+  height:45px;
+  background-color:rgba(255,177,40,0.8);
+  color:#FFF;
+  padding-top:10px;
+  cursor: pointer;
+
+}
+
+
+
+
+
+
+
+
+
+
   @include respond(all-phones) {
     .desktop {
       display: none;
@@ -1522,15 +1606,18 @@ margin-left: 81%;
       z-index: 10;
     }
 
-    .prev-control, 
-    .next-control {
+
+#outer {
+  padding-top: 65px;
+}
+    .prev-control{
       top: 0;
       border: none;
       border-radius: 0;
       background: #ffb128;
       margin-top: 0;
       height: 44px;
-      padding: 0 14px;
+      padding: 0 0px;
     }
 
     .naviconR, 
@@ -1539,7 +1626,10 @@ margin-left: 81%;
     }
 
     #restart {
-      display: none;
+   
+    }
+    .grnavbar {
+      background-color:rgba(0,0,0,0);
     }
 
     .title {
@@ -1559,7 +1649,7 @@ margin-left: 81%;
       margin-left: -20px;
     }
     .pretext {
-      padding-top: 50px;
+     
      font-size: 1.6em;
      
     }
@@ -1574,39 +1664,45 @@ margin-left: 81%;
     }
     .leftifmobile {
       text-align: left;
+      font-size: 1.3em;
     }
     .chapterWrapper {
       position:relative;
-      margin-top:30px;
+      margin-top:0px;
       margin-left: auto;
       margin-right: auto;
-      height:480px;
+    
     
       width:320px; 
-     
+      height:420px;
       overflow: hidden;
-      padding-left: 102px;
+      padding-left: 140px;
       scrollbar:hidden;
 
 
     }
+
+.cw2 {
+    padding-left: 117px;
+}
+
     .chapterItem {
       float:left;
       position:relative;
-      margin:5px 15px 0px 0px;
-      width:60px;
-       height:60px;
+      margin:0px 19px 9px 0px;
+      width:62px;
+       height:62px;
       display: inline-block;
 
     }
-    .mobileitem2, .mobileitem5, .mobileitem8 {
+    .itemSize2.mobileitem1, .itemSize2.mobileitem3, .itemSize2.mobileitem5 {
       margin-right: 0px;
     }
     .chapterRow1{
       float:none;
-        height:100px;
-      
-        margin-bottom: 17px;
+        height:140px;
+        
+        margin-bottom: 0px;
      
     
 
@@ -1614,12 +1710,50 @@ margin-left: 81%;
     .chapterRow2{
         @extend .chapterRow1;
     
-     margin-bottom: 23px;
+  
     }
     .chapterRow3{
        @extend .chapterRow1;
      
-         margin-bottom: 0px;
+       
     }
- 
+    .fakecenter {
+    margin: 0px 5%;
   }
+.questionDiv, .ABCquestionDiv, .markedQuestionDiv{
+  margin-top:0px;
+  }  
+
+
+#middle[id] {
+  margin-top:10px;
+}
+
+.questionHeadline {
+  font-size: 0.6em;
+  padding: 0px 0px 10px 0px;
+}
+
+.sequenceAnswer, .ABCsequenceAnswer {
+font-size: 0.55em;
+}
+#freetextAnswer {
+  margin-top: -10px;
+}
+.jobbetlogo {
+  right: 33%;
+}
+
+
+.itemSize2{
+  width:88px;
+  height: 88px;
+   margin:9px 15px 0px 0px;
+}
+.cr2 {
+  margin-bottom: -21px;
+}
+.hiddenItem{
+  display: none;
+}
+}

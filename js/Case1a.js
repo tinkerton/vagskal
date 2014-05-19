@@ -142,10 +142,13 @@ self.nodes = {"content":
 									"left":"825px", "top":"514px", 
 								"analysisLog":"Hub Adriana Kollega",
 								"callback":"CaseAdriana_Kollega"}
+
+
+								
 							
 				],
 		 "animation":"fade",
-		 "showNextButton":"0"
+		 "showNextButton":"-1"
 		
 		},
 	{  	"ID": "4",
@@ -275,7 +278,7 @@ self.nodes = {"content":
 							
 				],
 		 "animation":"fade",
-		 "showNextButton":"0"
+		 "showNextButton":"-1"
 		
 		},
 		{  	

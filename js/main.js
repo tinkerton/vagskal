@@ -1867,11 +1867,14 @@ self.saveAnswer = function (answer) {
 	}
 function showMobileNext() {
 		$("#mobileNextButton").fadeIn();
+		$("#nextButton").fadeOut();
 		$("#prevButton").fadeIn();
 }
 
 	function showPrev() {
 		if (FS.currentNodeNr>0) $("#prevButton").fadeIn();
+		$("#mobileNextButton").fadeOut();
+		$("#nextButton").fadeOut();
 
 	}
 
@@ -1887,9 +1890,11 @@ function showMobileNext() {
 		switch(FS.currentNodeType) {
 			case "video_seq":
 				 FS.startVideoListener();
+				 showMobileNext();
 			break;
 			case "video":
 				 FS.startSingleVideoListener();
+				 showMobileNext();
 			break;
 			case "agent":
 				 $("#agent").css("visibility","visible");
@@ -1943,10 +1948,14 @@ function showMobileNext() {
 
 
 		}
-		if (showNextButton>=0) {
-			nextArrowTimeout = setTimeout(showNext,parseInt(showNextButton));	
+
+		if(FS.currentNodeType!=("hub") && FS.currentNodeType!="video_seq" && FS.currentNodeType!="video") {
+		
+			if (showNextButton>=0) {
+				nextArrowTimeout = setTimeout(showNext,parseInt(showNextButton));	
+			}
+			else {showPrev();}
 		}
-		else {showPrev();}
 	}
 
 	

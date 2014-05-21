@@ -1905,7 +1905,8 @@ function showMobileNext() {
 				checkToUnlockChapters();
 				
 				showMobileNext();
-				/*showNextButton=-1;
+			
+							/*showNextButton=-1;
 				$("#nextButton").fadeOut();		
 				$("#prevButton").fadeOut();*/
 			break;

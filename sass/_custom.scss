@@ -1608,7 +1608,7 @@ margin-left: 81%;
 
 
 #outer {
-  padding-top: 65px;
+  padding-top: 34px;
 }
     .prev-control{
       top: 0;
@@ -1665,20 +1665,17 @@ margin-left: 81%;
     .leftifmobile {
       text-align: left;
       font-size: 1.3em;
+
     }
     .chapterWrapper {
       position:relative;
       margin-top:0px;
-      margin-left: auto;
-      margin-right: auto;
-    
-    
-      width:320px; 
-      height:420px;
-      overflow: hidden;
-      padding-left: 140px;
-      scrollbar:hidden;
+      margin-left: -20px;
+      width:320px;
 
+      height:495px;
+      padding-left: 140px;
+      overflow: hidden;
 
     }
 
@@ -1689,7 +1686,7 @@ margin-left: 81%;
     .chapterItem {
       float:left;
       position:relative;
-      margin:0px 19px 9px 0px;
+      margin:4px 19px 9px 8px;
       width:62px;
        height:62px;
       display: inline-block;
@@ -1755,5 +1752,8 @@ margin-left: 81%;
 }
 .hiddenItem{
   display: none;
+}
+#nodeHeader {
+        padding-top: 31px;
 }
 }

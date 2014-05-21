@@ -2327,7 +2327,7 @@ padding:1em;
 @media only screen and (max-width: 767px) { .desktop { display: none; }
   .mobile { display: block; }
   #nav1 { display: block; background-color: #ffb128; position: absolute; width: 100%; top: 0; left: 0; height: 44px; z-index: 10; }
-  #outer { padding-top: 65px; }
+  #outer { padding-top: 34px; }
   .prev-control { top: 0; border: none; border-radius: 0; background: #ffb128; margin-top: 0; height: 44px; padding: 0 0px; }
   .naviconR, .naviconL { padding-top: 10px; }
   .grnavbar { background-color: rgba(0, 0, 0, 0); }
@@ -2339,9 +2339,9 @@ padding:1em;
   .tradeHolderDesktop { display: none; }
   .tradeHolderMobile { display: block; }
   .leftifmobile { text-align: left; font-size: 1.3em; }
-  .chapterWrapper { position: relative; margin-top: 0px; margin-left: auto; margin-right: auto; width: 320px; height: 420px; overflow: hidden; padding-left: 140px; scrollbar: hidden; }
+  .chapterWrapper { position: relative; margin-top: 0px; margin-left: -20px; width: 320px; height: 495px; padding-left: 140px; overflow: hidden; }
   .cw2 { padding-left: 117px; }
-  .chapterItem { float: left; position: relative; margin: 0px 19px 9px 0px; width: 62px; height: 62px; display: inline-block; }
+  .chapterItem { float: left; position: relative; margin: 4px 19px 9px 8px; width: 62px; height: 62px; display: inline-block; }
   .itemSize2.mobileitem1, .itemSize2.mobileitem3, .itemSize2.mobileitem5 { margin-right: 0px; }
   .chapterRow1, .chapterRow2, .chapterRow3 { float: none; height: 140px; margin-bottom: 0px; }
   .fakecenter { margin: 0px 5%; }
@@ -2352,4 +2352,5 @@ padding:1em;
   .jobbetlogo { right: 33%; }
   .itemSize2 { width: 88px; height: 88px; margin: 9px 15px 0px 0px; }
   .cr2 { margin-bottom: -21px; }
-  .hiddenItem { display: none; } }
+  .hiddenItem { display: none; }
+  #nodeHeader { padding-top: 31px; } }

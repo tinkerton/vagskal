@@ -21,7 +21,7 @@
 
   <!--<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />-->
 
-  <!-- Facebook Metadata /--> <!--To be decidec by the customer-->
+  <!-- Facebook Metadata /--> <!--To be decided by the customer-->
   <meta property="fb:page_id" content="" />
   <meta property="og:image" content="" />
   <meta property="og:description" content=""/>
@@ -32,7 +32,8 @@
   <meta itemprop="description" content="">
   <meta itemprop="image" content="">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -102,7 +103,7 @@ ga('send', 'pageview');
                  &nbsp;
                 
                    <p class="btn danger medium">
-                    <a href="#" class="switch" onclick="FS.resetProgress();">Jag är säker</a>
+                    <a onclick="FS.resetProgress();">Jag är säker</a>
                 </p>
              
               
@@ -187,6 +188,7 @@ ga('send', 'pageview');
                           .pipe($.get("js/libs/gs/easing/EasePack.min.js"))
                           .pipe($.get("js/libs/gs/TweenMax.min.js"))
                           .pipe($.get("js/libs/jquery.imagemapster.min.js"))
+                           .pipe($.get("js/libs/fastclick.js"))
                           
                           .pipe($.get("js/Case1a.js"))
                           .pipe($.get("js/CaseSam_Mail.js"))
@@ -221,7 +223,9 @@ ga('send', 'pageview');
 
 
 
-   
+     $(function() {
+           FastClick.attach(document.body);
+      });
  
      function startApplication() {
          $('#loading-spinner').fadeOut('slow');

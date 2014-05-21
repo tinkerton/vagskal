@@ -365,7 +365,7 @@ var FS = (function(self){
 
 			//MOBILE
 			//res +="<div class='hubtitle mobile'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper mobile cw"+nrOfChaptersPerPerson+"' style='background: url(../img/mobile_"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
+			res += "<div class='chapterWrapper mobile cw"+nrOfChaptersPerPerson+"' style='background: url(../img/mobile_"+hubImage+");  background-repeat: no-repeat;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
@@ -1790,6 +1790,7 @@ self.saveAnswer = function (answer) {
 	 	$.totalStorage('ID', FS.uniqueid()); //create a new user for DB
 	 	$.totalStorage('currentNodeNr','-1');
 	 	$.totalStorage('tradeQuestion','-1');
+	 	
 	 	FS.unlockedChapters = new Array();
 		FS.unlockedChapters.length=0;
 		oldBackground ="";
@@ -1800,7 +1801,7 @@ self.saveAnswer = function (answer) {
 		$.totalStorage('unlockedChapters',FS.unlockedChapters);
 	 	// $('.modal#modal1').removeClass('active');
 		// FS.startMain();
-	 	window.location.reload();
+	 	window.location = window.location.href;
 	}
 
 
@@ -2287,6 +2288,7 @@ function showMobileNext() {
 				localHostTrue = true; //Used on local debugging when PHP is not available
 			}
 
+			
 			//SET TO TRUE TO ENABLE DEBUG MODE FOR FEEDBACK
 			DEBUG = "false";
 				if (params.debug ==1) DEBUG = "true";
@@ -2306,7 +2308,12 @@ function showMobileNext() {
 
 			//BV = new $.BigVideo();
 			//BV.init();
-		 
+		 	
+			var testKey = 'qeTest', storage = window.sessionStorage; try { // Try and catch quota exceeded errors 
+				storage.setItem(testKey, '1'); storage.removeItem(testKey); } 
+				catch (error) { if (error.code === DOMException.QUOTA_EXCEEDED_ERR && storage.length === 0) alert('Det verkar som att du surfar i Privat läge. Stäng av detta för att kunna ta del av innehållet på denna sida.'); else throw error; }
+
+
 			FS.globalAnimation = 0;
 
 

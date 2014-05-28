@@ -30,7 +30,7 @@ self.nodes = {"content":
 		"type":"info",
 		"analysisLog":"Node 2",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"De personer som finns med i spelet är alla påhittade karaktärer. Alla du ser på foton och filmer är spådespelare.",
+		"pretext":"<b>@Jobbet</b> handlar om att vara chef och bestämma vem du vill anställa. Tre personer söker. Vilka får chansen? Vem eller vilka får fortsätta jobba? Alla personer i spelet gestaltas av skådespelare.",
      	"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
@@ -51,7 +51,7 @@ self.nodes = {"content":
 		"type":"info",
 		"analysisLog":"Node 2",
 		"background":{"type":"image","url":"bg.jpg"},
-		"pretext":"Det går bra för din verksamhet och det innebär att ni måste anställa mer personal.<br><br> <b>Två projektassistenter</b> ska anställas ett halvår med möjlighet till förlängning.",
+		"pretext":"Det går bra för din verksamhet och det innebär att ni måste anställa mer personal. <b>Två projektassistenter</b> ska anställas ett halvår med möjlighet till förlängning.",
      	"justify":"leftifmobile",
      	"animation":"fade",
 		"showNextButton":"0"
@@ -322,6 +322,15 @@ self.nodes = {"content":
 		 "question_id":"10",
 		 "animation":"fade",
 		 "showNextButton":"-1"
+	},
+	{  	"ID": "0",
+		"type":"info",
+		"analysisLog":"Node 2",
+		"background":{"type":"image","url":"bg.jpg"},
+		"pretext":"Hur det går i framtiden för Adriana, Sam och Maria får vi inte veta mer om i detta spel. Vad tar du själv med dig efter att ha spelat @Jobbet? ",
+     	"justify":"leftifmobile",
+     	"animation":"fade",
+		"showNextButton":"0"
 	},
 	{  	"ID": "11",
 		"type":"mark_question", 

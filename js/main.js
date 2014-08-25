@@ -343,7 +343,7 @@ var FS = (function(self){
 
 			//DESKTOP
 			//res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(../img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
+			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
@@ -365,7 +365,7 @@ var FS = (function(self){
 
 			//MOBILE
 			//res +="<div class='hubtitle mobile'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper mobile cw"+nrOfChaptersPerPerson+"' style='background: url(../img/mobile_"+hubImage+");  background-repeat: no-repeat;'>";
+			res += "<div class='chapterWrapper mobile cw"+nrOfChaptersPerPerson+"' style='background: url(img/mobile_"+hubImage+");  background-repeat: no-repeat;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
@@ -1083,7 +1083,7 @@ function addNodeTradeQuestion(nodeId) {
 			res +="<div class='tradeQuestionText'>"+myObj.pretext +"</div>";	
 			res +="<div class='tradeQuestionDiv1'>";
 			for (var i =0; i<_.size(myObj.trades)/2; i++) {
-				res +="<div class='tradeQuestionIcon' id='trade"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='../img/"+myObj.trades[i].image +"'></div>";
+				res +="<div class='tradeQuestionIcon' id='trade"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='img/"+myObj.trades[i].image +"'></div>";
 			}
 			res +="</div>";
 
@@ -1091,7 +1091,7 @@ function addNodeTradeQuestion(nodeId) {
 
 			res +="<div class='tradeQuestionDiv2'>";
 			for (var j =_.size(myObj.trades)/2; j<_.size(myObj.trades); j++) {
-			res +="<div class='tradeQuestionIcon' id='trade"+j+"' answerid='"+myObj.trades[j].answer_id+"' t='"+myObj.trades[j].trade+"'><img src='../img/"+myObj.trades[j].image +"'></div>";
+			res +="<div class='tradeQuestionIcon' id='trade"+j+"' answerid='"+myObj.trades[j].answer_id+"' t='"+myObj.trades[j].trade+"'><img src='img/"+myObj.trades[j].image +"'></div>";
 			}
 			res +="</div></div>";
 			
@@ -1102,7 +1102,7 @@ function addNodeTradeQuestion(nodeId) {
 					res +="<div class='tradeQuestionTextMobile'>"+myObj.pretext +"</div>";	
 					res +="<div class='tradeQuestionDivMobile'>";
 					for (var i =0; i<_.size(myObj.trades); i++) {
-						res +="<div class='tradeQuestionIcon' id='tradem"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='../img/"+myObj.trades[i].image +"'></div>";
+						res +="<div class='tradeQuestionIcon' id='tradem"+i+"' answerid='"+myObj.trades[i].answer_id+"' t='"+myObj.trades[i].trade+"'><img src='img/"+myObj.trades[i].image +"'></div>";
 					}
 					res +="</div></div>";
 

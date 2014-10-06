@@ -335,10 +335,10 @@ var FS = (function(self){
 		var res ="", 
 			nrOfChapters,
 			myObj,
-		 	wHeight,
-
+		 	zoomFactor =($(window).width()/960) -0.05,
 			wHeight =720, //$(window).height()*0.7;
 			hubImage = contentObj[nodeId].hubimage,
+			addStyle,
 
 			nrOfChaptersPerPerson = 4,
 
@@ -366,7 +366,11 @@ var FS = (function(self){
 
 			//DESKTOP
 			//res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
-			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; background: url(img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
+			
+			if (zoomFactor>1) {
+				zoomFactor=1;	
+			} 
+			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; zoom:"+zoomFactor+"; background: url(img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);

@@ -67,7 +67,7 @@ self.nodes = {"content":
 							{"icon":"none.png", 
 								"ID":"0",
 								"lockeduntil":"0", 
-								"left":"200px", "top":"158px", 
+								"left":"201px", "top":"158px", 
 								"analysisLog":"Hub Maria Mail",
 								"callback":"CaseMaria_Mail"},
 							{"icon":"none.png", 

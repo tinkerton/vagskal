@@ -336,7 +336,9 @@ var FS = (function(self){
 			nrOfChapters,
 			myObj,
 		 	zoomFactor =($(window).width()/960) -0.05,
+			wWidth = 960,
 			wHeight =720, //$(window).height()*0.7;
+			
 			hubImage = contentObj[nodeId].hubimage,
 			addStyle,
 
@@ -367,10 +369,12 @@ var FS = (function(self){
 			//DESKTOP
 			//res ="<div class='hubtitle desktop'>"+contentObj[nodeId].title+"</div>";
 			
-			if (zoomFactor>1) {
-				zoomFactor=1;	
-			} 
-			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:960px; zoom:"+zoomFactor+"; background: url(img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
+			if (zoomFactor<1) {
+				wWidth = wWidth *zoomFactor;	
+			}  else {
+				zoomFactor=1;
+			}
+			res += "<div class='chapterWrapper desktop' style='height:"+wHeight+"px; width:"+wWidth+"px; background: url(img/"+hubImage+");  background-repeat: no-repeat; background-size:100%;'>";
 
 			myObj = contentObj[nodeId].chapters;
 			nrOfChapters = _.size(myObj);
@@ -384,7 +388,8 @@ var FS = (function(self){
 				//if(myObj[i].lockeduntil!=undefined) {
 				//		res +=" locked";
 				//		}
-				res +="' style='left:"+myObj[i].left+"; top:"+myObj[i].top+";'  onClick=FS.respondToHUB("+i+")></div>";
+
+				res +="' style='left:"+Math.round(parseInt(myObj[i].left)*zoomFactor)+"px; top:"+Math.round(parseInt(myObj[i].top)*zoomFactor)+"px;  width:"+Math.round(87*zoomFactor)+"px;   height:"+Math.round(87*zoomFactor)+"px; '  onClick=FS.respondToHUB("+i+")></div>";
 			
 			}
 
